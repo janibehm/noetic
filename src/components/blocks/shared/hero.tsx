@@ -1,7 +1,6 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection, stackY, button } from "../../../../styled-system/recipes";
+import { button, cn, pageContainer, pageSection, stackY } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef, Tone } from "../types";
 
 export type HeroBlockProps = {
@@ -25,26 +24,20 @@ export default function HeroBlock({
   primaryCta,
 }: HeroBlockProps) {
   const img = image ? sanityImageProps(image, 2000) : null;
-  const Heading = getHeadingLevel(headingLevel, "h1");
+  const headingTag = getHeadingLevel(headingLevel, "h1");
   return (
     <section className={pageSection({ space: "xl", tone })}>
       <div className={pageContainer({ size: "lg" })}>
         <div className={stackY({ gap: "lg", align: "start" })}>
           {eyebrow ? (
-            <span className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+            <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
               {eyebrow}
             </span>
           ) : null}
-          <Heading className={css({ ...headingLevelStyles[Heading], maxWidth: "measureWide" })}>
-            {heading}
-          </Heading>
+          {renderHeading(headingTag, cn(headingLevelStyles[headingTag], "max-w-[78ch]"), heading)}
           {lead ? (
             <p
-              className={css({
-                textStyle: "body.lg",
-                color: "fg.muted",
-                maxWidth: "measure",
-              })}
+              className="max-w-[65ch] text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65] text-[var(--gray)] text-pretty"
             >
               {lead}
             </p>
@@ -62,14 +55,7 @@ export default function HeroBlock({
             <img
               src={img.src}
               alt={img.alt}
-              className={css({
-                width: "100%",
-                maxWidth: "containerLg",
-                borderRadius: "3xl",
-                marginBlockStart: "lg",
-                height: "auto",
-                boxShadow: "ambient",
-              })}
+              className="mt-[clamp(2rem,1.82rem+.89vw,2.5rem)] h-auto w-full max-w-[72rem] rounded-3xl shadow-[var(--shadow-amb)]"
             />
           ) : null}
         </div>

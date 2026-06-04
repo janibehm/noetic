@@ -1,7 +1,6 @@
-import { css } from "../../../../styled-system/css";
-import { cinematicStage } from "../../../../styled-system/recipes";
+import { cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { SanityImageRef } from "../types";
 
 export type BentoArticle = {
@@ -37,7 +36,7 @@ export default function HomeBentoShowcaseBlock({
   lead,
   items = [],
 }: HomeBentoShowcaseBlockProps) {
-  const Heading = getHeadingLevel(headingLevel, "h2");
+  const headingTag = getHeadingLevel(headingLevel, "h2");
   const latestByCategory = Array.from(
     items
       .reduce((articles, item) => {
@@ -50,74 +49,34 @@ export default function HomeBentoShowcaseBlock({
 
   return (
     <section
-      className={css({
-        position: "relative",
-        paddingBlock: "clamp(72px, 11vw, 160px)",
-      })}
+      className="relative py-[clamp(72px,11vw,160px)]"
     >
       <div
-        className={css({
-          width: "100%",
-          maxWidth: "containerXl",
-          marginInline: "auto",
-          paddingInline: "pageGutter",
-        })}
+        className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]"
       >
         <div
-          className={css({
-            maxWidth: "60ch",
-            marginBlockEnd: "clamp(36px, 5vw, 64px)",
-          })}
+          className="mb-[clamp(36px,5vw,64px)] max-w-[60ch]"
         >
           {eyebrow ? (
-            <span className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+            <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
               {eyebrow}
             </span>
           ) : null}
-          <Heading
-            className={css({
-              marginBlock: "14px 16px",
-              ...headingLevelStyles[Heading],
-              color: "fg.default",
-              textWrap: "balance",
-            })}
-          >
-            {heading}
-          </Heading>
+          {renderHeading(
+            headingTag,
+            cn(headingLevelStyles[headingTag], "my-[14px_16px] text-[var(--ink)] text-balance"),
+            heading,
+          )}
           {lead ? (
             <p
-              className={css({
-                fontSize: "clamp(1.1rem, 1.5vw, 1.45rem)",
-                lineHeight: 1.45,
-                color: "fg.muted",
-                maxWidth: "52ch",
-                textWrap: "pretty",
-              })}
+              className="max-w-[52ch] text-[clamp(1.1rem,1.5vw,1.45rem)] leading-[1.45] text-[var(--gray)] text-pretty"
             >
               {lead}
             </p>
           ) : null}
         </div>
         <ul
-          className={css({
-            display: "grid",
-            gridTemplateColumns: {
-              base: "1fr",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(4, 1fr)",
-            },
-            gridAutoRows: { base: "auto", md: "12.5rem" },
-            gap: "clamp(0.875rem, 1.5vw, 1.375rem)",
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            "& > li:first-child": {
-              md: {
-                gridColumn: "span 2",
-                gridRow: "span 2",
-              },
-            },
-          })}
+          className="grid list-none gap-[clamp(0.875rem,1.5vw,1.375rem)] p-0 m-0 sm:grid-cols-2 md:auto-rows-[12.5rem] md:grid-cols-4 [&>li:first-child]:md:col-span-2 [&>li:first-child]:md:row-span-2"
         >
           {latestByCategory.map((item, index) => (
             <BentoCard key={item._id} item={item} index={index} />
@@ -132,27 +91,17 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
   const span = getBentoSpan(index);
   const cover = item.coverImage ? sanityImageProps(item.coverImage, 1200) : null;
   const auroraTone = FALLBACK_AURORA_TONES[index % FALLBACK_AURORA_TONES.length];
+  const spanClass = cn(
+    span.columns >= 2 && "sm:col-span-2 md:col-span-2",
+    span.rows >= 2 && "md:row-span-2",
+  );
 
   return (
     <li
-      className={css({
-        gridColumn: { base: "auto", sm: span.columns >= 2 ? "span 2" : "auto", md: `span ${span.columns}` },
-        gridRow: { base: "auto", md: `span ${span.rows}` },
-        position: "relative",
-        overflow: "hidden",
-        borderRadius: "2rem",
-        minHeight: { base: "13.75rem", md: "auto" },
-        isolation: "isolate",
-        containerType: "inline-size",
-        transitionProperty: "transform",
-        transitionDuration: "0.6s",
-        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-        _hover: {
-          transform: "scale(1.018)",
-          "& img": { transform: "scale(1.06)" },
-          "& [data-bento-scrim]": { opacity: 0.3 },
-        },
-      })}
+      className={cn(
+        "group relative isolate min-h-[13.75rem] overflow-hidden rounded-[2rem] [container-type:inline-size] transition-transform duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.018] md:min-h-0",
+        spanClass,
+      )}
     >
       {cover ? (
         <>
@@ -160,15 +109,7 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
           <img
             src={cover.src}
             alt={cover.alt}
-            className={css({
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              zIndex: 0,
-              transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
-            })}
+            className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.06]"
           />
         </>
       ) : (
@@ -188,14 +129,7 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
       <div
         data-bento-scrim
         aria-hidden
-        className={css({
-          position: "absolute",
-          inset: 0,
-          zIndex: 1,
-          background:
-            "linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.55))",
-          transition: "opacity 0.5s",
-        })}
+        className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_30%,rgba(0,0,0,0.55))] transition-opacity duration-500 group-hover:opacity-30"
       />
       <BentoBody item={item} />
     </li>
@@ -207,51 +141,21 @@ function BentoBody({ item }: { item: BentoArticle }) {
     <>
       {item.category?.title ? (
         <span
-          className={css({
-            alignSelf: "flex-start",
-            marginBlockEnd: "auto",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "7px",
-            height: "1.875rem",
-            paddingInline: "0.8125rem",
-            borderRadius: "pill",
-            backgroundColor: "rgba(255,255,255,0.22)",
-            color: "fg.onCinematic",
-            fontSize: "clamp(0.66rem, 2.8cqw, 0.78rem)",
-            fontWeight: 500,
-            backdropFilter: "blur(14px)",
-            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.4)",
-          })}
+          className="mb-auto inline-flex h-[1.875rem] items-center gap-[7px] self-start rounded-full bg-white/20 px-[0.8125rem] text-[clamp(0.66rem,2.8cqw,0.78rem)] font-medium text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] backdrop-blur-[14px]"
         >
           {item.category.title}
         </span>
       ) : null}
       <h3
         data-bento-copy
-        className={css({
-          fontSize: "clamp(0.95rem, 5.7cqw, 1.3rem)",
-          lineHeight: 1.1,
-          fontWeight: 600,
-          letterSpacing: "-0.02em",
-          color: "fg.onCinematic",
-          textShadow: "0 2px 20px rgba(0,0,0,0.3)",
-          transition: "opacity 0.4s",
-        })}
+        className="text-[clamp(0.95rem,5.7cqw,1.3rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-white transition-opacity duration-[400ms] [text-shadow:0_2px_20px_rgba(0,0,0,0.3)]"
       >
         {item.title}
       </h3>
       {item.excerpt ? (
         <p
           data-bento-copy
-          className={css({
-            marginBlockStart: "6px",
-            fontSize: "clamp(0.74rem, 4cqw, 0.92rem)",
-            lineHeight: 1.35,
-            color: "rgba(255,255,255,0.85)",
-            maxWidth: "30ch",
-            transition: "opacity 0.4s",
-          })}
+          className="mt-[6px] max-w-[30ch] text-[clamp(0.74rem,4cqw,0.92rem)] leading-[1.35] text-white/85 transition-opacity duration-[400ms]"
         >
           {item.excerpt}
         </p>
@@ -259,17 +163,7 @@ function BentoBody({ item }: { item: BentoArticle }) {
     </>
   );
 
-  const bodyStyles = css({
-    position: "absolute",
-    inset: 0,
-    zIndex: 4,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    padding: "24px",
-    color: "fg.onCinematic",
-    textDecoration: "none",
-  });
+  const bodyStyles = "absolute inset-0 z-[4] flex flex-col justify-end p-6 text-white no-underline";
 
   return (
     <a href={`/articles/${item.slug}`} className={bodyStyles}>

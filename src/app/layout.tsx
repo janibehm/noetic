@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Noetic",
-  description: "A Next.js + Sanity + PandaCSS starter.",
+  description: "A Next.js + Sanity + Tailwind CSS starter.",
 };
 
 export default function RootLayout({

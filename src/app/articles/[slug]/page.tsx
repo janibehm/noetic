@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection, stackY } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection, stackY } from "@/lib/styles";
 import { client } from "../../../../sanity/client";
 import {
   articleBySlugQuery,
@@ -92,12 +91,7 @@ export default async function ArticlePage({
         <div className={pageContainer({ size: "md" })}>
           <div className={stackY({ gap: "md", align: "start" })}>
             <span
-              className={css({
-                textStyle: "label.sm",
-                color: "fg.muted",
-                display: "flex",
-                gap: "2xs",
-              })}
+              className="flex gap-2 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]"
             >
               {article.category?.title ? <>{article.category.title}</> : null}
               {published ? (
@@ -117,56 +111,36 @@ export default async function ArticlePage({
               ) : null}
             </span>
             <h1
-              className={css({
-                textStyle: "display.xl",
-                maxWidth: "measureWide",
-              })}
+              className="max-w-[78ch] text-[clamp(2.99rem,1.94rem+6.55vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-balance"
             >
               {article.title}
             </h1>
             {article.excerpt ? (
               <p
-                className={css({
-                  textStyle: "body.lg",
-                  color: "fg.muted",
-                  maxWidth: "measure",
-                })}
+                className="max-w-[65ch] text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65] text-[var(--gray)] text-pretty"
               >
                 {article.excerpt}
               </p>
             ) : null}
             {article.author ? (
               <span
-                className={css({
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "sm",
-                })}
+                className="inline-flex items-center gap-4"
               >
                 {avatar ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={avatar.src}
                     alt={avatar.alt}
-                    className={css({
-                      width: "10",
-                      height: "10",
-                      borderRadius: "full",
-                      objectFit: "cover",
-                    })}
+                    className="h-10 w-10 rounded-full object-cover"
                   />
                 ) : null}
                 <span>
-                  <span className={css({ display: "block", textStyle: "label.md" })}>
+                  <span className="block text-sm font-medium leading-normal tracking-[0.02em]">
                     {article.author.name}
                   </span>
                   {article.author.role ? (
                     <span
-                      className={css({
-                        display: "block",
-                        textStyle: "body.sm",
-                        color: "fg.muted",
-                      })}
+                      className="block text-sm leading-normal text-[var(--gray)]"
                     >
                       {article.author.role}
                     </span>
@@ -185,12 +159,7 @@ export default async function ArticlePage({
             <img
               src={cover.src}
               alt={cover.alt}
-              className={css({
-                width: "100%",
-                height: "auto",
-                borderRadius: "lg",
-                display: "block",
-              })}
+              className="block h-auto w-full rounded-xl"
             />
           </div>
         </section>

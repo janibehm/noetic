@@ -1,4 +1,4 @@
-import { pageContainer, pageSection } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection } from "@/lib/styles";
 import { ProseRenderer } from "../../prose-renderer";
 import type { Tone } from "../types";
 

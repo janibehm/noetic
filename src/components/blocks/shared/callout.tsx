@@ -1,5 +1,4 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection } from "@/lib/styles";
 import { ProseRenderer } from "../../prose-renderer";
 
 export type CalloutBlockProps = {
@@ -10,12 +9,12 @@ export type CalloutBlockProps = {
 
 const intentTone: Record<
   NonNullable<CalloutBlockProps["intent"]>,
-  { bg: string; fg: string; border: string }
+  string
 > = {
-  info: { bg: "bg.accentSubtle", fg: "fg.default", border: "border.muted" },
-  success: { bg: "bg.subtle", fg: "fg.default", border: "border.muted" },
-  warning: { bg: "bg.subtle", fg: "fg.default", border: "border.muted" },
-  danger: { bg: "bg.subtle", fg: "fg.default", border: "border.muted" },
+  info: "bg-[#eef4ff] text-[var(--ink)] border-[var(--line)]",
+  success: "bg-[var(--void-soft)] text-[var(--ink)] border-[var(--line)]",
+  warning: "bg-[var(--void-soft)] text-[var(--ink)] border-[var(--line)]",
+  danger: "bg-[var(--void-soft)] text-[var(--ink)] border-[var(--line)]",
 };
 
 export default function CalloutBlock({ intent = "info", title, body }: CalloutBlockProps) {
@@ -24,17 +23,10 @@ export default function CalloutBlock({ intent = "info", title, body }: CalloutBl
     <section className={pageSection({ space: "sm" })}>
       <div className={pageContainer({ size: "md" })}>
         <aside
-          className={css({
-            backgroundColor: t.bg,
-            color: t.fg,
-            borderInlineStart: "3px solid",
-            borderColor: t.border,
-            padding: "md",
-            borderRadius: "md",
-          })}
+          className={`rounded-lg border-l-[3px] p-6 ${t}`}
         >
           {title ? (
-            <p className={css({ textStyle: "label.md", marginBlockEnd: "2xs" })}>
+            <p className="mb-2 text-sm font-medium leading-normal tracking-[0.02em]">
               {title}
             </p>
           ) : null}

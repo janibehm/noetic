@@ -1,5 +1,5 @@
-import { css } from "../../styled-system/css";
-import { pageContainer, pageSection, stackY, button } from "../../styled-system/recipes";
+import Link from "next/link";
+import { button, pageContainer, pageSection, stackY } from "@/lib/styles";
 import { BlockRenderer } from "@/components/block-renderer";
 import { client } from "../../sanity/client";
 import { homePageQuery, legacyHomePageQuery } from "../../sanity/queries";
@@ -59,53 +59,40 @@ export default async function Home() {
       <section className={pageSection({ space: "xl", tone: "canvas" })}>
         <div className={pageContainer({ size: "lg" })}>
           <div className={stackY({ gap: "lg", align: "start" })}>
-            <span className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+            <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
               Noetic starter
             </span>
             <h1
-              className={css({
-                textStyle: "display.xl",
-                maxWidth: "measureWide",
-              })}
+              className="max-w-[78ch] text-[clamp(2.99rem,1.94rem+6.55vw,6.5rem)] font-bold leading-[1.15] tracking-[-0.02em] text-balance"
             >
-              Next.js, Sanity, and PandaCSS, wired with a fluid design system.
+              Next.js, Sanity, and Tailwind CSS, wired with a fluid design system.
             </h1>
             <p
-              className={css({
-                textStyle: "body.lg",
-                color: "fg.muted",
-                maxWidth: "measure",
-              })}
+              className="max-w-[65ch] text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65] text-[var(--gray)] text-pretty"
             >
               Type and spacing fold smoothly across viewports using a
               Utopia-style{" "}
               <code
-                className={css({
-                  paddingInline: "3xs",
-                  backgroundColor: "bg.subtle",
-                  borderRadius: "xs",
-                })}
+                className="rounded px-1 bg-[var(--void-soft)]"
               >
                 clamp()
               </code>{" "}
-              scale. Semantic color tokens drive automatic dark mode. Sanity
+              scale. Shared Tailwind utilities keep layout consistent. Sanity
               blocks compose into pages and render through the{" "}
               <code>BlockRenderer</code>.
             </p>
-            <div
-              className={css({ display: "flex", gap: "sm", flexWrap: "wrap" })}
-            >
-              <a
+            <div className="flex flex-wrap gap-4">
+              <Link
                 href="/studio"
                 className={button({ variant: "solid", size: "md" })}
               >
                 Open Studio
-              </a>
+              </Link>
               <a
-                href="https://panda-css.com"
+                href="https://tailwindcss.com"
                 className={button({ variant: "outline", size: "md" })}
               >
-                PandaCSS docs
+                Tailwind docs
               </a>
             </div>
           </div>
@@ -115,18 +102,18 @@ export default async function Home() {
       <section className={pageSection({ space: "lg", tone: "subtle" })}>
         <div className={pageContainer({ size: "lg" })}>
           <div className={stackY({ gap: "md" })}>
-            <h2 className={css({ textStyle: "heading.h2" })}>Type scale</h2>
-            <p className={css({ textStyle: "display.lg" })}>Display lg</p>
-            <p className={css({ textStyle: "heading.h1" })}>Heading 1</p>
-            <p className={css({ textStyle: "heading.h2" })}>Heading 2</p>
-            <p className={css({ textStyle: "heading.h3" })}>Heading 3</p>
-            <p className={css({ textStyle: "body.lg" })}>
+            <h2 className="text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.3] tracking-[-0.01em] text-balance">Type scale</h2>
+            <p className="text-[clamp(2.49rem,1.74rem+4.34vw,4.86rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-balance">Display lg</p>
+            <p className="text-[clamp(2.49rem,1.74rem+4.34vw,4.86rem)] font-bold leading-[1.15] tracking-[-0.02em] text-balance">Heading 1</p>
+            <p className="text-[clamp(2.07rem,1.55rem+2.83vw,3.65rem)] font-semibold leading-[1.3] tracking-[-0.01em] text-balance">Heading 2</p>
+            <p className="text-[clamp(1.73rem,1.37rem+1.82vw,2.74rem)] font-semibold leading-[1.3] tracking-[-0.01em] text-balance">Heading 3</p>
+            <p className="text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65]">
               Body lg — the quick brown fox jumps over the lazy dog.
             </p>
-            <p className={css({ textStyle: "body.md", color: "fg.muted" })}>
+            <p className="text-[clamp(1rem,.91rem+.45vw,1.25rem)] leading-[1.65] text-[var(--gray)]">
               Body md — the quick brown fox jumps over the lazy dog.
             </p>
-            <p className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+            <p className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
               Label sm
             </p>
           </div>
