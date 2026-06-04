@@ -63,7 +63,7 @@ export default function ArticleCarouselBlock({
       <div
         className={css({
           width: "100%",
-          maxWidth: "82.5rem",
+          maxWidth: "containerXl",
           marginInline: "auto",
           paddingInline: "pageGutter",
         })}

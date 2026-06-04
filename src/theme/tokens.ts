@@ -88,7 +88,7 @@ export const tokens = defineTokens({
     "2xl": { value: "clamp(4.00rem, 3.55rem + 2.23vw, 5.25rem)" },
     "3xl": { value: "clamp(6.00rem, 5.36rem + 3.21vw, 7.80rem)" },
     "4xl": { value: "clamp(8.00rem, 7.05rem + 4.74vw, 10.66rem)" },
-    pageGutter: { value: "clamp(52px, 10vw, 180px)" },
+    pageGutter: { value: "clamp(20px, 5vw, 80px)" },
   },
 
   sizes: {
@@ -100,7 +100,9 @@ export const tokens = defineTokens({
     containerSm: { value: "40rem" },
     containerMd: { value: "56rem" },
     containerLg: { value: "72rem" },
-    containerXl: { value: "82.5rem" },
+    // 66rem renders 1320px at the root font-size, which the global
+    // `html` rule caps at 1.25rem (20px). Matches the reference --maxw.
+    containerXl: { value: "66rem" },
   },
 
   radii: {
