@@ -139,6 +139,7 @@ export default function ArticleCarouselBlock({
                     flex: "none",
                     width: "clamp(280px, 32vw, 380px)",
                     scrollSnapAlign: "start",
+                    containerType: "inline-size",
                   })}
                 >
                   <a
@@ -200,7 +201,7 @@ export default function ArticleCarouselBlock({
                     )}
                     <span
                       className={css({
-                        fontSize: "0.72rem",
+                        fontSize: "clamp(0.64rem, 2.4cqw, 0.72rem)",
                         lineHeight: 1.5,
                         letterSpacing: "0.05em",
                         fontWeight: 500,
@@ -218,7 +219,7 @@ export default function ArticleCarouselBlock({
                     </span>
                     <h3
                       className={css({
-                        fontSize: "1.16rem",
+                        fontSize: "clamp(0.92rem, 4.8cqw, 1.16rem)",
                         fontWeight: 550,
                         letterSpacing: "-0.02em",
                         lineHeight: 1.25,

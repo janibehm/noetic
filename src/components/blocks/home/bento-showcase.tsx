@@ -143,6 +143,7 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
         borderRadius: "2rem",
         minHeight: { base: "13.75rem", md: "auto" },
         isolation: "isolate",
+        containerType: "inline-size",
         transitionProperty: "transform",
         transitionDuration: "0.6s",
         transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
@@ -217,7 +218,7 @@ function BentoBody({ item }: { item: BentoArticle }) {
             borderRadius: "pill",
             backgroundColor: "rgba(255,255,255,0.22)",
             color: "fg.onCinematic",
-            fontSize: "0.78rem",
+            fontSize: "clamp(0.66rem, 2.8cqw, 0.78rem)",
             fontWeight: 500,
             backdropFilter: "blur(14px)",
             boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.4)",
@@ -229,7 +230,7 @@ function BentoBody({ item }: { item: BentoArticle }) {
       <h3
         data-bento-copy
         className={css({
-          fontSize: "1.3rem",
+          fontSize: "clamp(0.95rem, 5.7cqw, 1.3rem)",
           lineHeight: 1.1,
           fontWeight: 600,
           letterSpacing: "-0.02em",
@@ -245,7 +246,7 @@ function BentoBody({ item }: { item: BentoArticle }) {
           data-bento-copy
           className={css({
             marginBlockStart: "6px",
-            fontSize: "0.92rem",
+            fontSize: "clamp(0.74rem, 4cqw, 0.92rem)",
             lineHeight: 1.35,
             color: "rgba(255,255,255,0.85)",
             maxWidth: "30ch",
