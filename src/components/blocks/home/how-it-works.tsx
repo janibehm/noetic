@@ -1,5 +1,5 @@
 import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection, stackY } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection } from "../../../../styled-system/recipes";
 import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 
 export type HowItWorksStep = {
@@ -26,22 +26,29 @@ export default function HomeHowItWorksBlock({
   headingLevel,
   steps = [],
 }: HomeHowItWorksBlockProps) {
-  const cols = Math.min(steps.length || 1, 4);
   const Heading = getHeadingLevel(headingLevel, "h2");
   return (
-    <section className={pageSection({ space: "lg" })}>
+    <section className={pageSection({ space: "md" })}>
       <div className={pageContainer({ size: "lg" })}>
-        <div className={stackY({ gap: "xl", align: "center" })}>
+        <div className={css({ textAlign: "center" })}>
           {eyebrow ? (
-            <span className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+            <span
+              className={css({
+                display: "block",
+                textStyle: "label.sm",
+                color: "fg.muted",
+                marginBlockEnd: "14px",
+              })}
+            >
               {eyebrow}
             </span>
           ) : null}
           <Heading
             className={css({
               ...headingLevelStyles[Heading],
-              textAlign: "center",
-              maxWidth: "measureWide",
+              maxWidth: "18ch",
+              marginInline: "auto",
+              marginBlockEnd: "clamp(42px, 6vw, 72px)",
             })}
           >
             {heading}
@@ -51,17 +58,16 @@ export default function HomeHowItWorksBlock({
               position: "relative",
               width: "100%",
               display: "grid",
-              gridTemplateColumns: { base: "1fr", md: `repeat(${cols}, 1fr)` },
-              gap: { base: "xl", md: 0 },
+              gridTemplateColumns: { base: "1fr", md: "repeat(3, minmax(0, 1fr))" },
+              gap: { base: "48px", md: 0 },
               listStyle: "none",
               padding: 0,
               margin: 0,
-              // Hairline connector between step icons (desktop only).
               _before: {
                 content: '""',
                 display: { base: "none", md: "block" },
                 position: "absolute",
-                top: "2.625rem", // half of 5.25rem (icon size)
+                top: "42px",
                 left: "16%",
                 right: "16%",
                 height: "1px",
@@ -80,8 +86,7 @@ export default function HomeHowItWorksBlock({
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  gap: "xs",
-                  paddingInline: { base: 0, md: "sm" },
+                  paddingInline: { base: 0, md: "clamp(12px, 2vw, 30px)" },
                 })}
               >
                 <span
@@ -94,7 +99,7 @@ export default function HomeHowItWorksBlock({
                     display: "grid",
                     placeItems: "center",
                     color: "fg.default",
-                    marginBlockEnd: "sm",
+                    marginBlockEnd: "28px",
                   })}
                   aria-hidden
                 >
@@ -104,16 +109,29 @@ export default function HomeHowItWorksBlock({
                   className={css({
                     textStyle: "label.sm",
                     color: "fg.subtle",
+                    marginBlockEnd: "16px",
                   })}
                 >
                   Step {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className={css({ textStyle: "heading.h4" })}>{step.title}</h3>
+                <h3
+                  className={css({
+                    fontSize: "1.25rem",
+                    lineHeight: 1.2,
+                    fontWeight: "semibold",
+                    letterSpacing: "tighter",
+                    marginBlockEnd: "10px",
+                  })}
+                >
+                  {step.title}
+                </h3>
                 <p
                   className={css({
-                    textStyle: "body.md",
+                    fontSize: "0.98rem",
+                    lineHeight: 1.45,
                     color: "fg.muted",
                     maxWidth: "28ch",
+                    marginInline: "auto",
                   })}
                 >
                   {step.body}
