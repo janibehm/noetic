@@ -88,7 +88,7 @@ export const tokens = defineTokens({
     "2xl": { value: "clamp(4.00rem, 3.55rem + 2.23vw, 5.25rem)" },
     "3xl": { value: "clamp(6.00rem, 5.36rem + 3.21vw, 7.80rem)" },
     "4xl": { value: "clamp(8.00rem, 7.05rem + 4.74vw, 10.66rem)" },
-    pageGutter: { value: "clamp(32px, 7vw, 120px)" },
+    pageGutter: { value: "clamp(52px, 10vw, 180px)" },
   },
 
   sizes: {
