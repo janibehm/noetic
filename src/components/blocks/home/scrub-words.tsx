@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { css } from "../../../../styled-system/css";
-import { pageContainer, stackY, cinematicStage } from "../../../../styled-system/recipes";
+import { cinematicStage } from "../../../../styled-system/recipes";
 import type { AuroraTone } from "../types";
 
 export type HomeScrubWordsBlockProps = {
@@ -9,91 +12,162 @@ export type HomeScrubWordsBlockProps = {
 };
 
 /**
- * Server-rendered baseline for the scroll-scrub word sequence.
+ * Scroll-scrub word sequence.
  *
- * Renders all words stacked on a cinematic stage; the sticky scroll
- * cycling behaviour (`noetic_CLAUDE_DESIGN/index.html`) is layered
- * in by a separate client island.
+ * The outer `track` is tall (≈ words.length × 80vh) so that the
+ * inner sticky `stage` stays pinned for the duration of the scroll.
+ * A rAF loop reads the track's bounding rect, derives a 0→1
+ * progress value, and uses it to select the active word/dot.
+ * Matches `noetic_CLAUDE_DESIGN/index.html` (section 2).
  */
 export default function HomeScrubWordsBlock({
   label,
   words = [],
   auroraTone = "default",
 }: HomeScrubWordsBlockProps) {
-  const tone = auroraTone === "cool" || auroraTone === "warm" ? auroraTone : "spectral";
+  const tone =
+    auroraTone === "cool" || auroraTone === "warm" ? auroraTone : "spectral";
+  const trackRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
+  const [dim, setDim] = useState(0.25);
+
+  useEffect(() => {
+    if (!words.length) return;
+    const el = trackRef.current;
+    if (!el) return;
+    let raf = 0;
+    const frame = () => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = r.height - vh;
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
+      // Map progress into word index with a small dwell margin at the ends.
+      const idx = Math.min(
+        words.length - 1,
+        Math.max(0, Math.floor(p * words.length * 0.999)),
+      );
+      setActive(idx);
+      setDim(0.25 + p * 0.55);
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, [words.length]);
+
+  // Track is ~80vh per word so each word gets a comfortable scroll slice.
+  const trackHeight = `${Math.max(2, words.length) * 80}vh`;
+
   return (
     <section
-      className={cinematicStage({ tone })}
-      style={{ minHeight: "100svh" }}
+      ref={trackRef}
+      className={css({ position: "relative" })}
+      style={{ height: trackHeight }}
     >
       <div
         className={css({
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100svh",
-          paddingBlock: "3xl",
-          paddingInline: { base: "sm", md: "md", lg: "lg" },
+          position: "sticky",
+          top: 0,
+          height: "100svh",
+          overflow: "hidden",
+          display: "grid",
+          placeItems: "center",
         })}
       >
-        <div className={pageContainer({ size: "lg" })}>
-          <div className={stackY({ gap: "lg", align: "center" })}>
-            {label ? (
-              <span
-                className={css({
-                  textStyle: "label.sm",
-                  color: "fg.onCinematicMuted",
-                })}
-              >
-                {label}
-              </span>
-            ) : null}
-            <ul
-              className={css({
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "2xs",
-              })}
-            >
-              {words.map((word) => (
-                <li
-                  key={word}
-                  className={css({
-                    textStyle: "display.2xl",
-                    color: "fg.onCinematic",
-                    textAlign: "center",
-                    lineHeight: "tight",
-                  })}
-                >
-                  {word}
-                </li>
-              ))}
-            </ul>
+        <div
+          className={cinematicStage({ tone })}
+          style={{ position: "absolute", inset: 0 }}
+        />
+        <div
+          aria-hidden
+          className={css({
+            position: "absolute",
+            inset: 0,
+            backgroundColor: "#000",
+            zIndex: 1,
+            transition: "opacity 0.1s linear",
+          })}
+          style={{ opacity: dim }}
+        />
+        <div
+          className={css({
+            position: "relative",
+            zIndex: 3,
+            textAlign: "center",
+            paddingInline: { base: "sm", md: "md", lg: "lg" },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          })}
+        >
+          {label ? (
             <div
               className={css({
-                display: "flex",
-                gap: "2xs",
-                marginBlockStart: "lg",
+                textStyle: "label.sm",
+                color: "fg.onCinematicMuted",
+                marginBlockEnd: "lg",
               })}
             >
-              {words.map((word, i) => (
-                <span
-                  key={word}
-                  aria-hidden
-                  className={css({
-                    width: "7",
-                    height: "1",
-                    borderRadius: "pill",
-                    backgroundColor:
-                      i === 0 ? "#ffffff" : "border.onCinematic",
-                  })}
-                />
-              ))}
+              {label}
             </div>
+          ) : null}
+          <div
+            className={css({
+              position: "relative",
+              height: "clamp(70px, 14vw, 200px)",
+              width: "min(90vw, 60rem)",
+            })}
+          >
+            {words.map((word, i) => (
+              <div
+                key={word}
+                aria-hidden={i !== active}
+                className={css({
+                  position: "absolute",
+                  inset: 0,
+                  display: "grid",
+                  placeItems: "center",
+                  color: "#fff",
+                  fontSize: "clamp(3rem, 13vw, 11rem)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.05em",
+                  lineHeight: 1,
+                  transition:
+                    "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                })}
+                style={{
+                  opacity: i === active ? 1 : 0,
+                  transform:
+                    i === active ? "none" : "translateY(40px) scale(0.96)",
+                }}
+              >
+                {word}
+              </div>
+            ))}
+          </div>
+          <div
+            className={css({
+              display: "flex",
+              gap: "2",
+              justifyContent: "center",
+              marginBlockStart: "xl",
+            })}
+          >
+            {words.map((word, i) => (
+              <span
+                key={word}
+                aria-hidden
+                className={css({
+                  width: "6",
+                  height: "1",
+                  borderRadius: "pill",
+                  transition: "background-color 0.4s",
+                })}
+                style={{
+                  backgroundColor:
+                    i === active ? "#fff" : "rgba(255,255,255,0.28)",
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
