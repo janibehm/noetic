@@ -68,9 +68,11 @@ export default function HomeScrubWordsBlock({
           position: "sticky",
           top: 0,
           height: "100svh",
+          width: "100%",
           overflow: "hidden",
-          display: "grid",
-          placeItems: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         })}
       >
         <div
@@ -92,6 +94,7 @@ export default function HomeScrubWordsBlock({
           className={css({
             position: "relative",
             zIndex: 3,
+            width: "100%",
             textAlign: "center",
             paddingInline: { base: "sm", md: "md", lg: "lg" },
             display: "flex",
@@ -114,7 +117,10 @@ export default function HomeScrubWordsBlock({
             className={css({
               position: "relative",
               height: "clamp(70px, 14vw, 200px)",
-              width: "min(90vw, 60rem)",
+              width: "100%",
+              // Nudge only the word right of dead-center on larger screens
+              // to match the off-axis composition in the reference design.
+              transform: { base: "none", md: "translateX(8vw)", lg: "translateX(12vw)" },
             })}
           >
             {words.map((word, i) => (
@@ -124,8 +130,9 @@ export default function HomeScrubWordsBlock({
                 className={css({
                   position: "absolute",
                   inset: 0,
-                  display: "grid",
-                  placeItems: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   color: "#fff",
                   fontSize: "clamp(3rem, 13vw, 11rem)",
                   fontWeight: 700,
@@ -147,9 +154,9 @@ export default function HomeScrubWordsBlock({
           <div
             className={css({
               display: "flex",
-              gap: "2",
+              gap: "3",
               justifyContent: "center",
-              marginBlockStart: "xl",
+              marginBlockStart: "2xl",
             })}
           >
             {words.map((word, i) => (
@@ -157,8 +164,8 @@ export default function HomeScrubWordsBlock({
                 key={word}
                 aria-hidden
                 className={css({
-                  width: "6",
-                  height: "1",
+                  width: "12",
+                  height: "1.5",
                   borderRadius: "pill",
                   transition: "background-color 0.4s",
                 })}
