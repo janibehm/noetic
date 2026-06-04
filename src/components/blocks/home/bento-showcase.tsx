@@ -149,7 +149,6 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
         _hover: {
           transform: "scale(1.018)",
           "& img": { transform: "scale(1.06)" },
-          "& [data-bento-copy]": { opacity: 0 },
           "& [data-bento-scrim]": { opacity: 0.3 },
         },
       })}
