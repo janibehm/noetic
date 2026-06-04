@@ -23,6 +23,7 @@ const doc = {
     {
       _key: "heroPrompt",
       _type: "heroPromptBlock",
+      blockName: "hero-prompt",
       eyebrow: "The spatial canvas for AI imagery",
       heading: "Generate production-ready visuals in seconds.",
       lead: "Describe an idea. noetic renders, edits and upscales cinematic images and video — all on one infinite canvas.",
@@ -38,6 +39,7 @@ const doc = {
     {
       _key: "scrubWords",
       _type: "scrubWordsBlock",
+      blockName: "scrub-words",
       label: "One canvas. Every operation.",
       words: ["Generate.", "Edit.", "Upscale.", "Expand.", "Automate."],
       auroraTone: "cool",
@@ -45,6 +47,7 @@ const doc = {
     {
       _key: "bento",
       _type: "bentoShowcaseBlock",
+      blockName: "bento-showcase",
       heading: "Everything you'd open eight apps for.",
       lead: "One model family, one interface — from first prompt to final asset. Hover any surface to see it come alive.",
       items: [
@@ -110,6 +113,7 @@ const doc = {
     {
       _key: "howItWorks",
       _type: "howItWorksBlock",
+      blockName: "how-it-works",
       heading: "Idea to export in three moves.",
       steps: [
         {
