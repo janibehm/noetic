@@ -29,7 +29,7 @@ export default function HomeHowItWorksBlock({
   const Heading = getHeadingLevel(headingLevel, "h2");
   return (
     <section className={pageSection({ space: "md" })}>
-      <div className={pageContainer({ size: "lg" })}>
+      <div className={pageContainer({ size: "xl" })}>
         <div className={css({ textAlign: "center" })}>
           {eyebrow ? (
             <span
