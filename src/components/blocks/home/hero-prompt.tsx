@@ -1,10 +1,5 @@
-import { css } from "../../../../styled-system/css";
-import {
-  pageContainer,
-  button,
-  cinematicStage,
-} from "../../../../styled-system/recipes";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { button, cinematicStage, cn, pageContainer } from "@/lib/styles";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
 export type HomeHeroPromptBlockProps = {
@@ -45,77 +40,35 @@ export default function HomeHeroPromptBlock({
   showScrollCue = true,
 }: HomeHeroPromptBlockProps) {
   const firstIdea = promptIdeas?.[0];
-  const Heading = getHeadingLevel(headingLevel, "h1");
+  const headingTag = getHeadingLevel(headingLevel, "h1");
   return (
     <section
       className={cinematicStage({})}
       style={{ minHeight: "100svh" }}
     >
       <div
-        className={css({
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100svh",
-          paddingBlock: "2xl",
-          paddingInline: 0,
-        })}
+        className="flex min-h-[100svh] items-center justify-center px-0 py-[clamp(4rem,3.55rem+2.23vw,5.25rem)]"
       >
         <div
           className={pageContainer({ size: "lg" })}
           style={{ width: "100%" }}
         >
-          <div
-            className={css({
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-            })}
-          >
+          <div className="flex flex-col items-center text-center">
             {eyebrow ? (
               <span
-                className={css({
-                  // Match `.hero-kicker` exactly (0.72rem, 0.18em tracking).
-                  fontSize: "0.72rem",
-                  fontWeight: "semibold",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "fg.onCinematic",
-                  opacity: 0.85,
-                  marginBlockEnd: "1.375rem", // 22px in original
-                })}
+                className="mb-[1.375rem] text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/85"
               >
                 {eyebrow}
               </span>
             ) : null}
-            <Heading
-              className={css({
-                fontFamily: "sans",
-                ...headingLevelStyles[Heading],
-                color: "fg.onCinematic",
-                // Slightly wider than the original 16ch so `text-wrap:
-                // balance` can pull the trailing word up and avoid an
-                // orphan line on wide viewports.
-                maxWidth: "20ch",
-                textWrap: "balance",
-                textShadow: "0 2px 40px rgba(0,0,0,0.25)",
-              })}
-            >
-              {heading}
-            </Heading>
+            {renderHeading(
+              headingTag,
+              cn(headingLevelStyles[headingTag], "max-w-[20ch] font-sans text-white text-balance [text-shadow:0_2px_40px_rgba(0,0,0,0.25)]"),
+              heading,
+            )}
             {lead ? (
               <p
-                className={css({
-                  marginBlockStart: "1.375rem", // 22px in original
-                  // Match `--t-lead`: clamp(1.1rem, 1.5vw, 1.45rem).
-                  fontSize: "clamp(1.1rem, 1.5vw, 1.45rem)",
-                  lineHeight: "1.45",
-                  color: "fg.onCinematic",
-                  opacity: 0.82,
-                  maxWidth: "46ch",
-                  textWrap: "pretty",
-                })}
+                className="mt-[1.375rem] max-w-[46ch] text-[clamp(1.1rem,1.5vw,1.45rem)] leading-[1.45] text-white/80 text-pretty"
               >
                 {lead}
               </p>
@@ -128,11 +81,7 @@ export default function HomeHeroPromptBlock({
             ) : primaryCta?.label && primaryCta.href ? (
               <a
                 href={primaryCta.href}
-                className={
-                  button({ variant: "onCinematic", size: "lg", shape: "pill" }) +
-                  " " +
-                  css({ marginBlockStart: "xl" })
-                }
+                className={cn(button({ variant: "onCinematic", size: "lg", shape: "pill" }), "mt-[clamp(3rem,2.73rem+1.34vw,3.75rem)]")}
               >
                 {primaryCta.label}
               </a>
@@ -149,86 +98,29 @@ function PromptBar({ idea, cta }: { idea: string; cta?: CtaLink }) {
   return (
     <div
       role="search"
-      className={css({
-        width: "100%",
-        maxWidth: "45rem", // matches original min(720px, 100%)
-        marginBlockStart: "2.75rem", // 44px in original
-        // Original padding: 12px 12px 12px 22px
-        paddingInlineStart: "1.375rem",
-        paddingInlineEnd: "0.75rem",
-        paddingBlock: "0.75rem",
-        borderRadius: "pill",
-        display: "flex",
-        alignItems: "center",
-        gap: "0.875rem", // 14px in original
-        backgroundColor: "glass",
-        border: "1px solid",
-        borderColor: "glass",
-        backdropFilter: "blur(36px) saturate(180%)",
-        boxShadow: "ambient",
-        textAlign: "start",
-      })}
+      className="mt-[2.75rem] flex w-full max-w-[45rem] items-center gap-[0.875rem] rounded-full border border-white/85 bg-white/60 py-3 pe-3 ps-[1.375rem] text-start shadow-[var(--shadow-amb)] backdrop-blur-[36px] backdrop-saturate-[180%]"
     >
       <SunIcon />
       <span
-        className={css({
-          flex: 1,
-          fontSize: "1.08rem",
-          lineHeight: "1.4",
-          color: "fg.default",
-          minHeight: "1.5rem",
-          opacity: 0.85,
-        })}
+        className="min-h-6 flex-1 text-[1.08rem] leading-[1.4] text-[var(--ink)]/85"
       >
         {idea}
         <span
           aria-hidden
-          className={css({
-            display: "inline-block",
-            width: "2px",
-            height: "1.1em",
-            marginInlineStart: "1px",
-            verticalAlign: "-2px",
-            backgroundColor: "{colors.aurora.violet}",
-          })}
+          className="ms-px inline-block h-[1.1em] w-0.5 bg-[var(--a2)] align-[-2px]"
         />
       </span>
       <button
         type="button"
         aria-label="Attach"
-        className={css({
-          flex: "none",
-          width: "2.625rem",
-          height: "2.625rem",
-          borderRadius: "circle",
-          display: "grid",
-          placeItems: "center",
-          color: "fg.muted",
-          border: "1px solid",
-          borderColor: "border.subtle",
-          backgroundColor: "transparent",
-          cursor: "pointer",
-          transitionProperty: "background-color, color",
-          transitionDuration: "base",
-          transitionTimingFunction: "standard",
-          _hover: { backgroundColor: "bg.subtle", color: "fg.default" },
-        })}
+        className="grid h-[2.625rem] w-[2.625rem] flex-none place-items-center rounded-full border border-[var(--line)] text-[var(--gray)] transition-colors duration-200 hover:bg-[var(--void-soft)] hover:text-[var(--ink)]"
       >
         <AttachIcon />
       </button>
       {cta?.label ? (
         <a
           href={cta.href || "#"}
-          className={
-            button({ variant: "inverse", shape: "pill" }) +
-            " " +
-            // Match original `.btn` height: 52px, padding-inline 26px.
-            css({
-              minHeight: "3.25rem",
-              paddingInline: "1.625rem",
-              fontSize: "1rem",
-            })
-          }
+          className={cn(button({ variant: "inverse", shape: "pill" }), "min-h-[3.25rem] px-[1.625rem] text-base")}
         >
           {cta.label}
           <ArrowIcon />
@@ -241,32 +133,12 @@ function PromptBar({ idea, cta }: { idea: string; cta?: CtaLink }) {
 function ScrollCue() {
   return (
     <div
-      className={css({
-        position: "absolute",
-        bottom: "lg",
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 3,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "2xs",
-        color: "fg.onCinematic",
-        opacity: 0.7,
-        fontSize: "2xs",
-        fontWeight: "semibold",
-        letterSpacing: "0.18em",
-        textTransform: "uppercase",
-      })}
+      className="absolute bottom-8 left-1/2 z-[3] flex -translate-x-1/2 flex-col items-center gap-2 text-[0.69rem] font-semibold uppercase tracking-[0.18em] text-white/70"
     >
       <span>Scroll</span>
       <span
         aria-hidden
-        className={css({
-          width: "1px",
-          height: "2.375rem",
-          background: "linear-gradient(rgba(255,255,255,0.7), transparent)",
-        })}
+        className="h-[2.375rem] w-px bg-linear-to-b from-white/70 to-transparent"
       />
     </div>
   );
@@ -280,7 +152,7 @@ function SunIcon() {
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden
-      className={css({ flex: "none", color: "fg.muted" })}
+      className="flex-none text-[var(--gray)]"
     >
       <path
         d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1m0-12.8l-2.1 2.1M7.7 16.3l-2.1 2.1"

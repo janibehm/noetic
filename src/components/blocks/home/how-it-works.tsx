@@ -1,6 +1,5 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection } from "../../../../styled-system/recipes";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { cn, pageContainer, pageSection } from "@/lib/styles";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 
 export type HowItWorksStep = {
   _key: string;
@@ -26,113 +25,49 @@ export default function HomeHowItWorksBlock({
   headingLevel,
   steps = [],
 }: HomeHowItWorksBlockProps) {
-  const Heading = getHeadingLevel(headingLevel, "h2");
+  const headingTag = getHeadingLevel(headingLevel, "h2");
   return (
     <section className={pageSection({ space: "md" })}>
       <div className={pageContainer({ size: "xl" })}>
-        <div className={css({ textAlign: "center" })}>
+        <div className="text-center">
           {eyebrow ? (
             <span
-              className={css({
-                display: "block",
-                textStyle: "label.sm",
-                color: "fg.muted",
-                marginBlockEnd: "14px",
-              })}
+              className="mb-[14px] block text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]"
             >
               {eyebrow}
             </span>
           ) : null}
-          <Heading
-            className={css({
-              ...headingLevelStyles[Heading],
-              maxWidth: "18ch",
-              marginInline: "auto",
-              marginBlockEnd: "clamp(42px, 6vw, 72px)",
-            })}
-          >
-            {heading}
-          </Heading>
+          {renderHeading(
+            headingTag,
+            cn(headingLevelStyles[headingTag], "mx-auto mb-[clamp(42px,6vw,72px)] max-w-[18ch]"),
+            heading,
+          )}
           <ol
-            className={css({
-              position: "relative",
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: { base: "1fr", md: "repeat(3, minmax(0, 1fr))" },
-              gap: { base: "48px", md: 0 },
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-              _before: {
-                content: '""',
-                display: { base: "none", md: "block" },
-                position: "absolute",
-                top: "42px",
-                left: "16%",
-                right: "16%",
-                height: "1px",
-                backgroundColor: "border.subtle",
-                zIndex: 0,
-              },
-            })}
+            className="relative grid w-full list-none gap-12 p-0 m-0 before:hidden before:absolute before:left-[16%] before:right-[16%] before:top-[42px] before:z-0 before:h-px before:bg-[var(--line)] md:grid-cols-3 md:gap-0 md:before:block"
           >
             {steps.map((step, i) => (
               <li
                 key={step._key}
-                className={css({
-                  position: "relative",
-                  zIndex: 1,
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  paddingInline: { base: 0, md: "clamp(12px, 2vw, 30px)" },
-                })}
+                className="relative z-[1] flex flex-col items-center text-center md:px-[clamp(12px,2vw,30px)]"
               >
                 <span
-                  className={css({
-                    width: "5.25rem",
-                    height: "5.25rem",
-                    borderRadius: "circle",
-                    backgroundColor: "bg.surface",
-                    border: "subtle",
-                    display: "grid",
-                    placeItems: "center",
-                    color: "fg.default",
-                    marginBlockEnd: "28px",
-                  })}
+                  className="mb-7 grid h-[5.25rem] w-[5.25rem] place-items-center rounded-full border border-[var(--line)] bg-white text-[var(--ink)]"
                   aria-hidden
                 >
                   <StepIcon name={step.icon} />
                 </span>
                 <span
-                  className={css({
-                    textStyle: "label.sm",
-                    color: "fg.subtle",
-                    marginBlockEnd: "16px",
-                  })}
+                  className="mb-4 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray-soft)]"
                 >
                   Step {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3
-                  className={css({
-                    fontSize: "1.25rem",
-                    lineHeight: 1.2,
-                    fontWeight: "semibold",
-                    letterSpacing: "tighter",
-                    marginBlockEnd: "10px",
-                  })}
+                  className="mb-2.5 text-xl font-semibold leading-[1.2] tracking-[-0.02em]"
                 >
                   {step.title}
                 </h3>
                 <p
-                  className={css({
-                    fontSize: "0.98rem",
-                    lineHeight: 1.45,
-                    color: "fg.muted",
-                    maxWidth: "28ch",
-                    marginInline: "auto",
-                  })}
+                  className="mx-auto max-w-[28ch] text-[0.98rem] leading-[1.45] text-[var(--gray)]"
                 >
                   {step.body}
                 </p>

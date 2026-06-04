@@ -4,7 +4,6 @@ import {
   PortableText,
   type PortableTextComponents,
 } from "@portabletext/react";
-import { prose } from "../../styled-system/recipes";
 import { urlFor } from "../../sanity/image";
 
 type AnyBlock = Record<string, unknown> & { _type: string; _key: string };
@@ -69,9 +68,8 @@ export function ProseRenderer({
   value: AnyBlock[] | undefined | null;
 }) {
   if (!value?.length) return null;
-  const styles = prose();
   return (
-    <div className={styles.root}>
+    <div className="prose-root">
       <PortableText value={value} components={components} />
     </div>
   );

@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { css } from "../../../../styled-system/css";
-import { cinematicStage } from "../../../../styled-system/recipes";
+import { cinematicStage } from "@/lib/styles";
 import type { AuroraTone } from "../types";
 
 export type HomeScrubWordsBlockProps = {
@@ -71,20 +70,11 @@ export default function HomeScrubWordsBlock({
     <section
       ref={trackRef}
       data-scrub-track
-      className={css({ position: "relative" })}
+      className="relative"
       style={{ height: "320vh" }}
     >
       <div
-        className={css({
-          position: "sticky",
-          top: 0,
-          height: "100svh",
-          width: "100%",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        })}
+        className="sticky top-0 flex h-[100svh] w-full items-center justify-center overflow-hidden"
       >
         <div
           className={cinematicStage({ tone })}
@@ -92,47 +82,20 @@ export default function HomeScrubWordsBlock({
         />
         <div
           aria-hidden
-          className={css({
-            position: "absolute",
-            inset: 0,
-            backgroundColor: "#000",
-            zIndex: 1,
-            transition: "opacity 0.1s linear",
-            opacity: "calc(0.25 + var(--p, 0) * 0.55)",
-          })}
+          className="absolute inset-0 z-[1] bg-black opacity-[calc(0.25+var(--p,0)*0.55)] transition-opacity duration-100 ease-linear"
         />
         <div
-          className={css({
-            position: "relative",
-            zIndex: 3,
-            width: "100%",
-            textAlign: "center",
-            paddingInline: "pageGutter",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          })}
+          className="relative z-[3] flex w-full flex-col items-center px-[var(--pad)] text-center"
         >
           {label ? (
             <div
-              className={css({
-                textStyle: "label.sm",
-                color: "fg.onCinematicMuted",
-                marginBlockEnd: "lg",
-              })}
+              className="mb-8 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-white/80"
             >
               {label}
             </div>
           ) : null}
           <div
-            className={css({
-              position: "relative",
-              height: "clamp(70px, 14vw, 200px)",
-              width: "100%",
-              // Nudge only the word right of dead-center on larger screens
-              // to match the off-axis composition in the reference design.
-              transform: { base: "none", md: "translateX(8vw)", lg: "translateX(12vw)" },
-            })}
+            className="relative h-[clamp(70px,14vw,200px)] w-full md:translate-x-[8vw] lg:translate-x-[12vw]"
           >
             {words.map((word, i) => (
               <div
@@ -140,38 +103,14 @@ export default function HomeScrubWordsBlock({
                 data-scrub-word
                 data-active={i === 0 ? "" : undefined}
                 aria-hidden={i !== 0}
-                className={css({
-                  position: "absolute",
-                  inset: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#fff",
-                  fontSize: "clamp(3rem, 13vw, 11rem)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.05em",
-                  lineHeight: 1,
-                  opacity: 0,
-                  transform: "translateY(40px) scale(0.96)",
-                  transition:
-                    "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                  "&[data-active]": {
-                    opacity: 1,
-                    transform: "none",
-                  },
-                })}
+                className="absolute inset-0 flex translate-y-10 scale-[0.96] items-center justify-center text-[clamp(3rem,13vw,11rem)] font-bold leading-none tracking-[-0.05em] text-white opacity-0 transition-[opacity,transform] duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] data-active:translate-y-0 data-active:scale-100 data-active:opacity-100"
               >
                 {word}
               </div>
             ))}
           </div>
           <div
-            className={css({
-              display: "flex",
-              gap: "3",
-              justifyContent: "center",
-              marginBlockStart: "2xl",
-            })}
+            className="mt-[clamp(4rem,3.55rem+2.23vw,5.25rem)] flex justify-center gap-3"
           >
             {words.map((word, i) => (
               <span
@@ -179,14 +118,7 @@ export default function HomeScrubWordsBlock({
                 data-scrub-dot
                 data-active={i === 0 ? "" : undefined}
                 aria-hidden
-                className={css({
-                  width: "12",
-                  height: "1.5",
-                  borderRadius: "pill",
-                  backgroundColor: "rgba(255,255,255,0.28)",
-                  transition: "background-color 0.4s",
-                  "&[data-active]": { backgroundColor: "#fff" },
-                })}
+                className="h-1.5 w-12 rounded-full bg-white/30 transition-colors duration-[400ms] data-active:bg-white"
               />
             ))}
           </div>

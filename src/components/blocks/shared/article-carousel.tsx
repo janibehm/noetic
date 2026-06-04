@@ -1,10 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { css } from "../../../../styled-system/css";
-import { button, cinematicStage } from "../../../../styled-system/recipes";
+import { button, cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
 /** Article card payload as projected by `articleCardProjection`. */
@@ -42,7 +41,7 @@ export default function ArticleCarouselBlock({
   items = [],
 }: ArticleCarouselBlockProps) {
   const trackRef = useRef<HTMLUListElement>(null);
-  const Heading = getHeadingLevel(headingLevel, "h2");
+  const headingTag = getHeadingLevel(headingLevel, "h2");
   const visible = typeof limit === "number" ? items.slice(0, limit) : items;
   if (!visible.length) return null;
 
@@ -55,44 +54,25 @@ export default function ArticleCarouselBlock({
 
   return (
     <section
-      className={css({
-        position: "relative",
-        paddingBlock: "clamp(72px, 11vw, 160px)",
-      })}
+      className="relative py-[clamp(72px,11vw,160px)]"
     >
       <div
-        className={css({
-          width: "100%",
-          maxWidth: "containerXl",
-          marginInline: "auto",
-          paddingInline: "pageGutter",
-        })}
+        className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]"
       >
           <div
-            className={css({
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              gap: "24px",
-              marginBlockEnd: "clamp(30px, 4vw, 52px)",
-              flexWrap: "wrap",
-            })}
+            className="mb-[clamp(30px,4vw,52px)] flex flex-wrap items-end justify-between gap-6"
           >
             <div>
               {eyebrow ? (
-                <span className={css({ textStyle: "label.sm", color: "fg.muted" })}>
+                <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
                   {eyebrow}
                 </span>
               ) : null}
-              <Heading
-                className={css({
-                  ...headingLevelStyles[Heading],
-                  color: "fg.default",
-                  textWrap: "balance",
-                })}
-              >
-                {heading}
-              </Heading>
+              {renderHeading(
+                headingTag,
+                cn(headingLevelStyles[headingTag], "text-[var(--ink)] text-balance"),
+                heading,
+              )}
             </div>
             {viewAllCta?.label && viewAllCta.href ? (
               <a
@@ -102,7 +82,7 @@ export default function ArticleCarouselBlock({
                 {viewAllCta.label}
               </a>
             ) : (
-              <div className={css({ display: "flex", gap: "2" })}>
+              <div className="flex gap-2">
                 <CarouselButton label="Previous" onClick={() => scrollByCard(-1)}>
                   <path d="M15 6l-6 6 6 6" />
                 </CarouselButton>
@@ -114,19 +94,7 @@ export default function ArticleCarouselBlock({
           </div>
           <ul
             ref={trackRef}
-            className={css({
-              display: "flex",
-              gap: "clamp(16px, 2vw, 26px)",
-              overflowX: "auto",
-              scrollSnapType: "x mandatory",
-              paddingBlock: "8px",
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              cursor: "grab",
-              scrollbarWidth: "none",
-              "&::-webkit-scrollbar": { display: "none" },
-            })}
+            className="no-scrollbar flex cursor-grab snap-x snap-mandatory list-none gap-[clamp(16px,2vw,26px)] overflow-x-auto p-0 py-2 m-0"
           >
             {visible.map((article) => {
               const cover = article.coverImage
@@ -135,55 +103,23 @@ export default function ArticleCarouselBlock({
               return (
                 <li
                   key={article._id}
-                  className={css({
-                    flex: "none",
-                    width: "clamp(280px, 32vw, 380px)",
-                    scrollSnapAlign: "start",
-                    containerType: "inline-size",
-                  })}
+                  className="w-[clamp(280px,32vw,380px)] flex-none snap-start [container-type:inline-size]"
                 >
                   <a
                     href={`/articles/${article.slug}`}
-                    className={css({
-                      display: "block",
-                      color: "fg.default",
-                      textDecoration: "none",
-                      _hover: {
-                        "& img, & [data-aurora]": { transform: "scale(1.06)" },
-                        "& h3": { transform: "translateY(-2px)" },
-                      },
-                    })}
+                    className="group block text-[var(--ink)] no-underline"
                   >
                     {cover ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={cover.src}
                         alt={cover.alt}
-                        className={css({
-                          width: "100%",
-                          aspectRatio: "4 / 3",
-                          objectFit: "cover",
-                          display: "block",
-                          borderRadius: "2rem",
-                          boxShadow:
-                            "inset 0 0 0 1px rgba(0,0,0,0.05), {shadows.ambient}",
-                          marginBlockEnd: "16px",
-                          transition: "transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
-                        })}
+                        className="mb-4 block aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
                       />
                     ) : (
                       <div
                         aria-hidden
-                        className={css({
-                          position: "relative",
-                          overflow: "hidden",
-                          width: "100%",
-                          aspectRatio: "4 / 3",
-                          borderRadius: "2rem",
-                          boxShadow:
-                            "inset 0 0 0 1px rgba(0,0,0,0.05), {shadows.ambient}",
-                          marginBlockEnd: "16px",
-                        })}
+                        className="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]"
                       >
                         <div
                           data-aurora
@@ -200,17 +136,7 @@ export default function ArticleCarouselBlock({
                       </div>
                     )}
                     <span
-                      className={css({
-                        fontSize: "clamp(0.64rem, 2.4cqw, 0.72rem)",
-                        lineHeight: 1.5,
-                        letterSpacing: "0.05em",
-                        fontWeight: 500,
-                        color: "fg.muted",
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "center",
-                        marginBlockEnd: "9px",
-                      })}
+                      className="mb-[9px] flex items-center gap-2.5 text-[clamp(0.64rem,2.4cqw,0.72rem)] font-medium leading-[1.5] tracking-[0.05em] text-[var(--gray)]"
                     >
                       {article.category?.title ? <>{article.category.title}</> : null}
                       {article.readingTimeMinutes ? (
@@ -218,14 +144,7 @@ export default function ArticleCarouselBlock({
                       ) : null}
                     </span>
                     <h3
-                      className={css({
-                        fontSize: "clamp(0.92rem, 4.8cqw, 1.16rem)",
-                        fontWeight: 550,
-                        letterSpacing: "-0.02em",
-                        lineHeight: 1.25,
-                        textWrap: "pretty",
-                        transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
-                      })}
+                      className="text-[clamp(0.92rem,4.8cqw,1.16rem)] font-[550] leading-[1.25] tracking-[-0.02em] text-pretty transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5"
                     >
                       {article.title}
                     </h3>
@@ -253,17 +172,7 @@ function CarouselButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className={css({
-        width: "46px",
-        height: "46px",
-        borderRadius: "50%",
-        display: "grid",
-        placeItems: "center",
-        boxShadow: "inset 0 0 0 1px {colors.border.muted}",
-        color: "fg.default",
-        transition: "background 0.25s, box-shadow 0.25s, color 0.25s",
-        _hover: { backgroundColor: "bg.inverse", color: "fg.inverse", boxShadow: "none" },
-      })}
+      className="grid h-[46px] w-[46px] place-items-center rounded-full text-[var(--ink)] shadow-[inset_0_0_0_1px_var(--line)] transition-[background,box-shadow,color] duration-[250ms] hover:bg-[var(--ink)] hover:text-white hover:shadow-none"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
         <g

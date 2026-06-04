@@ -1,5 +1,4 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import type { SanityImageRef } from "../types";
 
@@ -30,81 +29,43 @@ export default function PullQuoteBlock({
     <section className={pageSection({ space: "xl" })}>
       <div className={pageContainer({ size: "md" })}>
         <figure
-          className={css({
-            margin: 0,
-            textAlign: isCenter ? "center" : "start",
-          })}
+          className={cn("m-0", isCenter ? "text-center" : "text-start")}
         >
           <span
             aria-hidden
-            className={css({
-              display: "block",
-              fontFamily: "serif",
-              fontSize: "6xl",
-              lineHeight: "none",
-              color: "border.muted",
-              marginBlockEnd: "sm",
-            })}
+            className="mb-4 block font-serif text-[clamp(3.58rem,2.13rem+9.71vw,8.66rem)] leading-none text-[var(--line)]"
           >
             &ldquo;
           </span>
           <blockquote
-            className={css({
-              fontFamily: "serif",
-              fontStyle: "italic",
-              fontWeight: "medium",
-              fontSize: "5xl",
-              lineHeight: "tight",
-              letterSpacing: "tighter",
-              color: "fg.default",
-              margin: 0,
-              maxWidth: "measureWide",
-              marginInline: isCenter ? "auto" : undefined,
-              textWrap: "balance",
-            })}
+            className={cn(
+              "m-0 max-w-[78ch] font-serif text-[clamp(2.99rem,1.94rem+6.55vw,6.5rem)] font-medium italic leading-[1.15] tracking-[-0.02em] text-[var(--ink)] text-balance",
+              isCenter && "mx-auto",
+            )}
           >
             {quote}
           </blockquote>
           {author ? (
             <figcaption
-              className={css({
-                marginBlockStart: "xl",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "sm",
-                textAlign: "start",
-              })}
+              className="mt-[clamp(3rem,2.73rem+1.34vw,3.75rem)] inline-flex items-center gap-4 text-start"
             >
               {avatar ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={avatar.src}
                   alt={avatar.alt}
-                  className={css({
-                    width: "3rem",
-                    height: "3rem",
-                    borderRadius: "circle",
-                    objectFit: "cover",
-                  })}
+                  className="h-12 w-12 rounded-full object-cover"
                 />
               ) : null}
               <span>
                 <span
-                  className={css({
-                    display: "block",
-                    fontWeight: "semibold",
-                    color: "fg.default",
-                  })}
+                  className="block font-semibold text-[var(--ink)]"
                 >
                   {author.name}
                 </span>
                 {author.role ? (
                   <span
-                    className={css({
-                      display: "block",
-                      textStyle: "body.sm",
-                      color: "fg.muted",
-                    })}
+                    className="block text-sm leading-normal text-[var(--gray)]"
                   >
                     {author.role}
                   </span>

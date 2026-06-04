@@ -1,7 +1,6 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection, button, cinematicStage } from "../../../../styled-system/recipes";
+import { button, cinematicStage, cn, pageContainer, pageSection } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
-import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef, Tone } from "../types";
 
 export type CtaBannerBlockProps = {
@@ -45,7 +44,7 @@ export default function CtaBannerBlock({
   const bg = background?.image ? sanityImageProps(background.image, 2000) : null;
   const isInverse = tone === "inverse";
   const auroraTone = AURORA_TONE[background?.auroraTone ?? "default"];
-  const Heading = getHeadingLevel(headingLevel, "h2");
+  const headingTag = getHeadingLevel(headingLevel, "h2");
 
   return (
     <section className={pageSection({ space: "lg" })}>
@@ -54,14 +53,7 @@ export default function CtaBannerBlock({
           className={
             isInverse
               ? cinematicStage({ tone: auroraTone, radius: "2xl" })
-              : css({
-                  position: "relative",
-                  overflow: "hidden",
-                  borderRadius: "4xl",
-                  backgroundColor: "bg.surface",
-                  border: "subtle",
-                  color: "fg.default",
-                })
+              : "relative overflow-hidden rounded-[2.75rem] border border-[var(--line)] bg-white text-[var(--ink)]"
           }
         >
           {bg ? (
@@ -69,73 +61,37 @@ export default function CtaBannerBlock({
             <img
               src={bg.src}
               alt={bg.alt}
-              className={css({
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                opacity: 0.55,
-                zIndex: 0,
-              })}
+              className="absolute inset-0 z-0 h-full w-full object-cover opacity-55"
             />
           ) : null}
           <div
-            className={css({
-              position: "relative",
-              zIndex: 2,
-              paddingBlock: "3xl",
-              paddingInline: { base: "md", md: "xl", lg: "2xl" },
-              textAlign: alignment === "center" ? "center" : "start",
-              display: "flex",
-              flexDirection: "column",
-              gap: "md",
-              alignItems: alignment === "center" ? "center" : "flex-start",
-              maxWidth: "measureWide",
-              marginInline: alignment === "center" ? "auto" : undefined,
-            })}
+            className={cn(
+              "relative z-[2] flex max-w-[78ch] flex-col gap-6 px-6 py-[clamp(6rem,5.36rem+3.21vw,7.8rem)] md:px-12 lg:px-[clamp(4rem,3.55rem+2.23vw,5.25rem)]",
+              alignment === "center" ? "mx-auto items-center text-center" : "items-start text-start",
+            )}
           >
             {eyebrow ? (
               <span
-                className={css({
-                  textStyle: "label.sm",
-                  color: isInverse ? "fg.onCinematicMuted" : "fg.muted",
-                })}
+                className={cn("text-xs font-semibold uppercase leading-normal tracking-[0.06em]", isInverse ? "text-white/80" : "text-[var(--gray)]")}
               >
                 {eyebrow}
               </span>
             ) : null}
-            <Heading
-              className={css({
-                ...headingLevelStyles[Heading],
-                color: isInverse ? "fg.onCinematic" : "fg.default",
-              })}
-            >
-              {heading}
-            </Heading>
+            {renderHeading(
+              headingTag,
+              cn(headingLevelStyles[headingTag], isInverse ? "text-white" : "text-[var(--ink)]"),
+              heading,
+            )}
             {body ? (
               <p
-                className={css({
-                  textStyle: "body.lg",
-                  color: isInverse ? "fg.onCinematicMuted" : "fg.muted",
-                  maxWidth: "measure",
-                })}
+                className={cn("max-w-[65ch] text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65] text-pretty", isInverse ? "text-white/80" : "text-[var(--gray)]")}
               >
                 {body}
               </p>
             ) : null}
             {bullets?.length ? (
               <ul
-                className={css({
-                  listStyle: "disc",
-                  paddingInlineStart: "lg",
-                  textStyle: "body.md",
-                  color: isInverse ? "fg.onCinematicMuted" : "fg.default",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "2xs",
-                  textAlign: "start",
-                })}
+                className={cn("flex list-disc flex-col gap-2 ps-8 text-start text-[clamp(1rem,.91rem+.45vw,1.25rem)] leading-[1.65]", isInverse ? "text-white/80" : "text-[var(--ink)]")}
               >
                 {bullets.map((b) => (
                   <li key={b}>{b}</li>
@@ -143,12 +99,7 @@ export default function CtaBannerBlock({
               </ul>
             ) : null}
             <div
-              className={css({
-                display: "flex",
-                gap: "sm",
-                flexWrap: "wrap",
-                marginBlockStart: "sm",
-              })}
+              className="mt-4 flex flex-wrap gap-4"
             >
               <a
                 href={primaryCta.href}

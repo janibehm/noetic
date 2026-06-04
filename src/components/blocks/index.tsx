@@ -1,5 +1,4 @@
 import type { ComponentType } from "react";
-import { css } from "../../../styled-system/css";
 
 import HeroBlock from "./shared/hero";
 import RichTextBlock from "./shared/rich-text";
@@ -63,12 +62,7 @@ export function BlockRenderer({
           return (
             <div
               key={block._key}
-              className={css({
-                padding: "md",
-                color: "fg.muted",
-                border: "subtle",
-                borderRadius: "md",
-              })}
+              className="rounded-lg border border-[var(--line)] p-6 text-[var(--gray)]"
             >
               Unknown block type: <code>{block._type}</code>
             </div>

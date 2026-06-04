@@ -1,5 +1,4 @@
-import { css } from "../../../../styled-system/css";
-import { pageContainer, pageSection } from "../../../../styled-system/recipes";
+import { pageContainer, pageSection } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import type { SanityImageRef } from "../types";
 
@@ -20,26 +19,16 @@ export default function MediaBlock({
   return (
     <section className={pageSection({ space: "md" })}>
       <div className={pageContainer({ size })}>
-        <figure className={css({ margin: 0 })}>
+        <figure className="m-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={img.src}
             alt={img.alt}
-            className={css({
-              width: "100%",
-              height: "auto",
-              borderRadius: width === "full" ? "none" : "lg",
-              display: "block",
-            })}
+            className={width === "full" ? "block h-auto w-full rounded-none" : "block h-auto w-full rounded-xl"}
           />
           {caption ? (
             <figcaption
-              className={css({
-                textStyle: "body.sm",
-                color: "fg.muted",
-                textAlign: "center",
-                marginBlockStart: "2xs",
-              })}
+              className="mt-2 text-center text-sm leading-normal text-[var(--gray)]"
             >
               {caption}
             </figcaption>
