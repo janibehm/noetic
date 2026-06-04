@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Generate production-ready visuals in seconds</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  /* ---------- HERO ---------- */
+  .hero { height: 100svh; min-height: 680px; position: relative; }
+  .hero .cine { position: absolute; inset: 0; }
+  .hero-inner { position: relative; z-index: 5; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--pad); }
+  .hero-kicker { color: rgba(255,255,255,0.85); margin-bottom: 22px; }
+  .hero h1 { color: #fff; font-size: clamp(2.6rem, 6.4vw, 6rem); font-weight: 700; letter-spacing: -0.045em; line-height: 0.96; max-width: 16ch; text-shadow: 0 2px 40px rgba(0,0,0,0.25); }
+  .hero-sub { color: rgba(255,255,255,0.82); font-size: var(--t-lead); margin-top: 22px; max-width: 46ch; }
+  /* prompt bar */
+  .prompt { width: min(720px, 100%); margin-top: 44px; padding: 12px 12px 12px 22px; border-radius: var(--r-pill);
+    display: flex; align-items: center; gap: 14px; }
+  .prompt .p-ico { color: rgba(40,40,46,0.7); flex: none; }
+  .prompt .p-text { flex: 1; text-align: left; font-size: 1.08rem; color: var(--ink-2); min-height: 24px; }
+  .prompt .p-text .cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--a2); margin-left: 1px; vertical-align: -2px; animation: blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .prompt .p-attach { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--gray); box-shadow: inset 0 0 0 1px var(--line); flex: none; transition: background .25s, color .25s; }
+  .prompt .p-attach:hover { background: var(--void-soft); color: var(--ink); }
+  .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 5; color: rgba(255,255,255,0.7); font-size: var(--t-micro); letter-spacing: 0.18em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .scroll-cue .line { width: 1px; height: 38px; background: linear-gradient(rgba(255,255,255,0.7), transparent); animation: cue 2s var(--ease-out) infinite; }
+  @keyframes cue { 0%,100%{transform:scaleY(.4);opacity:.4;transform-origin:top} 50%{transform:scaleY(1);opacity:1;transform-origin:top} }
+
+  /* ---------- SCRUB TYPOGRAPHY ---------- */
+  .scrub-track { position: relative; height: 320vh; }
+  .scrub-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; place-items: center; }
+  .scrub-stage .cine { position: absolute; inset: 0; }
+  .scrub-dim { position: absolute; inset: 0; background: #000; opacity: calc(0.25 + var(--p, 0) * 0.55); z-index: 1; transition: opacity .1s linear; }
+  .scrub-words { position: relative; z-index: 3; text-align: center; padding: var(--pad); }
+  .scrub-label { color: rgba(255,255,255,0.7); margin-bottom: 28px; }
+  .scrub-word-wrap { position: relative; height: clamp(70px, 14vw, 200px); }
+  .scrub-word { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: clamp(3rem, 13vw, 11rem); font-weight: 700; letter-spacing: -0.05em; opacity: 0; transform: translateY(40px) scale(0.96); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+  .scrub-word.on { opacity: 1; transform: none; }
+  .scrub-progress { display: flex; gap: 8px; justify-content: center; margin-top: 40px; position: relative; z-index: 3; }
+  .scrub-progress span { width: 26px; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.28); transition: background .4s; }
+  .scrub-progress span.on { background: #fff; }
+
+  /* ---------- BENTO ---------- */
+  .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: clamp(14px, 1.5vw, 22px); }
+  .bento .b-media { position: absolute; inset: 0; z-index: 0; }
+  .bento .b-media .aurora { filter: blur(30px) saturate(140%); }
+  .bento .b-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-spring); }
+  .bento:hover .b-media img { transform: scale(1.06); }
+  .bento .b-body { position: relative; z-index: 4; height: 100%; padding: 24px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .bento .b-tag { align-self: flex-start; margin-bottom: auto; }
+  .bento h3 { color: #fff; font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; text-shadow: 0 2px 20px rgba(0,0,0,.3); transition: opacity .4s; }
+  .bento p { color: rgba(255,255,255,0.85); font-size: 0.92rem; margin-top: 6px; max-width: 30ch; transition: opacity .4s; }
+  .bento:hover h3, .bento:hover p { opacity: 0; }
+  .bento .b-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.55)); transition: opacity .5s; }
+  .bento:hover .b-scrim { opacity: .3; }
+  .b-tag-glass { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding-inline: 13px; border-radius: 999px; background: rgba(255,255,255,0.22); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4); color: #fff; font-size: 0.78rem; font-weight: 500; }
+  .span2c { grid-column: span 2; } .span2r { grid-row: span 2; }
+  @media (max-width: 900px){ .bento-grid { grid-template-columns: repeat(2, 1fr); } .span2c { grid-column: span 2; } }
+  @media (max-width: 560px){ .bento-grid { grid-template-columns: 1fr; } .span2c, .span2r { grid-column: auto; grid-row: auto; } .bento { min-height: 220px; } }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative; }
+  .steps::before { content: ""; position: absolute; top: 42px; left: 16%; right: 16%; height: 1px; background: var(--line); z-index: 0; }
+  .step { text-align: center; padding: 0 clamp(12px, 2vw, 30px); position: relative; z-index: 1; }
+  .step-ico { width: 84px; height: 84px; margin: 0 auto 28px; border-radius: 50%; background: var(--void); display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line); }
+  .step h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .step p { color: var(--gray); font-size: 0.98rem; max-width: 28ch; margin-inline: auto; }
+  .step-n { font-size: var(--t-micro); color: var(--gray-soft); letter-spacing: 0.14em; font-weight: 600; margin-bottom: 16px; }
+  @media (max-width: 760px){ .steps { grid-template-columns: 1fr; gap: 48px; } .steps::before { display: none; } }
+
+  /* ---------- QUOTE ---------- */
+  .quote-sec { text-align: center; }
+  .quote-sec blockquote { font-size: clamp(1.9rem, 4.6vw, 4rem); line-height: 1.08; letter-spacing: -0.02em; max-width: 18ch; margin: 0 auto; color: var(--ink); }
+  .quote-sec .q-mark { font-size: clamp(4rem,9vw,8rem); line-height: 0; color: var(--line); display: block; height: 0.4em; }
+  .quote-cite { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 48px; }
+  .quote-cite .q-pic { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; }
+  .quote-cite .q-pic img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- CTA ---------- */
+  .cta-sec { position: relative; }
+  .cta-card { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(50px, 9vw, 120px) var(--pad); text-align: center; }
+  .cta-card .cine { position: absolute; inset: 0; z-index: 0; }
+  .cta-card .cta-body { position: relative; z-index: 4; }
+  .cta-card h2 { color: #fff; font-size: clamp(2.2rem, 5.4vw, 4.6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; max-width: 16ch; margin: 0 auto 18px; }
+  .cta-card p { color: rgba(255,255,255,0.85); font-size: var(--t-lead); max-width: 40ch; margin: 0 auto 38px; }
+  .btn-white { background: #fff; color: var(--ink); }
+
+  .sec-head { max-width: 60ch; margin-bottom: clamp(36px, 5vw, 64px); }
+  .sec-head h2 { margin: 14px 0 16px; }
+  .head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(30px, 4vw, 52px); flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header data-nav></header>
+
+<main>
+  <!-- (1) INTERACTIVE HERO -->
+  <section class="hero" data-screen-label="Home / Hero">
+    <div class="cine grain cine-dim">
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1600&q=70"></video>
+      <div class="aurora"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-kicker kicker reveal in">The spatial canvas for AI imagery</div>
+      <h1 class="reveal in reveal-d1">Generate production-ready visuals in seconds.</h1>
+      <p class="hero-sub reveal in reveal-d2">Describe an idea. noetic renders, edits and upscales cinematic images and video — all on one infinite canvas.</p>
+      <form class="prompt glass-strong reveal in reveal-d3" id="promptBar" data-magnet data-magnet-strength="0.06">
+        <span class="p-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1m0-12.8l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <div class="p-text" id="pText"><span id="pTyped"></span><span class="cursor"></span></div>
+        <button type="button" class="p-attach" aria-label="Attach"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M21 11.5l-8.5 8.5a5 5 0 01-7-7l8.5-8.5a3.3 3.3 0 014.7 4.7l-8.5 8.5a1.6 1.6 0 01-2.3-2.3l7.8-7.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="submit" class="btn">Generate
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+  </section>
+
+  <!-- (2) SCROLL-SCRUB TYPOGRAPHY -->
+  <section class="scrub-track" data-scrub-track data-screen-label="Home / Scrub">
+    <div class="scrub-stage">
+      <div class="cine grain"><div class="aurora cool"></div></div>
+      <div class="scrub-dim"></div>
+      <div class="scrub-words">
+        <div class="scrub-label kicker">One canvas. Every operation.</div>
+        <div class="scrub-word-wrap" id="scrubWords">
+          <div class="scrub-word">Generate.</div>
+          <div class="scrub-word">Edit.</div>
+          <div class="scrub-word">Upscale.</div>
+          <div class="scrub-word">Expand.</div>
+          <div class="scrub-word">Automate.</div>
+        </div>
+        <div class="scrub-progress" id="scrubDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (3) BENTO SHOWCASE -->
+  <section class="section" data-screen-label="Home / Bento">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 class="display h2">Everything you'd open eight apps for.</h2>
+        <p class="lead muted">One model family, one interface — from first prompt to final asset. Hover any surface to see it come alive.</p>
+      </div>
+      <div class="bento-grid">
+        <article class="bento span2c span2r reveal" data-screen-label="bento-1">
+          <div class="b-media"><div class="aurora"></div></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><span class="b-tag b-tag-glass">Flagship</span>
+            <h3>AI Image Generation</h3><p>Text-to-image at up to 4K, with photoreal and stylized model families.</p></div>
+        </article>
+        <article class="bento reveal reveal-d1" data-screen-label="bento-2">
+          <div class="b-media"><img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?w=700&q=70" alt=""></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Image Editing</h3><p>Inpaint, replace, recompose.</p></div>
+        </article>
+        <article class="bento reveal reveal-d2" data-screen-label="bento-3">
+          <div class="b-media"><div class="aurora warm"></div></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Background Removal</h3><p>Pixel-perfect cutouts, instantly.</p></div>
+        </article>
+        <article class="bento span2c reveal" data-screen-label="bento-4">
+          <div class="b-media"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&q=70" alt=""></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Product Photography</h3><p>Studio-grade product shots from a single reference.</p></div>
+        </article>
+        <article class="bento reveal reveal-d1" data-screen-label="bento-5">
+          <div class="b-media"><div class="aurora cool"></div></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Upscaling</h3><p>Up to 10× detail recovery.</p></div>
+        </article>
+        <article class="bento reveal reveal-d2" data-screen-label="bento-6">
+          <div class="b-media"><img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=700&q=70" alt=""></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Character Design</h3><p>Consistent characters across scenes.</p></div>
+        </article>
+        <article class="bento span2c reveal reveal-d3" data-screen-label="bento-7">
+          <div class="b-media"><img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=900&q=70" alt=""></div>
+          <div class="b-scrim"></div>
+          <div class="b-body"><h3>Marketing Visuals</h3><p>Campaign-ready creative in every aspect ratio.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- (4) HOW IT WORKS -->
+  <section class="section section-tight" data-screen-label="Home / How it works">
+    <div class="wrap">
+      <div class="sec-head reveal" style="text-align:center;margin-inline:auto">
+        <h2 class="display h2">Idea to export in three moves.</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h10M4 17h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="15" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div class="step-n">STEP 01</div><h3>Describe your idea</h3>
+          <p>Type a prompt or drop a reference. Natural language is the only interface.</p>
+        </div>
+        <div class="step reveal reveal-d1">
+          <div class="step-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div class="step-n">STEP 02</div><h3>Generate variations</h3>
+          <p>Get a grid of directions in seconds. Branch, refine and remix any frame.</p>
+        </div>
+        <div class="step reveal reveal-d2">
+          <div class="step-ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 17v2a2 2 0 002 2h10a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="step-n">STEP 03</div><h3>Export and publish</h3>
+          <p>Ship in any format and resolution, or pipe straight into your stack via API.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (5) FEATURED CONTENT -->
+  <section class="section" data-screen-label="Home / Featured">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div><h2 class="display h2">Stories from the canvas.</h2></div>
+        <div class="car-nav"><button class="car-btn" data-car-prev aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="car-btn" data-car-next aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      </div>
+    </div>
+    <div class="wrap" data-carousel>
+      <div class="carousel-track no-scrollbar" id="featTrack"></div>
+    </div>
+  </section>
+
+  <!-- (6) CUSTOMER QUOTE -->
+  <section class="section" data-screen-label="Home / Quote">
+    <div class="wrap quote-sec reveal">
+      <span class="q-mark serif">“</span>
+      <blockquote class="serif">noetic collapsed our entire creative pipeline into a single afternoon.</blockquote>
+      <div class="quote-cite">
+        <span class="q-pic"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&q=70" alt=""></span>
+        <div style="text-align:left"><div style="font-weight:600">Mara Delgado</div><div class="muted" style="font-size:.9rem">VP Brand, Helio Studios</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (7) LATEST LAB ARTICLES -->
+  <section class="section" data-screen-label="Home / Lab">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div><h2 class="display h2">Latest from the Lab.</h2></div>
+        <a href="lab.html" class="tag" style="height:42px">Visit the Lab →</a>
+      </div>
+    </div>
+    <div class="wrap" data-carousel>
+      <div class="carousel-track no-scrollbar" id="labTrack"></div>
+    </div>
+  </section>
+
+  <!-- (8) GET STARTED CTA -->
+  <section class="section cta-sec" data-screen-label="Home / CTA">
+    <div class="wrap">
+      <div class="cta-card reveal">
+        <div class="cine grain cine-dim"><div class="aurora"></div></div>
+        <div class="cta-body">
+          <h2 class="display">Your next visual is one prompt away.</h2>
+          <p>Join the teams generating millions of production assets on noetic.</p>
+          <a href="contact.html" class="magnet" data-magnet><span class="btn btn-white btn-lg">Get started
+            <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+
+<script src="assets/site.js" defer></script>
+<script>
+// ---- hero prompt: typewriter placeholder ----
+(function(){
+  const ideas = ["a cinematic product shot of a glass perfume bottle on wet stone…","an isometric city at golden hour, soft volumetric light…","a brand mascot — friendly arctic fox, 3D, studio lighting…","editorial fashion in zero-gravity, motion blur, 85mm…"];
+  const el = document.getElementById('pTyped'); if(!el) return;
+  let i=0,j=0,del=false;
+  function tick(){
+    const s = ideas[i];
+    el.textContent = s.slice(0, j);
+    if(!del){ j++; if(j>s.length){ del=true; setTimeout(tick, 1800); return; } }
+    else { j--; if(j<0){ del=false; i=(i+1)%ideas.length; j=0; } }
+    setTimeout(tick, del?22:48);
+  }
+  tick();
+  const form = document.getElementById('promptBar');
+  form && form.addEventListener('submit',(e)=>{ e.preventDefault(); form.style.transition='transform .4s'; form.style.transform='scale(0.98)'; setTimeout(()=>form.style.transform='',180); });
+})();
+
+// ---- scrub words ----
+(function(){
+  const track = document.querySelector('.scrub-track');
+  const words = [...document.querySelectorAll('#scrubWords .scrub-word')];
+  const dotsWrap = document.getElementById('scrubDots');
+  if(!track || !words.length) return;
+  words.forEach(()=>{ const s=document.createElement('span'); dotsWrap.appendChild(s); });
+  const dots = [...dotsWrap.children];
+  let cur = -1;
+  function loop(){
+    const p = parseFloat(getComputedStyle(track).getPropertyValue('--p')) || 0;
+    let idx = Math.min(words.length-1, Math.floor(p * words.length * 0.999));
+    if(idx!==cur){ cur=idx; words.forEach((w,k)=>w.classList.toggle('on',k===idx)); dots.forEach((d,k)=>d.classList.toggle('on',k===idx)); }
+    requestAnimationFrame(loop);
+  }
+  words[0].classList.add('on'); requestAnimationFrame(loop);
+})();
+
+// ---- populate carousels ----
+(function(){
+  const feat = [
+    {t:"How AI art moved from novelty to production",cat:"AI Art",cls:"aurora",ph:"1635776062127-d379bfcba9f8"},
+    {t:"The new marketing stack is generative",cat:"Marketing",cls:"warm"},
+    {t:"Designing systems that prompt themselves",cat:"Product Design",cls:"cool",ph:"1547891654-e66ed7ebb968"},
+    {t:"E-commerce imagery without a photo studio",cat:"E-commerce",cls:"aurora",ph:"1505740420928-5e560c06d30e"},
+    {t:"Building a repeatable creative workflow",cat:"Creative Workflows",cls:"cool"},
+  ];
+  const lab = [
+    {t:"Diffusion at the edge of perception",cat:"Research",cls:"cool",ph:"1620712943543-bcc4688e7485"},
+    {t:"Prompt geometry & latent navigation",cat:"Method",cls:"aurora"},
+    {t:"Holding style constant across a series",cat:"Consistency",cls:"warm",ph:"1604871000636-074fa5117945"},
+    {t:"Fine-tuning on twelve reference frames",cat:"Fine-tuning",cls:"cool"},
+    {t:"What makes a generation feel 'real'",cat:"Perception",cls:"aurora",ph:"1635776063043-ab23b4c226f6"},
+  ];
+  function card(d){
+    const media = d.ph
+      ? `<img src="https://images.unsplash.com/photo-${d.ph}?w=700&q=70" alt="">`
+      : `<div class="aurora ${d.cls}"></div>`;
+    return `<a class="art-card" href="lab.html"><div class="photo cine grain">${media}</div>
+      <div class="art-meta"><span class="label">${d.cat}</span><span class="label">·</span><span class="label">5 min read</span></div>
+      <h3>${d.t}</h3></a>`;
+  }
+  const f=document.getElementById('featTrack'); if(f) f.innerHTML = feat.map(card).join('');
+  const l=document.getElementById('labTrack'); if(l) l.innerHTML = lab.map(card).join('');
+})();
+</script>
+</body>
+</html>

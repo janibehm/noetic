@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Pricing</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .pr-hero { padding-top: calc(var(--nav-h) + 96px); text-align: center; position: relative; overflow: hidden; }
+  .pr-hero .glow { position: absolute; top: -12%; left: 50%; transform: translateX(-50%); width: 120%; height: 70%; z-index: 0;
+    background: radial-gradient(50% 60% at 50% 0%, rgba(138,92,255,.14), rgba(59,162,255,.09) 42%, transparent 72%); filter: blur(20px); pointer-events: none; }
+  .pr-hero .wrap { position: relative; z-index: 2; }
+  .pr-hero h1 { font-size: clamp(2.6rem, 5.6vw, 5rem); max-width: 16ch; margin-inline: auto; }
+  .pr-hero .lead { max-width: 48ch; margin: 22px auto 0; }
+
+  /* monthly / annual toggle */
+  .billing { display: inline-flex; align-items: center; gap: 14px; margin-top: 40px; }
+  .seg { display: inline-flex; padding: 5px; border-radius: var(--r-pill); position: relative;
+    box-shadow: inset 0 0 0 1px var(--line); background: rgba(255,255,255,0.5);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); }
+  .seg button { position: relative; z-index: 2; height: 40px; padding-inline: 22px; border-radius: var(--r-pill);
+    font-size: 0.95rem; font-weight: 500; color: var(--gray); transition: color .3s; }
+  .seg button.on { color: #fff; }
+  .seg .thumb { position: absolute; z-index: 1; top: 5px; left: 5px; height: 40px; border-radius: var(--r-pill);
+    background: var(--ink); transition: transform .45s var(--ease-spring), width .45s var(--ease-spring); }
+  .save-badge { font-size: 0.82rem; font-weight: 600; color: #1d8a5b; background: rgba(29,138,91,.1);
+    padding: 6px 12px; border-radius: var(--r-pill); }
+
+  /* tier grid */
+  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 1.6vw, 22px); margin-top: clamp(44px, 6vw, 72px); align-items: stretch; }
+  .tier { position: relative; display: flex; flex-direction: column; padding: 30px 26px; border-radius: var(--r-lg);
+    box-shadow: inset 0 0 0 1px var(--line); background: var(--void); transition: transform .5s var(--ease-spring), box-shadow .5s; }
+  .tier:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px var(--line), var(--shadow-amb-s); }
+  .tier.featured { box-shadow: inset 0 0 0 1.5px transparent, var(--shadow-amb); background: var(--void); }
+  .tier.featured::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+    background: var(--aurora-line); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .tier.featured::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; z-index: -1;
+    background: radial-gradient(60% 40% at 50% 0%, rgba(138,92,255,.16), transparent 70%); filter: blur(10px); }
+  .tier-pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); }
+  .tier-name { font-size: 1.18rem; font-weight: 600; letter-spacing: -0.02em; }
+  .tier-desc { color: var(--gray); font-size: 0.9rem; margin-top: 5px; min-height: 38px; }
+  .tier-price { display: flex; align-items: flex-end; gap: 4px; margin-top: 18px; }
+  .tier-price .cur { font-size: 1.4rem; font-weight: 600; align-self: flex-start; margin-top: 8px; }
+  .tier-price .amt { font-size: 3rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; transition: opacity .25s; }
+  .tier-price .per { color: var(--gray); font-size: 0.92rem; margin-bottom: 6px; }
+  .tier-price .custom { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .tier-bill { font-size: 0.8rem; color: var(--gray-soft); margin-top: 8px; min-height: 18px; }
+  .tier-cta { margin-top: 22px; }
+  .tier-cta .btn { width: 100%; justify-content: center; }
+  .tier-feats { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .tier-feats li { display: flex; gap: 11px; align-items: flex-start; font-size: 0.9rem; color: var(--ink-2); line-height: 1.35; }
+  .tier-feats .ck { flex: none; margin-top: 1px; color: var(--ink); }
+  .tier-feats li.muted-feat { color: var(--gray-soft); }
+  .tier-feats li.muted-feat .ck { color: var(--gray-soft); }
+  .tier-feats li b { font-weight: 600; color: var(--ink); }
+  @media (max-width: 1000px){ .tiers { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px){ .tiers { grid-template-columns: 1fr; } }
+
+  .credits-note { text-align: center; margin-top: 28px; font-size: 0.9rem; color: var(--gray); }
+  .credits-note b { color: var(--ink-2); font-weight: 600; }
+
+  /* enterprise strip */
+  .ent { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(36px,5vw,60px); margin-top: clamp(40px,5vw,64px);
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: center; }
+  .ent .cine { position: absolute; inset: 0; z-index: 0; }
+  .ent .ent-body { position: relative; z-index: 3; }
+  .ent h2 { color: #fff; font-size: clamp(1.6rem,2.8vw,2.4rem); letter-spacing: -0.03em; margin-bottom: 12px; }
+  .ent p { color: rgba(255,255,255,.85); max-width: 46ch; }
+  .ent .ent-cta { position: relative; z-index: 3; display: flex; justify-content: flex-end; }
+  .btn-white { background: #fff; color: var(--ink); }
+  @media (max-width: 760px){ .ent { grid-template-columns: 1fr; } .ent .ent-cta { justify-content: flex-start; } }
+
+  /* comparison table */
+  .compare { margin-top: clamp(20px,3vw,40px); }
+  .cmp-wrap { overflow-x: auto; }
+  .cmp { width: 100%; border-collapse: collapse; min-width: 760px; }
+  .cmp th, .cmp td { text-align: left; padding: 16px 18px; }
+  .cmp thead th { position: sticky; top: 0; }
+  .cmp .col-plan { text-align: center; font-size: 0.95rem; font-weight: 600; width: 14%; }
+  .cmp .col-plan.feat { color: var(--a2); }
+  .cmp thead .col-plan span { display: block; font-size: 0.78rem; color: var(--gray); font-weight: 500; margin-top: 2px; }
+  .cmp .grp td { background: var(--void-soft); font-size: var(--t-micro); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); font-weight: 600; padding: 12px 18px; }
+  .cmp tbody td { border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--ink-2); }
+  .cmp td.val { text-align: center; }
+  .cmp td.feat-name { font-weight: 500; color: var(--ink); }
+  .cmp .yes { color: var(--ink); }
+  .cmp .no { color: var(--line-2); }
+  .cmp tbody tr:hover td:not(.grp) { background: rgba(138,92,255,0.03); }
+
+  /* faq */
+  .faq { max-width: 760px; margin-inline: auto; }
+  .faq details { border-top: 1px solid var(--line); padding: 4px 0; }
+  .faq details:last-child { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 22px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    font-size: 1.1rem; font-weight: 500; letter-spacing: -0.01em; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary .pm { flex: none; width: 26px; height: 26px; position: relative; }
+  .faq summary .pm::before, .faq summary .pm::after { content: ""; position: absolute; background: var(--ink-2); transition: transform .3s var(--ease-spring); }
+  .faq summary .pm::before { top: 12px; left: 4px; right: 4px; height: 1.5px; }
+  .faq summary .pm::after { left: 12px; top: 4px; bottom: 4px; width: 1.5px; }
+  .faq details[open] summary .pm::after { transform: scaleY(0); }
+  .faq details[open] summary { color: var(--ink); }
+  .faq .ans { padding: 0 0 24px; color: var(--gray); max-width: 64ch; line-height: 1.6; }
+
+  .cta-card { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(50px,8vw,110px) var(--pad); text-align: center; }
+  .cta-card .cine { position: absolute; inset: 0; z-index: 0; }
+  .cta-card .cta-body { position: relative; z-index: 3; }
+  .cta-card h2 { color: #fff; font-size: clamp(2rem,4.6vw,3.8rem); letter-spacing: -0.04em; margin-bottom: 16px; max-width: 18ch; margin-inline: auto; }
+  .cta-card p { color: rgba(255,255,255,.85); margin-bottom: 34px; }
+
+  .sec-head { margin-bottom: clamp(30px,4vw,52px); text-align: center; max-width: 50ch; margin-inline: auto; }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <!-- HERO -->
+  <section class="pr-hero" data-screen-label="Pricing / Hero">
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="eyebrow-row reveal" style="justify-content:center"><span class="dot"></span><span class="kicker">Pricing</span></div>
+      <h1 class="display reveal reveal-d1" style="margin-top:18px">Create at any scale.</h1>
+      <p class="lead muted reveal reveal-d2">Start free. Upgrade when you need more credits, higher resolution and the full pipeline. Cancel anytime.</p>
+      <div class="billing reveal reveal-d2">
+        <div class="seg" id="seg">
+          <span class="thumb" id="segThumb"></span>
+          <button class="on" data-bill="m">Monthly</button>
+          <button data-bill="a">Annual</button>
+        </div>
+        <span class="save-badge">Save 20%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="section-tight" data-screen-label="Pricing / Tiers" style="padding-top:0">
+    <div class="wrap">
+      <div class="tiers" id="tiers">
+        <!-- Free -->
+        <article class="tier reveal">
+          <div class="tier-name">Free</div>
+          <div class="tier-desc">For exploring what noetic can do.</div>
+          <div class="tier-price"><span class="cur">$</span><span class="amt" data-m="0" data-a="0">0</span><span class="per">/mo</span></div>
+          <div class="tier-bill" data-bill-note>Free forever</div>
+          <div class="tier-cta"><a href="contact.html" class="btn btn-ghost">Get started</a></div>
+          <ul class="tier-feats">
+            <li><span class="ck"></span><span><b>50 credits</b> / month</span></li>
+            <li><span class="ck"></span>Standard image model</li>
+            <li><span class="ck"></span>Up to 720p resolution</li>
+            <li class="muted-feat"><span class="ck"></span>Personal use only</li>
+            <li class="muted-feat"><span class="ck"></span>noetic watermark</li>
+          </ul>
+        </article>
+        <!-- Plus -->
+        <article class="tier reveal reveal-d1">
+          <div class="tier-name">Plus</div>
+          <div class="tier-desc">For creators shipping regularly.</div>
+          <div class="tier-price"><span class="cur">$</span><span class="amt" data-m="12" data-a="9">12</span><span class="per">/mo</span></div>
+          <div class="tier-bill" data-bill-note>Billed monthly</div>
+          <div class="tier-cta"><a href="contact.html" class="btn">Choose Plus</a></div>
+          <ul class="tier-feats">
+            <li><span class="ck"></span><span><b>1,200 credits</b> / month</span></li>
+            <li><span class="ck"></span>All base image models</li>
+            <li><span class="ck"></span>Up to 2K · image + short video</li>
+            <li><span class="ck"></span>Commercial license</li>
+            <li><span class="ck"></span>No watermark</li>
+          </ul>
+        </article>
+        <!-- Pro (featured) -->
+        <article class="tier featured reveal reveal-d2">
+          <span class="tier-pop badge">Most popular</span>
+          <div class="tier-name">Pro</div>
+          <div class="tier-desc">For professionals and small teams.</div>
+          <div class="tier-price"><span class="cur">$</span><span class="amt" data-m="30" data-a="24">30</span><span class="per">/mo</span></div>
+          <div class="tier-bill" data-bill-note>Billed monthly</div>
+          <div class="tier-cta"><a href="contact.html" class="btn">Choose Pro</a></div>
+          <ul class="tier-feats">
+            <li><span class="ck"></span><span><b>5,000 credits</b> / month</span></li>
+            <li><span class="ck"></span>All models, incl. premium</li>
+            <li><span class="ck"></span>4K upscaling + Editing Studio</li>
+            <li><span class="ck"></span>Priority generation queue</li>
+            <li><span class="ck"></span>API access (trial)</li>
+          </ul>
+        </article>
+        <!-- Unlimited -->
+        <article class="tier reveal reveal-d3">
+          <div class="tier-name">Unlimited</div>
+          <div class="tier-desc">For power users and studios.</div>
+          <div class="tier-price"><span class="cur">$</span><span class="amt" data-m="80" data-a="64">80</span><span class="per">/mo</span></div>
+          <div class="tier-bill" data-bill-note>Billed monthly</div>
+          <div class="tier-cta"><a href="contact.html" class="btn btn-ghost">Choose Unlimited</a></div>
+          <ul class="tier-feats">
+            <li><span class="ck"></span><b>Unlimited</b> relaxed generations</li>
+            <li><span class="ck"></span>Max resolution &amp; video length</li>
+            <li><span class="ck"></span>Full API access</li>
+            <li><span class="ck"></span>Brand kits &amp; batch automation</li>
+            <li><span class="ck"></span>3 team seats · priority support</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="credits-note reveal">Credits are spent per generation — <b>an image ≈ 1 credit</b>, <b>a second of video ≈ 10 credits</b>. Relaxed generations on Unlimited never touch your balance.</p>
+
+      <!-- Enterprise -->
+      <div class="ent reveal">
+        <div class="cine grain cine-dim"><div class="aurora"></div></div>
+        <div class="ent-body">
+          <h2 class="display">Enterprise</h2>
+          <p>Governance, single sign-on, custom models and the support to roll noetic out across your whole organization.</p>
+        </div>
+        <div class="ent-cta"><a href="contact.html" class="btn btn-white btn-lg">Contact sales
+          <svg class="arr" width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section" data-screen-label="Pricing / Compare">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 class="display h2">Compare every plan.</h2></div>
+      <div class="compare reveal"><div class="cmp-wrap no-scrollbar">
+        <table class="cmp" id="cmp"></table>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" data-screen-label="Pricing / FAQ" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 class="display h2">Questions, answered.</h2></div>
+      <div class="faq reveal">
+        <details><summary>What exactly is a credit?<span class="pm"></span></summary><div class="ans">Credits are how generations are metered. A single image costs about one credit, and a second of generated video costs about ten. You'll always see the cost before you generate, and your balance refreshes at the start of each billing cycle.</div></details>
+        <details><summary>Can I change or cancel my plan anytime?<span class="pm"></span></summary><div class="ans">Yes. Upgrade, downgrade or cancel from your account at any time. Upgrades take effect immediately and we prorate the difference; downgrades apply at the start of your next cycle.</div></details>
+        <details><summary>Do unused credits roll over?<span class="pm"></span></summary><div class="ans">Monthly credits reset at the start of each cycle and don't roll over. On the Unlimited plan, relaxed-speed generations are uncapped, so you never have to think about a balance.</div></details>
+        <details><summary>Can I use what I generate commercially?<span class="pm"></span></summary><div class="ans">On Plus and above, every generation ships with a commercial license and clear usage rights. The Free plan is for personal, non-commercial exploration.</div></details>
+        <details><summary>What's the difference between priority and relaxed generation?<span class="pm"></span></summary><div class="ans">Priority generations jump to the front of the queue for the fastest possible result and draw from your credits. Relaxed generations run when capacity is available — slightly slower, but unlimited on the Unlimited plan.</div></details>
+        <details><summary>How does annual billing work?<span class="pm"></span></summary><div class="ans">Switch the toggle to Annual and you'll pay for twelve months up front at a 20% discount versus paying month to month. You can still cancel and we'll refund the unused remainder per our terms.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="padding-top:0" data-screen-label="Pricing / CTA">
+    <div class="wrap">
+      <div class="cta-card reveal">
+        <div class="cine grain cine-dim"><div class="aurora"></div></div>
+        <div class="cta-body">
+          <h2 class="display">Start creating for free.</h2>
+          <p>No card required. Bring your first idea — keep what you make.</p>
+          <a href="contact.html"><span class="btn btn-white btn-lg">Get started
+            <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+<script>
+(function(){
+  // ---- inject check / x icons ----
+  const CK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const X  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  document.querySelectorAll('.tier-feats .ck').forEach(s=>{ s.innerHTML = s.closest('li').classList.contains('muted-feat') ? X : CK; });
+
+  // ---- billing toggle ----
+  const seg = document.getElementById('seg');
+  const thumb = document.getElementById('segThumb');
+  const btns = [...seg.querySelectorAll('button')];
+  function moveThumb(btn){ thumb.style.width = btn.offsetWidth + 'px'; thumb.style.transform = 'translateX(' + (btn.offsetLeft - 5) + 'px)'; }
+  function setBilling(mode){
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.bill===mode));
+    moveThumb(seg.querySelector('button.on'));
+    document.querySelectorAll('.amt').forEach(a=>{
+      const v = mode==='a' ? a.dataset.a : a.dataset.m;
+      a.style.opacity = '0';
+      setTimeout(()=>{ a.textContent = v; a.style.opacity='1'; }, 130);
+    });
+    document.querySelectorAll('[data-bill-note]').forEach(n=>{
+      if(n.textContent.indexOf('Free')>-1) return;
+      n.textContent = mode==='a' ? 'Billed annually' : 'Billed monthly';
+    });
+  }
+  btns.forEach(b=> b.addEventListener('click', ()=> setBilling(b.dataset.bill)));
+  requestAnimationFrame(()=>moveThumb(seg.querySelector('button.on')));
+  setTimeout(()=>moveThumb(seg.querySelector('button.on')), 300);
+  window.addEventListener('resize', ()=>moveThumb(seg.querySelector('button.on')));
+
+  // ---- comparison table ----
+  const plans = ['Free','Plus','Pro','Unlimited','Enterprise'];
+  const featIdx = 2; // Pro
+  const groups = [
+    {name:'Generation', rows:[
+      ['Monthly credits','50','1,200','5,000','Unlimited','Custom'],
+      ['Image models','Standard','All base','All + premium','All + premium','Custom'],
+      ['Max resolution','720p','2K','4K','4K+','Custom'],
+      ['Video generation', false,'Short clips', true, true, true],
+      ['Concurrent generations','1','3','6','12','Custom'],
+    ]},
+    {name:'Editing', rows:[
+      ['Inpainting & object removal', false, true, true, true, true],
+      ['Background replacement', false, true, true, true, true],
+      ['Upscaling', false, '2×', '4×', 'Max', 'Max'],
+      ['Outpainting', false, false, true, true, true],
+    ]},
+    {name:'Workflow', rows:[
+      ['Brand kits', false, false, true, true, true],
+      ['Batch automation', false, false, true, true, true],
+      ['API access', false, false, 'Trial', 'Full', 'Full'],
+      ['Team seats','1','1','1','3','Custom'],
+    ]},
+    {name:'Support & legal', rows:[
+      ['Commercial license', false, true, true, true, true],
+      ['Priority support', false, false, true, true, 'Dedicated'],
+      ['SSO / SAML', false, false, false, false, true],
+      ['SLA & governance', false, false, false, false, true],
+    ]},
+  ];
+  function cell(v){
+    if(v===true)  return '<span class="yes"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    if(v===false) return '<span class="no"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>';
+    return v;
+  }
+  let html = '<thead><tr><th></th>' + plans.map((p,i)=>`<th class="col-plan${i===featIdx?' feat':''}">${p}</th>`).join('') + '</tr></thead><tbody>';
+  groups.forEach(g=>{
+    html += `<tr class="grp"><td colspan="6">${g.name}</td></tr>`;
+    g.rows.forEach(r=>{
+      html += `<tr><td class="feat-name">${r[0]}</td>` + r.slice(1).map(v=>`<td class="val">${cell(v)}</td>`).join('') + '</tr>';
+    });
+  });
+  html += '</tbody>';
+  document.getElementById('cmp').innerHTML = html;
+})();
+</script>
+</body>
+</html>

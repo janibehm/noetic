@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Resources &amp; API</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .r-hero { padding-top: calc(var(--nav-h) + 90px); }
+  .feat-art { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(28px,4vw,64px); align-items: center; }
+  .feat-art .photo { aspect-ratio: 16/11; }
+  .feat-art h1 { font-size: clamp(2rem,4vw,3.4rem); letter-spacing: -0.04em; line-height: 1.04; margin: 16px 0 18px; }
+  .feat-art .lead { max-width: 42ch; }
+  .feat-art .fa-by { display:flex; align-items:center; gap:12px; margin-top:28px; }
+  .feat-art .fa-by .q-pic { width:42px; height:42px; border-radius:50%; overflow:hidden; }
+  .feat-art .fa-by img { width:100%; height:100%; object-fit:cover; }
+  @media (max-width:800px){ .feat-art { grid-template-columns:1fr; } }
+
+  .filters { display:flex; flex-wrap:wrap; gap:10px; margin-bottom: clamp(30px,4vw,48px); }
+  .lib-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px,2vw,26px); }
+  .lib-card { transition: opacity .4s, transform .4s; }
+  .lib-card.hide { display:none; }
+  .lib-card .photo { aspect-ratio: 16/11; margin-bottom: 14px; }
+  .lib-card .photo .aurora { transition: transform .7s var(--ease-spring); }
+  .lib-card:hover .photo .aurora, .lib-card:hover .photo img { transform: scale(1.05); }
+  .lib-card .photo img { transition: transform .7s var(--ease-spring); }
+  .lib-card h3 { font-size:1.12rem; font-weight:550; letter-spacing:-0.02em; line-height:1.3; }
+  @media (max-width:860px){ .lib-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width:560px){ .lib-grid { grid-template-columns: 1fr; } }
+
+  .api-sec { background: var(--void-soft); }
+  .api-hero { display:grid; grid-template-columns: 1fr 1.1fr; gap: clamp(30px,5vw,72px); align-items:center; margin-bottom: clamp(40px,5vw,72px); }
+  .api-hero h2 { font-size: clamp(1.8rem,3.6vw,3rem); letter-spacing:-0.04em; line-height:1.04; margin:14px 0 16px; }
+  @media (max-width:800px){ .api-hero { grid-template-columns:1fr; } }
+  .code-window { border-radius: var(--r-md); overflow:hidden; box-shadow: var(--shadow-amb-s); background: var(--void-code); }
+  .cw-bar { display:flex; align-items:center; gap:8px; padding:0 6px; background: var(--void); border-bottom:1px solid var(--line); }
+  .cw-tab { font-family:'JetBrains Mono',monospace; font-size:0.76rem; padding:12px 16px; color:var(--gray); cursor:pointer; border-bottom:2px solid transparent; }
+  .cw-tab.active { color:var(--ink); border-bottom-color: var(--ink); }
+  .cw-body { padding: 22px 24px; font-family:'JetBrains Mono',monospace; font-size:0.86rem; line-height:1.75; overflow-x:auto; }
+  .cw-body pre { display:none; white-space:pre; }
+  .cw-body pre.active { display:block; }
+
+  .api-block { margin-top: clamp(40px,5vw,64px); }
+  .api-block-head { display:flex; align-items:baseline; gap:14px; margin-bottom:20px; }
+  .api-block-head h3 { font-size:1.25rem; letter-spacing:-0.02em; font-weight:600; }
+  .api-block-head .ab-base { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--gray); }
+  .api-table-wrap { background:var(--void); border-radius: var(--r-md); overflow:hidden; box-shadow: inset 0 0 0 1px var(--line); }
+  .api-table { width:100%; }
+  .api-table thead th { padding:16px 18px; }
+  .nav-cards { margin-top: clamp(40px,5vw,64px); }
+
+  .news { position:relative; overflow:hidden; border-radius: var(--r-xl); padding: clamp(44px,7vw,90px) var(--pad); text-align:center; }
+  .news .cine { position:absolute; inset:0; z-index:0; }
+  .news .news-body { position:relative; z-index:3; max-width: 46ch; margin-inline:auto; }
+  .news h2 { color:#fff; font-size: clamp(1.8rem,4vw,3.2rem); letter-spacing:-0.04em; margin-bottom:14px; }
+  .news p { color:rgba(255,255,255,.85); margin-bottom:30px; }
+  .news-form { display:flex; gap:10px; max-width:440px; margin-inline:auto; }
+  .news-form input { flex:1; height:54px; padding-inline:20px; border-radius:999px; border:none; background:rgba(255,255,255,0.92); font-size:1rem; }
+  .news-form input:focus { outline:2px solid #fff; }
+  .btn-white { background:#fff; color:var(--ink); }
+  .sec-head { margin-bottom: clamp(30px,4vw,48px); }
+  @media (max-width:520px){ .news-form { flex-direction:column; } .news-form input { text-align:center; } }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <!-- (1) FEATURED ARTICLE HERO -->
+  <section class="r-hero section-tight" data-screen-label="Resources / Featured">
+    <div class="wrap">
+      <div class="feat-art">
+        <div class="photo cine grain reveal"><div class="aurora cool"></div></div>
+        <div class="reveal reveal-d1">
+          <span class="badge">Featured</span>
+          <h1 class="display">The complete guide to production-grade prompting</h1>
+          <p class="lead muted">A field manual for getting consistent, on-brand results — structure, references, seeds and the parameters that actually matter.</p>
+          <div class="fa-by"><span class="q-pic"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&q=70" alt=""></span>
+            <div><div style="font-weight:600">Iris Tanaka</div><div class="muted" style="font-size:.88rem">Lead Applied Researcher · 12 min read</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (2) RESOURCE LIBRARY -->
+  <section class="section section-tight" data-screen-label="Resources / Library">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 class="display h2">Learn the canvas.</h2></div>
+      <div class="filters reveal" id="filters">
+        <button class="tag active" data-filter="all">All</button>
+        <button class="tag" data-filter="Tutorials">Tutorials</button>
+        <button class="tag" data-filter="Prompt Guides">Prompt Guides</button>
+        <button class="tag" data-filter="AI Art">AI Art</button>
+        <button class="tag" data-filter="Marketing">Marketing</button>
+        <button class="tag" data-filter="E-commerce">E-commerce</button>
+        <button class="tag" data-filter="Case Studies">Case Studies</button>
+        <button class="tag" data-filter="Research">Research</button>
+        <button class="tag" data-filter="Product Updates">Product Updates</button>
+      </div>
+      <div class="lib-grid reveal" id="libGrid"></div>
+    </div>
+  </section>
+
+  <!-- (3) API DOCUMENTATION -->
+  <section class="section api-sec" data-screen-label="Resources / API">
+    <div class="wrap">
+      <div class="api-hero">
+        <div class="reveal">
+          <h2 class="display">A premium API for generation at scale.</h2>
+          <p class="lead muted">Typed SDKs, predictable rate limits and webhooks for every job. Generate your first image in three lines.</p>
+        </div>
+        <div class="code-window reveal reveal-d1">
+          <div class="cw-bar" id="cwBar">
+            <span class="cw-tab active" data-lang="js">JavaScript</span>
+            <span class="cw-tab" data-lang="py">Python</span>
+            <span class="cw-tab" data-lang="curl">cURL</span>
+          </div>
+          <div class="cw-body" id="cwBody">
+<pre class="active" data-lang="js"><span class="k">import</span> { Noetic } <span class="k">from</span> <span class="s">"@noetic/sdk"</span>;
+
+<span class="k">const</span> noetic = <span class="k">new</span> <span class="f">Noetic</span>(process.env.NOETIC_KEY);
+
+<span class="k">const</span> image = <span class="k">await</span> noetic.images.<span class="f">generate</span>({
+  model: <span class="s">"noetic-image-3"</span>,
+  prompt: <span class="s">"a glass perfume bottle on wet stone"</span>,
+  aspect_ratio: <span class="s">"16:9"</span>,
+});</pre>
+<pre data-lang="py"><span class="k">from</span> noetic <span class="k">import</span> Noetic
+
+noetic = <span class="f">Noetic</span>(api_key=os.environ[<span class="s">"NOETIC_KEY"</span>])
+
+image = noetic.images.<span class="f">generate</span>(
+    model=<span class="s">"noetic-image-3"</span>,
+    prompt=<span class="s">"a glass perfume bottle on wet stone"</span>,
+    aspect_ratio=<span class="s">"16:9"</span>,
+)</pre>
+<pre data-lang="curl"><span class="c"># POST a generation</span>
+curl https://api.noetic.ai/v1/images/generations \
+  -H <span class="s">"Authorization: Bearer $NOETIC_KEY"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d <span class="s">'{ "model": "noetic-image-3",
+       "prompt": "a glass perfume bottle on wet stone",
+       "aspect_ratio": "16:9" }'</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- endpoints table -->
+      <div class="api-block reveal">
+        <div class="api-block-head"><h3>Image Generation API</h3><span class="ab-base">https://api.noetic.ai/v1</span></div>
+        <div class="api-table-wrap">
+          <table class="api-table">
+            <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="method post">POST</span></td><td class="endpoint">/images/generations</td><td>Text-to-image generation with model selection &amp; prompt parameters.</td></tr>
+              <tr><td><span class="method post">POST</span></td><td class="endpoint">/images/edits</td><td>Inpainting, object removal, background replacement &amp; outpainting.</td></tr>
+              <tr><td><span class="method get">GET</span></td><td class="endpoint">/images/{id}</td><td>Retrieve a generation, its metadata and available aspect ratios.</td></tr>
+              <tr><td><span class="method get">GET</span></td><td class="endpoint">/assets</td><td>List, organize and manage generations in your asset library.</td></tr>
+              <tr><td><span class="method del">DEL</span></td><td class="endpoint">/assets/{id}</td><td>Permanently delete an asset and its metadata.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- nav cards for each API area -->
+      <div class="nav-cards">
+        <div class="api-grid reveal" id="apiCards"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (4) NEWSLETTER -->
+  <section class="section" data-screen-label="Resources / Newsletter">
+    <div class="wrap">
+      <div class="news reveal" data-form-wrap>
+        <div class="cine grain cine-dim"><div class="aurora"></div></div>
+        <div class="news-body">
+          <h2 class="display">Ship notes, model drops, and prompts.</h2>
+          <p>One concise email when something genuinely new lands. No noise.</p>
+          <form class="news-form" data-form>
+            <input type="email" placeholder="you@studio.com" required>
+            <button type="submit" class="btn btn-white">Subscribe</button>
+          </form>
+          <div data-form-success hidden style="color:#fff;margin-top:18px"><strong>You're in.</strong> Watch your inbox.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+<script>
+(function(){
+  // library cards
+  const items = [
+    {cat:"Prompt Guides",t:"Anatomy of a reliable prompt",cls:"aurora"},
+    {cat:"Tutorials",t:"Your first batch pipeline",ph:"1635776062127-d379bfcba9f8"},
+    {cat:"AI Art",t:"Composition rules the model loves",cls:"warm"},
+    {cat:"Marketing",t:"50 ad variants from one brief",cls:"cool"},
+    {cat:"E-commerce",t:"Studio product shots, no studio",ph:"1523275335684-37898b6baf30"},
+    {cat:"Case Studies",t:"How Vantage cut creative time 70%",cls:"aurora"},
+    {cat:"Research",t:"Why seeds make results reproducible",ph:"1620712943543-bcc4688e7485"},
+    {cat:"Product Updates",t:"Introducing noetic-image-3",cls:"cool"},
+    {cat:"Tutorials",t:"Outpainting for wide formats",cls:"warm"},
+  ];
+  function libCard(d){ const m = d.ph?`<img src="https://images.unsplash.com/photo-${d.ph}?w=600&q=70" alt="">`:`<div class="aurora ${d.cls}"></div>`;
+    return `<a class="lib-card" data-cat="${d.cat}" href="#"><div class="photo cine grain">${m}</div>
+      <div class="art-meta"><span class="label">${d.cat}</span></div><h3>${d.t}</h3></a>`; }
+  const grid = document.getElementById('libGrid');
+  if(grid) grid.innerHTML = items.map(libCard).join('');
+
+  // filters (visual toggle + light filtering)
+  const fbar = document.getElementById('filters');
+  fbar && fbar.addEventListener('click', (e)=>{
+    const b = e.target.closest('[data-filter]'); if(!b) return;
+    fbar.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+    b.classList.add('active');
+    const f = b.dataset.filter;
+    document.querySelectorAll('.lib-card').forEach(c=>{
+      c.classList.toggle('hide', f!=='all' && c.dataset.cat!==f);
+    });
+  });
+
+  // code tabs
+  const bar = document.getElementById('cwBar'), body = document.getElementById('cwBody');
+  bar && bar.addEventListener('click',(e)=>{ const t = e.target.closest('[data-lang]'); if(!t) return;
+    bar.querySelectorAll('.cw-tab').forEach(x=>x.classList.remove('active')); t.classList.add('active');
+    body.querySelectorAll('pre').forEach(p=>p.classList.toggle('active', p.dataset.lang===t.dataset.lang)); });
+
+  // api nav cards
+  const apis = [
+    {t:"API Overview",items:["Authentication","Rate limits","SDKs","API architecture"]},
+    {t:"Image Generation API",items:["Text-to-image","Model selection","Prompt parameters","Aspect ratios"]},
+    {t:"Image Editing API",items:["Inpainting","Object removal","Background replacement","Outpainting"]},
+    {t:"Asset Management API",items:["Upload assets","Organize generations","Metadata management"]},
+    {t:"Webhooks",items:["Generation completed","Failed jobs","Processing status"]},
+    {t:"SDKs & Examples",items:["JavaScript","Python","REST API","Next.js examples"]},
+    {t:"API Changelog",items:["New endpoints","Deprecations","Model updates"]},
+  ];
+  function apiCard(d){ return `<a class="api-card" href="#"><div class="api-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h3>${d.t}</h3><ul>${d.items.map(i=>`<li>${i}</li>`).join('')}</ul></a>`; }
+  const ac = document.getElementById('apiCards'); if(ac) ac.innerHTML = apis.map(apiCard).join('');
+})();
+</script>
+</body>
+</html>

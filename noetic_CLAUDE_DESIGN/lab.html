@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic Lab — Research &amp; Experiments</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .lab-hero { padding-top: calc(var(--nav-h) + 110px); padding-bottom: clamp(40px,6vw,80px); }
+  .lab-hero h1 { font-size: clamp(3rem, 9vw, 8rem); line-height: 0.92; }
+  .lab-hero .lab-meta { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--line); }
+  .lab-hero .lab-meta div { }
+  .lab-hero .lab-meta .stat { display: block; }
+  .lab-hero .lab-meta .label { display: block; margin-top: 4px; }
+
+  .feature-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(16px,2vw,26px); align-items: stretch; }
+  .feature-grid > .lab-card { display: flex; flex-direction: column; }
+  .feature-grid > .lab-card .photo { aspect-ratio: auto; flex: 1 1 auto; min-height: 320px; margin-bottom: 16px; }
+  .feature-grid .col { display: flex; flex-direction: column; gap: clamp(16px,2vw,26px); }
+  .feature-grid .col .lab-card { display: flex; flex-direction: column; flex: 1 1 0; }
+  .feature-grid .col .lab-card .photo { aspect-ratio: auto; flex: 1 1 auto; min-height: 0; }
+  @media (max-width: 760px){ .feature-grid { grid-template-columns: 1fr; }
+    .feature-grid > .lab-card .photo, .feature-grid .col .lab-card .photo { aspect-ratio: 16/9; flex: none; } }
+
+  .lab-card .photo { aspect-ratio: 4/3; }
+  .lab-card .photo .aurora { animation-duration: 22s; }
+  .lab-card .l-tag { position: absolute; top: 12px; left: 12px; z-index: 4; }
+  .l-tag-glass { display:inline-flex; align-items:center; height:28px; padding-inline:12px; border-radius:999px; background:rgba(255,255,255,0.25); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4); color:#fff; font-size:0.72rem; font-weight:600; letter-spacing:0.04em; }
+
+  .topic-head { display:flex; align-items:baseline; gap:16px; margin-bottom: clamp(26px,3vw,40px); }
+  .topic-head h2 { font-size: clamp(1.4rem,2.6vw,2.1rem); letter-spacing:-0.03em; font-weight:600; }
+  .topic-head .t-count { font-size:var(--t-small); color:var(--gray-soft); }
+
+  .spotlight { position: relative; overflow: hidden; border-radius: var(--r-xl); padding: clamp(44px,7vw,96px) var(--pad); }
+  .spotlight .cine { position:absolute; inset:0; z-index:0; }
+  .spotlight .sp-body { position:relative; z-index:3; max-width: 40ch; }
+  .spotlight h2 { color:#fff; font-size: clamp(1.8rem,4vw,3.4rem); letter-spacing:-0.04em; line-height:1.02; margin-bottom:16px; }
+  .spotlight p { color:rgba(255,255,255,.85); margin-bottom:30px; }
+  .btn-white { background:#fff; color:var(--ink); }
+  .sec-head { margin-bottom: clamp(30px,4vw,52px); }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <!-- (1) HERO -->
+  <section class="lab-hero" data-screen-label="Lab / Hero">
+    <div class="wrap">
+      <div class="eyebrow-row reveal"><span class="dot"></span><span class="kicker">noetic Lab</span></div>
+      <h1 class="display reveal reveal-d1" style="margin-top:20px">Research &amp; Experiments</h1>
+      <p class="lead muted reveal reveal-d2" style="max-width:54ch; margin-top:22px">Open notes from the team teaching machines to see, compose and create. Methods, models and the occasional beautiful failure.</p>
+      <div class="lab-meta reveal reveal-d2">
+        <div><span class="stat">142</span><span class="label">published notes</span></div>
+        <div><span class="stat">9</span><span class="label">model generations</span></div>
+        <div><span class="stat">∞</span><span class="label">experiments running</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (2) LATEST DISCOVERIES -->
+  <section class="section section-tight" data-screen-label="Lab / Discoveries">
+    <div class="wrap">
+      <div class="sec-head reveal"><div class="topic-head"><h2>Latest discoveries</h2><span class="t-count">featured</span></div></div>
+      <div class="feature-grid">
+        <a class="lab-card reveal" href="#"><div class="photo cine grain"><span class="l-tag"><span class="l-tag-glass">Featured</span></span><div class="aurora cool"></div></div>
+          <div class="art-meta"><span class="label">Diffusion</span><span class="label">·</span><span class="label">Mar 2026</span></div>
+          <h3 style="font-size:1.5rem">Latent navigation: steering a model through its own imagination</h3></a>
+        <div class="col">
+          <a class="lab-card reveal reveal-d1" href="#"><div class="photo"><span class="l-tag"><span class="l-tag-glass">Method</span></span><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&q=70" alt=""></div>
+            <h3>What makes a generation feel real</h3></a>
+          <a class="lab-card reveal reveal-d2" href="#"><div class="photo cine grain"><span class="l-tag"><span class="l-tag-glass">Style</span></span><div class="aurora warm"></div></div>
+            <h3>Holding aesthetics constant across a series</h3></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (3) IMAGE GENERATION RESEARCH -->
+  <section class="section section-tight" data-screen-label="Lab / Image research">
+    <div class="wrap">
+      <div class="topic-head reveal"><h2>Image generation research</h2><span class="t-count">04 topics</span></div>
+      <div class="masonry" id="genGrid"></div>
+    </div>
+  </section>
+
+  <!-- (4) CREATIVE WORKFLOW RESEARCH -->
+  <section class="section section-tight" data-screen-label="Lab / Workflow research">
+    <div class="wrap">
+      <div class="topic-head reveal"><h2>Creative workflow research</h2><span class="t-count">05 topics</span></div>
+      <div class="masonry" id="flowGrid"></div>
+    </div>
+  </section>
+
+  <!-- (5) PRODUCT SPOTLIGHT -->
+  <section class="section" data-screen-label="Lab / Spotlight">
+    <div class="wrap">
+      <div class="spotlight reveal">
+        <div class="cine grain cine-dim"><div class="aurora"></div></div>
+        <div class="sp-body">
+          <span class="kicker" style="color:rgba(255,255,255,.7)">From research to product</span>
+          <h2 class="display" style="margin-top:14px">Every experiment here ships into the platform.</h2>
+          <p>See how the latest models power generation, editing and automation at scale.</p>
+          <a href="products.html"><span class="btn btn-white btn-lg">Explore the platform
+            <svg class="arr" width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (6) LATEST ARTICLES -->
+  <section class="section section-tight" data-screen-label="Lab / Latest">
+    <div class="wrap">
+      <div class="topic-head reveal"><h2>Latest articles</h2><span class="t-count">recent</span></div>
+      <div class="masonry" id="latestGrid"></div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+<script>
+(function(){
+  function card(d){
+    const media = d.ph ? `<img src="https://images.unsplash.com/photo-${d.ph}?w=600&q=70" alt="">` : `<div class="aurora ${d.cls||''}"></div>`;
+    return `<a class="lab-card" href="#"><div class="photo cine grain"><span class="l-tag"><span class="l-tag-glass">${d.cat}</span></span>${media}</div>
+      <h3>${d.t}</h3></a>`;
+  }
+  const gen = [
+    {cat:"Diffusion models",sub:"Architecture",t:"Cascaded diffusion at 4K without the artifacts",cls:"cool"},
+    {cat:"Prompt engineering",sub:"Method",t:"The grammar of a great prompt",ph:"1635776062127-d379bfcba9f8"},
+    {cat:"Style consistency",sub:"Control",t:"Reference-locking across a 60-frame sequence",cls:"warm"},
+    {cat:"Fine-tuning",sub:"Training",t:"Personalizing a model on twelve images",cls:"aurora"},
+    {cat:"Diffusion models",sub:"Sampling",t:"Faster samplers, sharper edges",ph:"1620712943543-bcc4688e7485"},
+    {cat:"Prompt engineering",sub:"Tooling",t:"Auto-expanding sparse prompts",cls:"cool"},
+  ];
+  const flow = [
+    {cat:"Design systems",t:"Tokens that prompt themselves",cls:"aurora"},
+    {cat:"Asset pipelines",t:"From spreadsheet to 10,000 assets",ph:"1547891654-e66ed7ebb968"},
+    {cat:"AI-assisted production",t:"Where humans stay in the loop",cls:"warm"},
+    {cat:"Collaboration",t:"Shared canvases across a studio",cls:"cool"},
+    {cat:"Governance",t:"Approval flows people actually use",ph:"1600880292203-757bb62b4baf"},
+    {cat:"Asset pipelines",t:"Caching generations for reuse",cls:"aurora"},
+  ];
+  const latest = [
+    {cat:"Perception",sub:"Note",t:"Color memory in generative models",ph:"1635776063043-ab23b4c226f6"},
+    {cat:"Method",sub:"Note",t:"Outpainting beyond the frame",cls:"warm"},
+    {cat:"Research",sub:"Note",t:"Measuring 'taste' quantitatively",cls:"cool"},
+    {cat:"Control",sub:"Note",t:"Depth-aware relighting",ph:"1604871000636-074fa5117945"},
+    {cat:"Method",sub:"Note",t:"Seeds, determinism and reproducibility",cls:"aurora"},
+    {cat:"Systems",sub:"Note",t:"Versioning a creative canvas",cls:"cool"},
+  ];
+  const set = (id, arr) => { const el = document.getElementById(id); if(el) el.innerHTML = arr.map(card).join(''); };
+  set('genGrid', gen); set('flowGrid', flow); set('latestGrid', latest);
+})();
+</script>
+</body>
+</html>

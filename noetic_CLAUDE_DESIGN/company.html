@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Company</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .co-hero { padding-top: calc(var(--nav-h) + 120px); padding-bottom: clamp(50px,7vw,90px); }
+  .co-hero .kicker { margin-bottom: 24px; }
+  .co-hero h1 { font-size: clamp(2.4rem, 5.6vw, 5rem); max-width: 18ch; }
+  .co-hero h1 .grad-text { }
+  .co-hero .lead { max-width: 50ch; margin-top: 26px; }
+  .co-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top: clamp(50px,7vw,90px); padding-top: 40px; border-top:1px solid var(--line); }
+  .co-stats .label { display:block; margin-top:6px; }
+  @media (max-width:680px){ .co-stats { grid-template-columns:repeat(2,1fr); gap:32px 24px; } }
+
+  .team-track { display:flex; gap: clamp(14px,1.6vw,20px); }
+  .team-card { width: clamp(200px, 24vw, 280px); flex:none; }
+  .team-card .photo { aspect-ratio: 3/4; margin-bottom: 14px; }
+  .team-card .photo .aurora { animation-duration: 20s; }
+  .team-card h3 { font-size:1.05rem; font-weight:600; letter-spacing:-0.01em; }
+  .team-card .label { display:block; margin-top:2px; }
+
+  .partners { background: var(--void-soft); }
+  .logo-wall { display:grid; grid-template-columns: repeat(5, 1fr); gap:1px; background:var(--line); border-radius: var(--r-lg); overflow:hidden; box-shadow: inset 0 0 0 1px var(--line); }
+  .logo-cell { background:var(--void); aspect-ratio: 16/8; display:grid; place-items:center; font-weight:600; font-size:1.4rem; letter-spacing:-0.03em; color:var(--gray-soft); transition: color .3s, background .3s; }
+  .logo-cell:hover { color:var(--ink); background:#fff; }
+  @media (max-width:780px){ .logo-wall { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width:460px){ .logo-wall { grid-template-columns: repeat(2,1fr); } }
+
+  .jobs { display:flex; flex-direction:column; }
+  .job { display:flex; align-items:center; gap:20px; padding:26px 4px; border-top:1px solid var(--line); transition: padding .4s var(--ease-spring); }
+  .job:last-child { border-bottom:1px solid var(--line); }
+  .job:hover { padding-left:14px; }
+  .job .j-title { font-size:1.25rem; font-weight:550; letter-spacing:-0.02em; }
+  .job .j-meta { margin-left:auto; display:flex; gap:10px; align-items:center; }
+  .job .pill-meta { white-space:nowrap; }
+  .job .j-arr { width:42px; height:42px; border-radius:50%; display:grid; place-items:center; box-shadow: inset 0 0 0 1px var(--line); transition: background .3s, color .3s; }
+  .job:hover .j-arr { background:var(--ink); color:#fff; box-shadow:none; }
+  @media (max-width:640px){ .job { flex-wrap:wrap; gap:12px; } .job .j-meta { margin-left:0; width:100%; } }
+
+  .cta-card { position:relative; overflow:hidden; border-radius:var(--r-xl); padding: clamp(50px,8vw,110px) var(--pad); text-align:center; }
+  .cta-card .cine { position:absolute; inset:0; z-index:0; }
+  .cta-card .cta-body { position:relative; z-index:3; }
+  .cta-card h2 { color:#fff; font-size: clamp(2rem,4.6vw,3.8rem); letter-spacing:-0.04em; margin-bottom:16px; }
+  .cta-card p { color:rgba(255,255,255,.85); margin-bottom:34px; max-width:40ch; margin-inline:auto; }
+  .btn-white { background:#fff; color:var(--ink); }
+  .sec-head { margin-bottom: clamp(30px,4vw,52px); }
+  .head-row { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:clamp(30px,4vw,52px); flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <!-- HERO / MISSION -->
+  <section class="co-hero" data-screen-label="Company / Mission">
+    <div class="wrap">
+      <div class="eyebrow-row reveal"><span class="dot"></span><span class="kicker">Our mission</span></div>
+      <h1 class="display reveal reveal-d1" style="margin-top:18px">Empowering anyone to create <span class="grad-text">professional visual content</span> with AI.</h1>
+      <p class="lead muted reveal reveal-d2">noetic began with a simple belief: the gap between an idea and a finished image should be measured in seconds, not weeks — and it shouldn't require a studio, a budget or a decade of craft.</p>
+      <div class="co-stats reveal reveal-d2">
+        <div><span class="stat">2022</span><span class="label">founded</span></div>
+        <div><span class="stat">120+</span><span class="label">people</span></div>
+        <div><span class="stat">38M</span><span class="label">assets generated</span></div>
+        <div><span class="stat">60+</span><span class="label">countries</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR TEAM CAROUSEL -->
+  <section class="section section-tight" data-screen-label="Company / Team">
+    <div class="wrap"><div class="head-row reveal">
+      <div><h2 class="display h2">Researchers, artists and engineers.</h2></div>
+      <div class="car-nav"><button class="car-btn" data-car-prev aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="car-btn" data-car-next aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </div></div>
+    <div class="wrap" data-carousel><div class="carousel-track team-track no-scrollbar" id="teamTrack"></div></div>
+  </section>
+
+  <!-- TRUSTED BY / PARTNERS -->
+  <section class="section partners" data-screen-label="Company / Partners">
+    <div class="wrap">
+      <div class="sec-head reveal" style="text-align:center;margin-inline:auto;max-width:50ch">
+        <h2 class="display h2">Teams of every size build on noetic.</h2>
+      </div>
+      <div class="logo-wall reveal" id="wall"></div>
+    </div>
+  </section>
+
+  <!-- CAREERS -->
+  <section class="section" data-screen-label="Company / Careers">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 class="display h2">Open positions.</h2></div>
+      <div class="jobs reveal" id="jobs"></div>
+      <div style="margin-top:clamp(50px,7vw,90px)">
+        <div class="cta-card">
+          <div class="cine grain cine-dim"><div class="aurora"></div></div>
+          <div class="cta-body">
+            <h2 class="display">Don't see your role?</h2>
+            <p>We're always looking for people who care about craft. Tell us what you'd build.</p>
+            <a href="contact.html" class="magnet" data-magnet><span class="btn btn-white btn-lg">Get in touch
+              <svg class="arr" width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+<script>
+(function(){
+  const team = [
+    {n:"Iris Tanaka",r:"Lead Applied Researcher",ph:"1494790108377-be9c29b29330"},
+    {n:"Daniel Osei",r:"Head of Design",ph:"1500648767791-00dcc994a43e"},
+    {n:"Mara Delgado",r:"VP Product",ph:"1534528741775-53994a69daeb"},
+    {n:"Leo Bauer",r:"Principal Engineer",ph:"1507003211169-0a1dd7228f2d"},
+    {n:"Sana Iqbal",r:"Research Scientist",ph:"1438761681033-6461ffad8d80"},
+    {n:"Marco Reyes",r:"Model Infrastructure",ph:"1472099645785-5658abf4ff4e"},
+    {n:"Nadia Khan",r:"Creative Lead",ph:"1517841905240-472988babdf9"},
+  ];
+  function tc(d){ return `<div class="team-card"><div class="photo"><img src="https://images.unsplash.com/photo-${d.ph}?w=500&q=70" alt=""></div>
+    <h3>${d.n}</h3><span class="label">${d.r}</span></div>`; }
+  const tt = document.getElementById('teamTrack'); if(tt) tt.innerHTML = team.map(tc).join('');
+
+  const partners = ["Helio","Northwind","Vantage","Lumen","Atlas","Forge","Quanta","Nimbus","Verve","Orbital"];
+  const wall = document.getElementById('wall');
+  if(wall) wall.innerHTML = partners.map(p=>`<div class="logo-cell">${p}</div>`).join('');
+
+  const jobs = [
+    {t:"Senior Diffusion Researcher",team:"Research",loc:"Remote"},
+    {t:"Product Designer, Canvas",team:"Design",loc:"London"},
+    {t:"Staff Engineer, Inference",team:"Engineering",loc:"Remote"},
+    {t:"Developer Advocate",team:"Growth",loc:"New York"},
+    {t:"Brand & Motion Designer",team:"Marketing",loc:"Remote"},
+  ];
+  function job(d){ return `<a class="job" href="#"><span class="j-title">${d.t}</span>
+    <span class="j-meta"><span class="pill-meta">${d.team}</span><span class="pill-meta">${d.loc}</span>
+    <span class="j-arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a>`; }
+  const j = document.getElementById('jobs'); if(j) j.innerHTML = jobs.map(job).join('');
+})();
+</script>
+</body>
+</html>

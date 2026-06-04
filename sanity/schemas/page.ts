@@ -35,11 +35,20 @@ export const page = defineType({
       type: "array",
       title: "Content blocks",
       of: [
+        // Shared blocks (reusable across pages)
         { type: "heroBlock" },
         { type: "richTextBlock" },
         { type: "featureGridBlock" },
         { type: "calloutBlock" },
         { type: "mediaBlock" },
+        { type: "articleCarouselBlock" },
+        { type: "ctaBannerBlock" },
+        { type: "pullQuoteBlock" },
+        // Home-page blocks (use sparingly outside the home page)
+        { type: "heroPromptBlock" },
+        { type: "scrubWordsBlock" },
+        { type: "bentoShowcaseBlock" },
+        { type: "howItWorksBlock" },
       ],
       options: { insertMenu: { views: [{ name: "list" }] } },
     }),

@@ -110,6 +110,8 @@ export const tokens = defineTokens({
     lg:   { value: "0.75rem" },
     xl:   { value: "1rem" },
     "2xl": { value: "1.5rem" },
+    "3xl": { value: "2rem" },
+    "4xl": { value: "2.75rem" },
     pill: { value: "9999px" },
     circle: { value: "50%" },
   },
@@ -126,7 +128,11 @@ export const tokens = defineTokens({
     md: { value: "0 4px 6px -1px rgba(15, 17, 21, 0.08), 0 2px 4px -2px rgba(15, 17, 21, 0.08)" },
     lg: { value: "0 10px 15px -3px rgba(15, 17, 21, 0.10), 0 4px 6px -4px rgba(15, 17, 21, 0.08)" },
     xl: { value: "0 20px 25px -5px rgba(15, 17, 21, 0.12), 0 8px 10px -6px rgba(15, 17, 21, 0.08)" },
-    focus: { value: "0 0 0 3px {colors.accent.focusRing}" },
+    /** Diffused ambient shadows for cinematic surfaces (no harsh drops). */
+    ambientSm: { value: "0 14px 40px -18px rgba(8, 8, 12, 0.16)" },
+    ambient:   { value: "0 30px 80px -28px rgba(8, 8, 12, 0.18)" },
+    float:     { value: "0 40px 120px -40px rgba(8, 8, 12, 0.28)" },
+    focus:     { value: "0 0 0 3px {colors.accent.focusRing}" },
   },
 
   easings: {
@@ -194,6 +200,19 @@ export const tokens = defineTokens({
     danger: {
       500: { value: "#d93a3a" },
       600: { value: "#a82626" },
+    },
+    /**
+     * Spectral aurora palette — the only accent color in the
+     * cinematic surface system. Used in gradient washes behind
+     * dark hero/CTA stages and as bento border glints.
+     */
+    aurora: {
+      rose:   { value: "#ff6fae" },
+      violet: { value: "#8a5cff" },
+      azure:  { value: "#3ba2ff" },
+      aqua:   { value: "#45e0c8" },
+      lime:   { value: "#c6ff7a" },
+      ink:    { value: "#0a0a0c" },
     },
   },
 });

@@ -110,6 +110,22 @@ export const recipes = {
           _hover: { filter: "brightness(0.95)" },
           _active: { transform: "translateY(1px)" },
         },
+        /** Black pill button used across cinematic surfaces. */
+        inverse: {
+          backgroundColor: "bg.inverse",
+          color: "fg.inverse",
+          boxShadow: "ambientSm",
+          _hover: { boxShadow: "ambient" },
+          _active: { transform: "scale(0.97)" },
+        },
+        /** White-on-cinematic CTA used on dark hero/CTA cards. */
+        onCinematic: {
+          backgroundColor: "#ffffff",
+          color: "{colors.ink.900}",
+          boxShadow: "ambientSm",
+          _hover: { boxShadow: "ambient" },
+          _active: { transform: "scale(0.97)" },
+        },
         outline: {
           backgroundColor: "transparent",
           color: "fg.default",
@@ -135,8 +151,88 @@ export const recipes = {
         md: { fontSize: "md", paddingInline: "md", paddingBlock: "xs",  minHeight: "2.5rem" },
         lg: { fontSize: "lg", paddingInline: "lg", paddingBlock: "sm",  minHeight: "3rem" },
       },
+      /** Corner shape — default rounded; `pill` for marketing CTAs. */
+      shape: {
+        rounded: { borderRadius: "md" },
+        pill:    { borderRadius: "pill" },
+      },
     },
-    defaultVariants: { variant: "solid", size: "md" },
+    defaultVariants: { variant: "solid", size: "md", shape: "rounded" },
+  }),
+
+  /**
+   * Cinematic stage — a relatively positioned container that hosts
+   * an aurora gradient + grain overlay behind its children. Use as
+   * the wrapper for hero, scrub, and CTA card backgrounds.
+   *
+   * The aurora fill uses spectral tokens so it stays in sync with
+   * the rest of the design system.
+   */
+  cinematicStage: defineRecipe({
+    className: "cinematicStage",
+    base: {
+      position: "relative",
+      overflow: "hidden",
+      isolation: "isolate",
+      backgroundColor: "bg.cinematic",
+      color: "fg.onCinematic",
+      // Aurora wash: layered radial gradients drifting on a dark canvas.
+      _before: {
+        content: '""',
+        position: "absolute",
+        inset: "-20%",
+        zIndex: 0,
+        filter: "blur(40px) saturate(135%)",
+        background:
+          "radial-gradient(40% 55% at 22% 30%, {colors.aurora.rose} 0%, transparent 60%)," +
+          "radial-gradient(45% 50% at 78% 25%, {colors.aurora.violet} 0%, transparent 60%)," +
+          "radial-gradient(50% 55% at 65% 75%, {colors.aurora.azure} 0%, transparent 62%)," +
+          "radial-gradient(45% 50% at 25% 80%, {colors.aurora.aqua} 0%, transparent 60%)," +
+          "radial-gradient(40% 45% at 50% 50%, {colors.aurora.lime} 0%, transparent 55%)",
+        animation: "auroraDrift 26s ease-in-out infinite alternate",
+      },
+      // Vignette for text legibility.
+      _after: {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        zIndex: 1,
+        pointerEvents: "none",
+        background:
+          "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, transparent 30%, transparent 55%, rgba(0,0,0,0.45) 100%)",
+      },
+      "& > *": { position: "relative", zIndex: 2 },
+    },
+    variants: {
+      tone: {
+        spectral: {},
+        cool: {
+          _before: {
+            background:
+              "radial-gradient(45% 55% at 25% 25%, #6aa9ff 0%, transparent 60%)," +
+              "radial-gradient(50% 50% at 80% 35%, {colors.aurora.violet} 0%, transparent 60%)," +
+              "radial-gradient(55% 60% at 60% 80%, {colors.aurora.aqua} 0%, transparent 62%)," +
+              "radial-gradient(40% 45% at 18% 78%, {colors.aurora.azure} 0%, transparent 60%)",
+          },
+        },
+        warm: {
+          _before: {
+            background:
+              "radial-gradient(45% 55% at 25% 30%, #ff8a5c 0%, transparent 60%)," +
+              "radial-gradient(50% 50% at 78% 28%, {colors.aurora.rose} 0%, transparent 60%)," +
+              "radial-gradient(55% 60% at 62% 78%, #ffc46b 0%, transparent 62%)," +
+              "radial-gradient(40% 45% at 20% 80%, #ff5e8a 0%, transparent 60%)",
+          },
+        },
+      },
+      radius: {
+        none: { borderRadius: 0 },
+        lg:   { borderRadius: "2xl" },
+        xl:   { borderRadius: "3xl" },
+        "2xl": { borderRadius: "4xl" },
+      },
+    },
+    defaultVariants: { tone: "spectral", radius: "none" },
   }),
 };
 

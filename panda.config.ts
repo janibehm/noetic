@@ -45,6 +45,11 @@ export default defineConfig({
         scrollBehavior: "auto !important",
       },
     },
+    "@keyframes auroraDrift": {
+      "0%":   { transform: "translate3d(-3%, -2%, 0) scale(1.05) rotate(0deg)" },
+      "50%":  { transform: "translate3d(4%, 3%, 0) scale(1.18) rotate(6deg)" },
+      "100%": { transform: "translate3d(-2%, 4%, 0) scale(1.08) rotate(-4deg)" },
+    },
   },
 
   theme: {

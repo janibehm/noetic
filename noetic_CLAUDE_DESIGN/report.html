@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Report a Vulnerability</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .legal-hero { padding-top: calc(var(--nav-h) + 110px); padding-bottom: clamp(30px,4vw,48px); text-align:center; }
+  .legal-hero h1 { font-size: clamp(2.4rem,5vw,4rem); }
+  .legal-hero .meta { color:var(--gray); margin-top:18px; font-size:0.95rem; }
+  .legal-body { padding-bottom: clamp(50px,7vw,90px); }
+  .legal p:first-of-type { font-size:1.15rem; color:var(--ink-2); }
+  .sec-pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:26px; }
+  .report-form-sec { padding-bottom: clamp(60px,9vw,120px); }
+  .report-card { max-width: 65ch; margin-inline:auto; padding: clamp(30px,4vw,52px); border-radius: var(--r-lg); box-shadow: inset 0 0 0 1px var(--line); background: var(--void); }
+  .report-card h2 { font-size:1.5rem; letter-spacing:-0.02em; margin-bottom:8px; }
+  .report-card .field input, .report-card .field textarea, .report-card .field select { border-bottom-color: var(--gray-soft); }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media (max-width:600px){ .form-row { grid-template-columns:1fr; gap:0; } }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <section class="legal-hero" data-screen-label="Report / Hero">
+    <div class="wrap">
+      <div class="eyebrow-row reveal" style="justify-content:center"><span class="dot"></span><span class="kicker">Security</span></div>
+      <h1 class="display reveal reveal-d1" style="margin-top:16px">Report a Vulnerability</h1>
+      <p class="meta reveal reveal-d2">We take security seriously. Responsible disclosure keeps everyone safe.</p>
+      <div class="sec-pills reveal reveal-d2">
+        <span class="pill-meta">Safe harbor</span>
+        <span class="pill-meta">Response in 48h</span>
+        <span class="pill-meta">Recognition &amp; bounties</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="legal-body">
+    <div class="wrap"><div class="legal reveal">
+      <p>If you believe you've found a security vulnerability in noetic, we'd like to hear from you and will work with you to resolve it quickly. This page explains our scope, safe-harbor commitment and how to report.</p>
+
+      <h2>In scope</h2>
+      <ul>
+        <li><code>noetic.ai</code> and its subdomains</li>
+        <li>The noetic web application and dashboard</li>
+        <li>The public API at <code>api.noetic.ai</code> and official SDKs</li>
+      </ul>
+
+      <h2>Out of scope</h2>
+      <ul>
+        <li>Volumetric attacks (DoS/DDoS) and social engineering</li>
+        <li>Reports from automated scanners without a working proof of concept</li>
+        <li>Issues in third-party services we don't control</li>
+      </ul>
+
+      <h2>Safe harbor</h2>
+      <p>We will not pursue legal action for good-faith security research that follows this policy: respect user privacy, avoid degrading our services, and don't access or modify data that isn't yours. Give us reasonable time to remediate before any public disclosure.</p>
+
+      <h2>What to include</h2>
+      <p>A clear description of the issue, the affected endpoint or component, reproduction steps, and the potential impact. Proof-of-concept code or screenshots help us triage faster.</p>
+    </div></div>
+  </section>
+
+  <section class="report-form-sec">
+    <div class="wrap">
+      <div class="report-card reveal" data-form-wrap>
+        <h2 class="display">Submit a report</h2>
+        <p class="muted" style="margin-bottom:28px">Encrypted alternative: email <a href="mailto:security@noetic.ai" style="color:var(--a2)">security@noetic.ai</a> (PGP available).</p>
+        <form data-form>
+          <div class="form-row">
+            <div class="field"><input type="text" placeholder="Your name" required></div>
+            <div class="field"><input type="email" placeholder="Email" required></div>
+          </div>
+          <div class="field sel"><select required><option value="" disabled selected>Severity (your estimate)</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+          <div class="field"><input type="text" placeholder="Affected endpoint or component" required></div>
+          <div class="field"><textarea placeholder="Description, reproduction steps and impact" required></textarea></div>
+          <button type="submit" class="btn btn-lg" style="width:100%; justify-content:center">Submit report securely</button>
+        </form>
+        <div data-form-success hidden>
+          <span class="badge">Report received</span>
+          <h3 class="h3" style="margin:14px 0 8px">Thank you for the disclosure.</h3>
+          <p class="muted">Our security team will acknowledge your report within 48 hours and keep you updated through remediation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

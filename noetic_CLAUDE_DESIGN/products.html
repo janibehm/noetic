@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>noetic — Enterprise AI Image Platform</title>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/cinematic.css">
+<link rel="stylesheet" href="assets/components.css">
+<style>
+  .p-hero { padding-top: calc(var(--nav-h) + 90px); text-align: center; position: relative; overflow: hidden; }
+  .p-hero .glow { position: absolute; top: -10%; left: 50%; transform: translateX(-50%); width: 120%; height: 80%; z-index: 0;
+    background: radial-gradient(50% 60% at 50% 0%, rgba(138,92,255,.16), rgba(59,162,255,.10) 40%, transparent 70%); filter: blur(20px); pointer-events: none; }
+  .p-hero .wrap { position: relative; z-index: 2; }
+  .p-hero h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); }
+  .p-hero .lead { max-width: 50ch; margin: 22px auto 36px; }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  /* dashboard mockup */
+  .dash { width: min(1120px, 100%); margin: clamp(50px,7vw,90px) auto 0; aspect-ratio: 16/9.6; border-radius: var(--r-lg); overflow: hidden; position: relative; box-shadow: var(--shadow-float); }
+  .dash .cine { position: absolute; inset: 0; z-index: 0; }
+  .dash-ui { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: 210px 1fr; }
+  .dash-side { background: rgba(255,255,255,0.55); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: inset -1px 0 0 var(--glass-edge); padding: 20px 16px; display: flex; flex-direction: column; gap: 7px; }
+  .dash-side .logo { font-size: 1rem; margin-bottom: 16px; }
+  .dash-side .di { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 11px; font-size: 0.85rem; color: var(--ink-2); }
+  .dash-side .di.on { background: rgba(255,255,255,0.7); box-shadow: inset 0 0 0 1px var(--glass-edge); font-weight: 550; }
+  .dash-side .di .di-d { width: 16px; height: 16px; border-radius: 5px; background: var(--aurora-line); opacity: .85; }
+  .dash-main { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .dash-bar { height: 44px; border-radius: 999px; background: rgba(255,255,255,0.6); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: inset 0 0 0 1px var(--glass-edge); display: flex; align-items: center; padding: 0 8px 0 18px; gap: 12px; }
+  .dash-bar .db-txt { flex: 1; font-size: 0.82rem; color: var(--gray); }
+  .dash-bar .db-go { height: 30px; padding-inline: 14px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 0.78rem; display: grid; place-items: center; }
+  .dash-grid { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 10px; }
+  .dash-thumb { border-radius: 14px; overflow: hidden; position: relative; box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); }
+  .dash-thumb .aurora { filter: blur(22px) saturate(150%); }
+  .dash-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .dash-thumb.big { grid-row: span 2; grid-column: span 2; }
+  @media (max-width: 680px){ .dash-side { display: none; } .dash-ui { grid-template-columns: 1fr; } .dash-grid { grid-template-columns: repeat(3,1fr); } }
+
+  .prod-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2vw, 26px); }
+  .prod-card { padding: clamp(26px, 3vw, 40px); border-radius: var(--r-lg); box-shadow: inset 0 0 0 1px var(--line); position: relative; overflow: hidden; transition: transform .6s var(--ease-spring), box-shadow .5s; }
+  .prod-card:hover { transform: translateY(-5px); box-shadow: inset 0 0 0 1px var(--line), var(--shadow-amb); }
+  .prod-card .pc-vis { height: 150px; border-radius: var(--r-md); overflow: hidden; margin-bottom: 26px; position: relative; }
+  .prod-card .pc-vis .aurora { filter: blur(26px) saturate(150%); }
+  .prod-card h3 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 10px; }
+  .prod-card p { color: var(--gray); max-width: 38ch; }
+  .prod-card .pc-link { display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-weight: 500; font-size: 0.95rem; }
+  @media (max-width: 760px){ .prod-cards { grid-template-columns: 1fr; } }
+
+  .sec-img .photo { aspect-ratio: 1/1; }
+  .feat-list { list-style: none; display: flex; flex-direction: column; gap: 0; margin-top: 30px; }
+  .feat-list li { display: flex; gap: 16px; padding: 20px 0; border-top: 1px solid var(--line); align-items: flex-start; }
+  .feat-list li:last-child { border-bottom: 1px solid var(--line); }
+  .feat-list .fi-ico { width: 34px; height: 34px; border-radius: 10px; background: var(--void-soft); display: grid; place-items: center; flex: none; }
+  .feat-list h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 3px; }
+  .feat-list p { color: var(--gray); font-size: 0.94rem; }
+
+  .sec-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(16px,2vw,24px); }
+  .trust-card { padding: 32px; border-radius: var(--r-lg); box-shadow: inset 0 0 0 1px var(--line); }
+  .trust-card .tc-ico { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 22px; }
+  .trust-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+  .trust-card p { color: var(--gray); font-size: 0.95rem; }
+  @media (max-width: 760px){ .sec-cards { grid-template-columns: 1fr; } }
+
+  .demo-wrap { border-radius: var(--r-xl); overflow: hidden; position: relative; box-shadow: var(--shadow-amb); background: var(--void-soft); }
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .demo-left { padding: clamp(36px,5vw,72px); position: relative; overflow: hidden; color: #fff; }
+  .demo-left .cine { position: absolute; inset: 0; z-index: 0; }
+  .demo-left .dl-body { position: relative; z-index: 3; }
+  .demo-left h2 { color: #fff; font-size: clamp(1.8rem,3vw,2.8rem); letter-spacing: -0.03em; margin-bottom: 16px; }
+  .demo-left p { color: rgba(255,255,255,.85); max-width: 34ch; }
+  .demo-left .dl-pts { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .demo-left .dl-pts li { display: flex; gap: 10px; align-items: center; color: rgba(255,255,255,.92); font-size: 0.96rem; }
+  .demo-right { padding: clamp(36px,5vw,72px); background: var(--void); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px){ .demo-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; gap: 0; } }
+  .sec-head { max-width: 60ch; margin-bottom: clamp(36px, 5vw, 64px); }
+  .sec-head h2 { margin: 14px 0 16px; }
+  .head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(30px,4vw,52px); flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header data-nav></header>
+<main>
+  <!-- (1) HERO + DASHBOARD -->
+  <section class="p-hero section-tight" data-screen-label="Products / Hero">
+    <div class="glow"></div>
+    <div class="wrap">
+      <div class="eyebrow-row reveal" style="justify-content:center"><span class="dot"></span><span class="kicker">Enterprise AI Image Platform</span></div>
+      <h1 class="display reveal reveal-d1" style="margin-top:18px">Generate, edit and manage<br>visual assets at scale.</h1>
+      <p class="lead muted reveal reveal-d2">One governed platform for every team that ships imagery — from a single hero shot to a hundred thousand localized variants.</p>
+      <div class="hero-cta reveal reveal-d3">
+        <a href="contact.html" class="magnet" data-magnet><span class="btn btn-lg">Book a demo
+          <svg class="arr" width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="resources.html" class="magnet" data-magnet><span class="btn btn-ghost btn-lg">Read the docs</span></a>
+      </div>
+      <!-- dashboard mockup -->
+      <div class="dash reveal reveal-d2">
+        <div class="cine grain"><div class="aurora cool"></div></div>
+        <div class="dash-ui">
+          <aside class="dash-side">
+            <span class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.6"/><path d="M7 16V8l10 8V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> noetic</span>
+            <div class="di on"><span class="di-d"></span> Generate</div>
+            <div class="di"><span class="di-d" style="background:#3ba2ff"></span> Editing Studio</div>
+            <div class="di"><span class="di-d" style="background:#45e0c8"></span> Brand Assets</div>
+            <div class="di"><span class="di-d" style="background:#ff6fae"></span> Workflows</div>
+            <div class="di"><span class="di-d" style="background:#c6ff7a"></span> Library</div>
+          </aside>
+          <div class="dash-main">
+            <div class="dash-bar"><span class="db-txt">a cinematic product shot of a glass perfume bottle on wet stone…</span><span class="db-go">Generate</span></div>
+            <div class="dash-grid">
+              <div class="dash-thumb big"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=70" alt=""></div>
+              <div class="dash-thumb"><div class="aurora warm"></div></div>
+              <div class="dash-thumb"><div class="aurora"></div></div>
+              <div class="dash-thumb"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=70" alt=""></div>
+              <div class="dash-thumb"><div class="aurora cool"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (2) HIGHLIGHT + LOGO MARQUEE -->
+  <section class="section-tight" data-screen-label="Products / Marquee">
+    <div class="wrap" style="text-align:center; margin-bottom:48px">
+      <p class="h3 reveal" style="max-width:24ch; margin-inline:auto; color:var(--gray)">Trusted to generate <span style="color:var(--ink)">production imagery</span> by teams at</p>
+    </div>
+    <div class="marquee" id="marq"></div>
+  </section>
+
+  <!-- (3) PRODUCT CARDS -->
+  <section class="section" data-screen-label="Products / Cards">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 class="display h2">Four products. One pipeline.</h2>
+      </div>
+      <div class="prod-cards">
+        <article class="prod-card reveal"><div class="pc-vis"><div class="aurora"></div></div>
+          <h3>AI Image Generation</h3><p>Create visuals from text prompts across photoreal and stylized model families, up to 4K.</p>
+          <span class="pc-link">Explore <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></article>
+        <article class="prod-card reveal reveal-d1"><div class="pc-vis"><img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?w=700&q=70" alt=""></div>
+          <h3>AI Editing Studio</h3><p>Remove objects, replace backgrounds and inpaint regions with prompt-level control.</p>
+          <span class="pc-link">Explore <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></article>
+        <article class="prod-card reveal"><div class="pc-vis"><div class="aurora warm"></div></div>
+          <h3>Brand Asset Generator</h3><p>Produce ad creatives, banners and social visuals locked to your brand kit.</p>
+          <span class="pc-link">Explore <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></article>
+        <article class="prod-card reveal reveal-d1"><div class="pc-vis"><div class="aurora cool"></div></div>
+          <h3>Visual Workflow Automation</h3><p>Generate hundreds of assets automatically from a spreadsheet, feed or API call.</p>
+          <span class="pc-link">Explore <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- (4) STICKY-STACK TEXT + IMAGE -->
+  <section class="section" data-screen-label="Products / Enterprise">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2 class="display h2">Built for the way teams actually ship.</h2>
+      </div>
+      <div class="stack-layout" data-stack-sync>
+        <div class="stack-left">
+          <div class="stack-step" data-step><h2>Brand consistency</h2><p>Lock palettes, typography and references so every generation stays unmistakably on-brand.</p></div>
+          <div class="stack-step" data-step><h2>Team collaboration</h2><p>Shared canvases, comments and version history keep designers, marketers and PMs in one space.</p></div>
+          <div class="stack-step" data-step><h2>Asset governance</h2><p>Roles, approvals and audit trails give legal and brand teams full control before anything ships.</p></div>
+          <div class="stack-step" data-step><h2>Fast generation pipelines</h2><p>Batch thousands of assets through reproducible pipelines with sub-second queue times.</p></div>
+        </div>
+        <div class="stack-right">
+          <div class="photo cine grain" data-pic><div class="aurora"></div></div>
+          <div class="photo" data-pic><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=70" alt=""></div>
+          <div class="photo cine grain" data-pic><div class="aurora cool"></div></div>
+          <div class="photo" data-pic><img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=900&q=70" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (5) LATEST ARTICLES -->
+  <section class="section" data-screen-label="Products / Articles">
+    <div class="wrap"><div class="head-row reveal">
+      <div><h2 class="display h2">From the platform team.</h2></div>
+      <div class="car-nav"><button class="car-btn" data-car-prev aria-label="Previous"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="car-btn" data-car-next aria-label="Next"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </div></div>
+    <div class="wrap" data-carousel><div class="carousel-track no-scrollbar" id="artTrack"></div></div>
+  </section>
+
+  <!-- (6) SECURITY & COMPLIANCE -->
+  <section class="section" data-screen-label="Products / Security">
+    <div class="wrap">
+      <div class="sec-head reveal" style="text-align:center;margin-inline:auto">
+        <h2 class="display h2">Enterprise trust, by default.</h2>
+      </div>
+      <div class="sec-cards">
+        <div class="trust-card reveal"><div class="tc-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+          <h3>Data privacy</h3><p>Your prompts and assets are never used to train base models. Full deletion on request.</p></div>
+        <div class="trust-card reveal reveal-d1"><div class="tc-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <h3>Enterprise security</h3><p>SOC 2 Type II, SSO/SAML, SCIM provisioning and regional data residency.</p></div>
+        <div class="trust-card reveal reveal-d2"><div class="tc-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h3>Commercial licensing</h3><p>Every generation ships with clear commercial rights and indemnification for your business.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (7) GET A DEMO FORM -->
+  <section class="section" data-screen-label="Products / Demo form">
+    <div class="wrap">
+      <div class="demo-wrap reveal" data-form-wrap>
+        <div class="demo-grid">
+          <div class="demo-left">
+            <div class="cine grain cine-dim"><div class="aurora"></div></div>
+            <div class="dl-body">
+              <h2 class="display">See noetic on your assets.</h2>
+              <p>Book a 30-minute walkthrough. We'll generate a live set of visuals from your real brand brief.</p>
+              <ul class="dl-pts">
+                <li><span class="dot"></span> Tailored to your use case</li>
+                <li><span class="dot"></span> Security &amp; rollout Q&amp;A</li>
+                <li><span class="dot"></span> Pricing for your team size</li>
+              </ul>
+            </div>
+          </div>
+          <div class="demo-right">
+            <form data-form>
+              <div class="form-row">
+                <div class="field"><input type="text" placeholder="First name" required></div>
+                <div class="field"><input type="text" placeholder="Last name" required></div>
+              </div>
+              <div class="field"><input type="email" placeholder="Work email" required></div>
+              <div class="field"><input type="text" placeholder="Company" required></div>
+              <div class="field sel"><select required><option value="" disabled selected>Team size</option><option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option></select></div>
+              <div class="field"><textarea placeholder="What would you like to generate?"></textarea></div>
+              <button type="submit" class="btn btn-lg" style="width:100%; justify-content:center">Request demo</button>
+            </form>
+            <div data-form-success hidden>
+              <div class="badge" style="align-self:flex-start">Received</div>
+              <h3 class="h3" style="margin-top:8px">Thanks — we'll be in touch within one business day.</h3>
+              <p class="muted">A product specialist will reach out to schedule your walkthrough.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer data-footer></footer>
+<script src="assets/site.js" defer></script>
+<script>
+(function(){
+  const logos = ["Helio","Northwind","Vantage","Lumen","Atlas","Forge","Quanta","Nimbus","Verve","Orbital"];
+  const m = document.getElementById('marq');
+  if(m){ const row = logos.concat(logos).map(l=>`<span class="marquee-logo">${l}</span>`).join('');
+    m.innerHTML = `<div class="marquee-track">${row}</div>`; }
+  const arts = [
+    {t:"Governance for generative creative teams",cat:"Enterprise",cls:"cool"},
+    {t:"How batch pipelines cut creative cost 70%",cat:"Workflows",cls:"aurora",ph:"1600880292203-757bb62b4baf"},
+    {t:"Keeping a brand consistent across 40 markets",cat:"Brand",cls:"warm"},
+    {t:"Inside the noetic editing model",cat:"Research",cls:"cool",ph:"1635776063043-ab23b4c226f6"},
+    {t:"Designing approval flows people actually use",cat:"Product",cls:"aurora"},
+  ];
+  function card(d){ const media = d.ph?`<img src="https://images.unsplash.com/photo-${d.ph}?w=700&q=70" alt="">`:`<div class="aurora ${d.cls}"></div>`;
+    return `<a class="art-card" href="lab.html"><div class="photo cine grain">${media}</div>
+      <div class="art-meta"><span class="label">${d.cat}</span><span class="label">·</span><span class="label">4 min read</span></div><h3>${d.t}</h3></a>`; }
+  const t=document.getElementById('artTrack'); if(t) t.innerHTML = arts.map(card).join('');
+})();
+</script>
+</body>
+</html>

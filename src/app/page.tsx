@@ -2,11 +2,13 @@ import { css } from "../../styled-system/css";
 import { pageContainer, pageSection, stackY, button } from "../../styled-system/recipes";
 import { BlockRenderer } from "@/components/block-renderer";
 import { client } from "../../sanity/client";
-import { homePageQuery } from "../../sanity/queries";
+import { homePageQuery, legacyHomePageQuery } from "../../sanity/queries";
 
 type HomePage = {
   _id: string;
   title: string;
+  seoTitle?: string;
+  seoDescription?: string;
   blocks: Array<{ _key: string; _type: string } & Record<string, unknown>>;
 };
 
@@ -20,10 +22,27 @@ async function getHomePage(): Promise<HomePage | null> {
     return null;
   }
   try {
-    return await client.fetch<HomePage | null>(homePageQuery);
-  } catch {
+    // Prefer the new `homePage` singleton; fall back to a legacy
+    // `page` document with slug "home" for backwards compatibility.
+    const singleton = await client.fetch<HomePage | null>(homePageQuery);
+    if (singleton?.blocks?.length) return singleton;
+    return await client.fetch<HomePage | null>(legacyHomePageQuery);
+  } catch (error) {
+    // Surface the failure in dev so misconfigured envs / GROQ are obvious.
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[home] Sanity fetch failed:", error);
+    }
     return null;
   }
+}
+
+export async function generateMetadata() {
+  const page = await getHomePage();
+  if (!page) return {};
+  return {
+    title: page.seoTitle ?? page.title,
+    description: page.seoDescription,
+  };
 }
 
 export default async function Home() {
