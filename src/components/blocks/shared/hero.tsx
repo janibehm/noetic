@@ -1,11 +1,13 @@
 import { css } from "../../../../styled-system/css";
 import { pageContainer, pageSection, stackY, button } from "../../../../styled-system/recipes";
 import { sanityImageProps } from "../../prose-renderer";
+import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef, Tone } from "../types";
 
 export type HeroBlockProps = {
   eyebrow?: string;
   heading: string;
+  headingLevel?: HeadingLevel;
   lead?: string;
   tone?: Tone;
   image?: SanityImageRef;
@@ -16,12 +18,14 @@ export type HeroBlockProps = {
 export default function HeroBlock({
   eyebrow,
   heading,
+  headingLevel,
   lead,
   tone = "canvas",
   image,
   primaryCta,
 }: HeroBlockProps) {
   const img = image ? sanityImageProps(image, 2000) : null;
+  const Heading = getHeadingLevel(headingLevel, "h1");
   return (
     <section className={pageSection({ space: "xl", tone })}>
       <div className={pageContainer({ size: "lg" })}>
@@ -31,9 +35,9 @@ export default function HeroBlock({
               {eyebrow}
             </span>
           ) : null}
-          <h1 className={css({ textStyle: "display.xl", maxWidth: "measureWide" })}>
+          <Heading className={css({ ...headingLevelStyles[Heading], maxWidth: "measureWide" })}>
             {heading}
-          </h1>
+          </Heading>
           {lead ? (
             <p
               className={css({

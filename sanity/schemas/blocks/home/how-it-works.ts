@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "../shared/_block-name";
+import { headingLevelField } from "../shared/_heading-level";
 
 /**
  * Home — How it works (numbered steps).
@@ -10,6 +11,7 @@ export const howItWorksBlock = defineType({
   name: "howItWorksBlock",
   type: "object",
   title: "Home · How it works",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
@@ -17,8 +19,10 @@ export const howItWorksBlock = defineType({
       name: "heading",
       type: "string",
       title: "Heading",
+      fieldset: "heading",
       validation: (r) => r.required(),
     }),
+    headingLevelField("h2"),
     defineField({
       name: "steps",
       type: "array",

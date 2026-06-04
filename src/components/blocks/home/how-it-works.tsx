@@ -1,5 +1,6 @@
 import { css } from "../../../../styled-system/css";
 import { pageContainer, pageSection, stackY } from "../../../../styled-system/recipes";
+import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 
 export type HowItWorksStep = {
   _key: string;
@@ -11,6 +12,7 @@ export type HowItWorksStep = {
 export type HomeHowItWorksBlockProps = {
   eyebrow?: string;
   heading: string;
+  headingLevel?: HeadingLevel;
   steps?: HowItWorksStep[];
 };
 
@@ -21,9 +23,11 @@ export type HomeHowItWorksBlockProps = {
 export default function HomeHowItWorksBlock({
   eyebrow,
   heading,
+  headingLevel,
   steps = [],
 }: HomeHowItWorksBlockProps) {
   const cols = Math.min(steps.length || 1, 4);
+  const Heading = getHeadingLevel(headingLevel, "h2");
   return (
     <section className={pageSection({ space: "lg" })}>
       <div className={pageContainer({ size: "lg" })}>
@@ -33,15 +37,15 @@ export default function HomeHowItWorksBlock({
               {eyebrow}
             </span>
           ) : null}
-          <h2
+          <Heading
             className={css({
-              textStyle: "heading.h2",
+              ...headingLevelStyles[Heading],
               textAlign: "center",
               maxWidth: "measureWide",
             })}
           >
             {heading}
-          </h2>
+          </Heading>
           <ol
             className={css({
               position: "relative",

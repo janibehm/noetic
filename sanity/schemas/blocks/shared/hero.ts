@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "./_block-name";
+import { headingLevelField } from "./_heading-level";
 
 /**
  * Hero block — title, eyebrow, lead paragraph, optional image and CTA.
@@ -9,6 +10,7 @@ export const heroBlock = defineType({
   name: "heroBlock",
   type: "object",
   title: "Hero",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
@@ -16,8 +18,10 @@ export const heroBlock = defineType({
       name: "heading",
       type: "string",
       title: "Heading",
+      fieldset: "heading",
       validation: (r) => r.required(),
     }),
+    headingLevelField("h1"),
     defineField({ name: "lead", type: "text", title: "Lead", rows: 3 }),
     defineField({
       name: "tone",

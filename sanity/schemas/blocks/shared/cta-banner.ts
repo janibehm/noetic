@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "./_block-name";
+import { headingLevelField } from "./_heading-level";
 
 /**
  * Shared — CTA banner.
@@ -18,6 +19,7 @@ export const ctaBannerBlock = defineType({
   name: "ctaBannerBlock",
   type: "object",
   title: "CTA banner",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
@@ -25,8 +27,10 @@ export const ctaBannerBlock = defineType({
       name: "heading",
       type: "string",
       title: "Heading",
+      fieldset: "heading",
       validation: (r) => r.required(),
     }),
+    headingLevelField("h2"),
     defineField({ name: "body", type: "text", title: "Body", rows: 3 }),
     defineField({
       name: "bullets",

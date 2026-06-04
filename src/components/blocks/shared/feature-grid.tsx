@@ -1,10 +1,12 @@
 import { css } from "../../../../styled-system/css";
 import { pageContainer, pageSection, stackY } from "../../../../styled-system/recipes";
 import { sanityImageProps } from "../../prose-renderer";
+import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 import type { SanityImageRef } from "../types";
 
 export type FeatureGridBlockProps = {
   heading?: string;
+  headingLevel?: HeadingLevel;
   lead?: string;
   columns?: 2 | 3 | 4;
   items?: Array<{
@@ -17,18 +19,20 @@ export type FeatureGridBlockProps = {
 
 export default function FeatureGridBlock({
   heading,
+  headingLevel,
   lead,
   columns = 3,
   items = [],
 }: FeatureGridBlockProps) {
+  const Heading = getHeadingLevel(headingLevel, "h2");
   return (
     <section className={pageSection({ space: "lg" })}>
       <div className={pageContainer({ size: "lg" })}>
         <div className={stackY({ gap: "lg" })}>
           {heading ? (
-            <h2 className={css({ textStyle: "heading.h2", maxWidth: "measureWide" })}>
+            <Heading className={css({ ...headingLevelStyles[Heading], maxWidth: "measureWide" })}>
               {heading}
-            </h2>
+            </Heading>
           ) : null}
           {lead ? (
             <p

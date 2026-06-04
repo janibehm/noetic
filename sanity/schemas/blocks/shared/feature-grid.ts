@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "./_block-name";
+import { headingLevelField } from "./_heading-level";
 
 /**
  * Feature grid block — list of cards with icon/image, heading, body.
@@ -8,9 +9,11 @@ export const featureGridBlock = defineType({
   name: "featureGridBlock",
   type: "object",
   title: "Feature grid",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
-    defineField({ name: "heading", type: "string", title: "Heading" }),
+    defineField({ name: "heading", type: "string", title: "Heading", fieldset: "heading" }),
+    headingLevelField("h2"),
     defineField({ name: "lead", type: "text", title: "Lead", rows: 2 }),
     defineField({
       name: "columns",

@@ -1,11 +1,13 @@
 import { css } from "../../../../styled-system/css";
 import { pageContainer, pageSection, button, cinematicStage } from "../../../../styled-system/recipes";
 import { sanityImageProps } from "../../prose-renderer";
+import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef, Tone } from "../types";
 
 export type CtaBannerBlockProps = {
   eyebrow?: string;
   heading: string;
+  headingLevel?: HeadingLevel;
   body?: string;
   bullets?: string[];
   primaryCta: { label: string; href: string };
@@ -31,6 +33,7 @@ const AURORA_TONE = {
 export default function CtaBannerBlock({
   eyebrow,
   heading,
+  headingLevel,
   body,
   bullets,
   primaryCta,
@@ -42,6 +45,7 @@ export default function CtaBannerBlock({
   const bg = background?.image ? sanityImageProps(background.image, 2000) : null;
   const isInverse = tone === "inverse";
   const auroraTone = AURORA_TONE[background?.auroraTone ?? "default"];
+  const Heading = getHeadingLevel(headingLevel, "h2");
 
   return (
     <section className={pageSection({ space: "lg" })}>
@@ -101,14 +105,14 @@ export default function CtaBannerBlock({
                 {eyebrow}
               </span>
             ) : null}
-            <h2
+            <Heading
               className={css({
-                textStyle: "display.lg",
+                ...headingLevelStyles[Heading],
                 color: isInverse ? "fg.onCinematic" : "fg.default",
               })}
             >
               {heading}
-            </h2>
+            </Heading>
             {body ? (
               <p
                 className={css({

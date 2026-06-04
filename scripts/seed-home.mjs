@@ -12,6 +12,116 @@ const client = createClient({
   useCdn: false,
 });
 
+const bentoCategories = [
+  { _id: "articleCategory-flagship", title: "Flagship", slug: "flagship" },
+  { _id: "articleCategory-editing", title: "Editing", slug: "editing" },
+  { _id: "articleCategory-background-removal", title: "Background removal", slug: "background-removal" },
+  { _id: "articleCategory-product", title: "Product", slug: "product" },
+  { _id: "articleCategory-upscaling", title: "Upscaling", slug: "upscaling" },
+  { _id: "articleCategory-character-design", title: "Character design", slug: "character-design" },
+  { _id: "articleCategory-marketing", title: "Marketing", slug: "marketing" },
+  { _id: "articleCategory-lab", title: "Lab", slug: "lab" },
+];
+
+const bentoArticles = [
+  {
+    _id: "article-ai-image-generation",
+    title: "AI Image Generation",
+    slug: "ai-image-generation",
+    excerpt: "Text-to-image at up to 4K, with photoreal and stylized model families.",
+    categoryId: "articleCategory-flagship",
+    publishedAt: "2026-06-04T12:00:00.000Z",
+  },
+  {
+    _id: "article-image-editing",
+    title: "Image Editing",
+    slug: "image-editing",
+    excerpt: "Inpaint, replace, recompose.",
+    categoryId: "articleCategory-editing",
+    publishedAt: "2026-06-04T11:00:00.000Z",
+  },
+  {
+    _id: "article-background-removal",
+    title: "Background Removal",
+    slug: "background-removal",
+    excerpt: "Pixel-perfect cutouts, instantly.",
+    categoryId: "articleCategory-background-removal",
+    publishedAt: "2026-06-04T10:00:00.000Z",
+  },
+  {
+    _id: "article-product-photography",
+    title: "Product Photography",
+    slug: "product-photography",
+    excerpt: "Studio-grade product shots from a single reference.",
+    categoryId: "articleCategory-product",
+    publishedAt: "2026-06-04T09:00:00.000Z",
+  },
+  {
+    _id: "article-upscaling",
+    title: "Upscaling",
+    slug: "upscaling",
+    excerpt: "Up to 10x detail recovery.",
+    categoryId: "articleCategory-upscaling",
+    publishedAt: "2026-06-04T08:00:00.000Z",
+  },
+  {
+    _id: "article-character-design",
+    title: "Character Design",
+    slug: "character-design",
+    excerpt: "Consistent characters across scenes.",
+    categoryId: "articleCategory-character-design",
+    publishedAt: "2026-06-04T07:00:00.000Z",
+  },
+  {
+    _id: "article-marketing-visuals",
+    title: "Marketing Visuals",
+    slug: "marketing-visuals",
+    excerpt: "Campaign-ready creative in every aspect ratio.",
+    categoryId: "articleCategory-marketing",
+    publishedAt: "2026-06-04T06:00:00.000Z",
+  },
+  {
+    _id: "article-diffusion-edge-perception",
+    title: "Diffusion at the edge of perception",
+    slug: "diffusion-edge-perception",
+    excerpt: "A closer look at the subtle thresholds that make generated images feel real.",
+    categoryId: "articleCategory-lab",
+    publishedAt: "2026-06-04T05:00:00.000Z",
+  },
+  {
+    _id: "article-prompt-geometry-latent-navigation",
+    title: "Prompt geometry and latent navigation",
+    slug: "prompt-geometry-latent-navigation",
+    excerpt: "How spatial prompt structure can steer visual systems with more repeatability.",
+    categoryId: "articleCategory-lab",
+    publishedAt: "2026-06-04T04:00:00.000Z",
+  },
+  {
+    _id: "article-holding-style-constant",
+    title: "Holding style constant across a series",
+    slug: "holding-style-constant",
+    excerpt: "Techniques for keeping a visual language stable across many generated frames.",
+    categoryId: "articleCategory-lab",
+    publishedAt: "2026-06-04T03:00:00.000Z",
+  },
+  {
+    _id: "article-twelve-reference-frames",
+    title: "Fine-tuning on twelve reference frames",
+    slug: "twelve-reference-frames",
+    excerpt: "What small reference sets can teach a production image model.",
+    categoryId: "articleCategory-lab",
+    publishedAt: "2026-06-04T02:00:00.000Z",
+  },
+  {
+    _id: "article-generation-feels-real",
+    title: "What makes a generation feel real",
+    slug: "generation-feels-real",
+    excerpt: "Texture, lighting, context, and the tiny errors that decide believability.",
+    categoryId: "articleCategory-lab",
+    publishedAt: "2026-06-04T01:00:00.000Z",
+  },
+];
+
 const doc = {
   _id: "homePage",
   _type: "homePage",
@@ -26,6 +136,7 @@ const doc = {
       blockName: "hero-prompt",
       eyebrow: "The spatial canvas for AI imagery",
       heading: "Generate production-ready visuals in seconds.",
+      headingLevel: "h1",
       lead: "Describe an idea. noetic renders, edits and upscales cinematic images and video — all on one infinite canvas.",
       promptIdeas: [
         "a cinematic product shot of a glass perfume bottle on wet stone…",
@@ -49,72 +160,15 @@ const doc = {
       _type: "bentoShowcaseBlock",
       blockName: "bento-showcase",
       heading: "Everything you'd open eight apps for.",
+      headingLevel: "h2",
       lead: "One model family, one interface — from first prompt to final asset. Hover any surface to see it come alive.",
-      items: [
-        {
-          _key: "b1",
-          _type: "bentoItem",
-          title: "AI Image Generation",
-          body: "Text-to-image at up to 4K, with photoreal and stylized model families.",
-          tag: "Flagship",
-          media: { kind: "aurora", auroraTone: "default" },
-          span: { columns: 2, rows: 2 },
-        },
-        {
-          _key: "b2",
-          _type: "bentoItem",
-          title: "Image Editing",
-          body: "Inpaint, replace, recompose.",
-          media: { kind: "aurora", auroraTone: "default" },
-          span: { columns: 1, rows: 1 },
-        },
-        {
-          _key: "b3",
-          _type: "bentoItem",
-          title: "Background Removal",
-          body: "Pixel-perfect cutouts, instantly.",
-          media: { kind: "aurora", auroraTone: "warm" },
-          span: { columns: 1, rows: 1 },
-        },
-        {
-          _key: "b4",
-          _type: "bentoItem",
-          title: "Product Photography",
-          body: "Studio-grade product shots from a single reference.",
-          media: { kind: "aurora", auroraTone: "default" },
-          span: { columns: 2, rows: 1 },
-        },
-        {
-          _key: "b5",
-          _type: "bentoItem",
-          title: "Upscaling",
-          body: "Up to 10× detail recovery.",
-          media: { kind: "aurora", auroraTone: "cool" },
-          span: { columns: 1, rows: 1 },
-        },
-        {
-          _key: "b6",
-          _type: "bentoItem",
-          title: "Character Design",
-          body: "Consistent characters across scenes.",
-          media: { kind: "aurora", auroraTone: "warm" },
-          span: { columns: 1, rows: 1 },
-        },
-        {
-          _key: "b7",
-          _type: "bentoItem",
-          title: "Marketing Visuals",
-          body: "Campaign-ready creative in every aspect ratio.",
-          media: { kind: "aurora", auroraTone: "default" },
-          span: { columns: 2, rows: 1 },
-        },
-      ],
     },
     {
       _key: "howItWorks",
       _type: "howItWorksBlock",
       blockName: "how-it-works",
       heading: "Idea to export in three moves.",
+      headingLevel: "h2",
       steps: [
         {
           _key: "s1",
@@ -143,6 +197,7 @@ const doc = {
       _key: "featured",
       _type: "articleCarouselBlock",
       heading: "Stories from the canvas.",
+      headingLevel: "h2",
       source: "latest",
       limit: 6,
     },
@@ -158,6 +213,7 @@ const doc = {
       _key: "lab",
       _type: "articleCarouselBlock",
       heading: "Latest from the Lab.",
+      headingLevel: "h2",
       source: "latest",
       limit: 6,
       category: "lab",
@@ -167,6 +223,7 @@ const doc = {
       _key: "cta",
       _type: "ctaBannerBlock",
       heading: "Your next visual is one prompt away.",
+      headingLevel: "h2",
       body: "Join the teams generating millions of production assets on noetic.",
       alignment: "center",
       tone: "inverse",
@@ -176,5 +233,37 @@ const doc = {
   ],
 };
 
+for (const category of bentoCategories) {
+  await client.createOrReplace({
+    _id: category._id,
+    _type: "articleCategory",
+    title: category.title,
+    slug: { _type: "slug", current: category.slug },
+  });
+}
+
+for (const article of bentoArticles) {
+  await client.createOrReplace({
+    _id: article._id,
+    _type: "article",
+    title: article.title,
+    slug: { _type: "slug", current: article.slug },
+    excerpt: article.excerpt,
+    category: { _type: "reference", _ref: article.categoryId },
+    author: { name: "Noetic Editorial" },
+    publishedAt: article.publishedAt,
+    readingTimeMinutes: 3,
+  });
+}
+
 const res = await client.createOrReplace(doc);
-console.log("Seeded:", res._id, "rev", res._rev);
+console.log(
+  "Seeded:",
+  bentoCategories.length,
+  "categories,",
+  bentoArticles.length,
+  "articles,",
+  res._id,
+  "rev",
+  res._rev,
+);

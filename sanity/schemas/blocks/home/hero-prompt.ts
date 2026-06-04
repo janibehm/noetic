@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "../shared/_block-name";
+import { headingLevelField } from "../shared/_heading-level";
 
 /**
  * Home — Hero with prompt bar.
@@ -12,6 +13,7 @@ export const heroPromptBlock = defineType({
   name: "heroPromptBlock",
   type: "object",
   title: "Home · Hero with prompt",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
     defineField({
@@ -24,8 +26,10 @@ export const heroPromptBlock = defineType({
       name: "heading",
       type: "string",
       title: "Heading",
+      fieldset: "heading",
       validation: (r) => r.required(),
     }),
+    headingLevelField("h1"),
     defineField({
       name: "lead",
       type: "text",

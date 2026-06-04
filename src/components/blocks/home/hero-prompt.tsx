@@ -4,11 +4,13 @@ import {
   button,
   cinematicStage,
 } from "../../../../styled-system/recipes";
+import { getHeadingLevel, headingLevelStyles, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
 export type HomeHeroPromptBlockProps = {
   eyebrow?: string;
   heading: string;
+  headingLevel?: HeadingLevel;
   lead?: string;
   promptIdeas?: string[];
   primaryCta?: CtaLink;
@@ -36,12 +38,14 @@ export type HomeHeroPromptBlockProps = {
 export default function HomeHeroPromptBlock({
   eyebrow,
   heading,
+  headingLevel,
   lead,
   promptIdeas,
   primaryCta,
   showScrollCue = true,
 }: HomeHeroPromptBlockProps) {
   const firstIdea = promptIdeas?.[0];
+  const Heading = getHeadingLevel(headingLevel, "h1");
   return (
     <section
       className={cinematicStage({})}
@@ -54,7 +58,7 @@ export default function HomeHeroPromptBlock({
           justifyContent: "center",
           minHeight: "100svh",
           paddingBlock: "2xl",
-          paddingInline: { base: "sm", md: "md", lg: "lg" },
+          paddingInline: 0,
         })}
       >
         <div
@@ -85,13 +89,10 @@ export default function HomeHeroPromptBlock({
                 {eyebrow}
               </span>
             ) : null}
-            <h1
+            <Heading
               className={css({
                 fontFamily: "sans",
-                fontWeight: "bold",
-                fontSize: "clamp(2.6rem, 6.4vw, 6rem)",
-                lineHeight: "0.96",
-                letterSpacing: "-0.045em",
+                ...headingLevelStyles[Heading],
                 color: "fg.onCinematic",
                 // Slightly wider than the original 16ch so `text-wrap:
                 // balance` can pull the trailing word up and avoid an
@@ -102,7 +103,7 @@ export default function HomeHeroPromptBlock({
               })}
             >
               {heading}
-            </h1>
+            </Heading>
             {lead ? (
               <p
                 className={css({

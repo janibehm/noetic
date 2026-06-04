@@ -29,7 +29,7 @@ export const blocksProjection = groq`
     _type,
 
     _type == "heroBlock" => {
-      eyebrow, heading, lead, tone, primaryCta,
+      eyebrow, heading, headingLevel, lead, tone, primaryCta,
       image{..., "alt": coalesce(alt, asset->altText)}
     },
 
@@ -38,7 +38,7 @@ export const blocksProjection = groq`
     _type == "calloutBlock" => { intent, title, body },
 
     _type == "featureGridBlock" => {
-      heading, lead, columns,
+      heading, headingLevel, lead, columns,
       items[]{ _key, title, body, image{..., "alt": coalesce(alt, asset->altText)} }
     },
 
@@ -48,7 +48,7 @@ export const blocksProjection = groq`
     },
 
     _type == "heroPromptBlock" => {
-      eyebrow, heading, lead, promptIdeas, primaryCta, showScrollCue,
+      eyebrow, heading, headingLevel, lead, promptIdeas, primaryCta, showScrollCue,
       background{
         "video": video.asset->url,
         poster{..., "alt": coalesce(alt, asset->altText)}
@@ -58,18 +58,20 @@ export const blocksProjection = groq`
     _type == "scrubWordsBlock" => { label, words, auroraTone },
 
     _type == "bentoShowcaseBlock" => {
-      eyebrow, heading, lead,
-      items[]{
-        _key, title, body, tag, href, span,
-        media{
-          kind, auroraTone,
-          image{..., "alt": coalesce(alt, asset->altText)}
-        }
+      eyebrow, heading, headingLevel, lead,
+      "items": *[
+        _type == "article" &&
+        defined(slug.current) &&
+        defined(publishedAt) &&
+        publishedAt <= now() &&
+        defined(category)
+      ] | order(publishedAt desc) [0...100] {
+        ${articleCardProjection}
       }
     },
 
     _type == "howItWorksBlock" => {
-      eyebrow, heading,
+      eyebrow, heading, headingLevel,
       steps[]{ _key, title, body, icon }
     },
 
@@ -80,7 +82,7 @@ export const blocksProjection = groq`
     },
 
     _type == "ctaBannerBlock" => {
-      eyebrow, heading, body, bullets, alignment, tone,
+      eyebrow, heading, headingLevel, body, bullets, alignment, tone,
       primaryCta, secondaryCta,
       background{
         auroraTone,
@@ -89,7 +91,7 @@ export const blocksProjection = groq`
     },
 
     _type == "articleCarouselBlock" => {
-      eyebrow, heading, viewAllCta, source, limit, category,
+      eyebrow, heading, headingLevel, viewAllCta, source, limit, category,
       // NOTE: GROQ slice endpoints must be integer literals, so we fetch
       // up to a generous cap (24) and let the renderer slice to "limit".
       "items": select(

@@ -1,5 +1,6 @@
 import { defineField, defineType } from "sanity";
 import { blockNameField } from "./_block-name";
+import { headingLevelField } from "./_heading-level";
 
 /**
  * Shared — Article carousel.
@@ -21,6 +22,7 @@ export const articleCarouselBlock = defineType({
   name: "articleCarouselBlock",
   type: "object",
   title: "Article carousel",
+  fieldsets: [{ name: "heading", title: "Heading", options: { columns: 2 } }],
   fields: [
     blockNameField,
     defineField({ name: "eyebrow", type: "string", title: "Eyebrow" }),
@@ -28,8 +30,10 @@ export const articleCarouselBlock = defineType({
       name: "heading",
       type: "string",
       title: "Heading",
+      fieldset: "heading",
       validation: (r) => r.required(),
     }),
+    headingLevelField("h2"),
     defineField({
       name: "viewAllCta",
       type: "object",

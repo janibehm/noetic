@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { css } from "../../../../styled-system/css";
 import { cinematicStage } from "../../../../styled-system/recipes";
 import type { AuroraTone } from "../types";
@@ -14,11 +14,9 @@ export type HomeScrubWordsBlockProps = {
 /**
  * Scroll-scrub word sequence.
  *
- * The outer `track` is tall (≈ words.length × 80vh) so that the
- * inner sticky `stage` stays pinned for the duration of the scroll.
- * A rAF loop reads the track's bounding rect, derives a 0→1
- * progress value, and uses it to select the active word/dot.
- * Matches `noetic_CLAUDE_DESIGN/index.html` (section 2).
+ * Matches `noetic_CLAUDE_DESIGN/index.html` (section 2): scroll
+ * progress is written to a CSS variable and the active word/dot is
+ * toggled imperatively, keeping React out of the animation loop.
  */
 export default function HomeScrubWordsBlock({
   label,
@@ -28,40 +26,53 @@ export default function HomeScrubWordsBlock({
   const tone =
     auroraTone === "cool" || auroraTone === "warm" ? auroraTone : "spectral";
   const trackRef = useRef<HTMLElement>(null);
-  const [active, setActive] = useState(0);
-  const [dim, setDim] = useState(0.25);
+  const activeRef = useRef(-1);
 
   useEffect(() => {
     if (!words.length) return;
     const el = trackRef.current;
     if (!el) return;
     let raf = 0;
+    const wordEls = Array.from(el.querySelectorAll<HTMLElement>("[data-scrub-word]"));
+    const dotEls = Array.from(el.querySelectorAll<HTMLElement>("[data-scrub-dot]"));
+
     const frame = () => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const total = r.height - vh;
       const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0;
-      // Map progress into word index with a small dwell margin at the ends.
+      el.style.setProperty("--p", p.toFixed(4));
+
       const idx = Math.min(
         words.length - 1,
         Math.max(0, Math.floor(p * words.length * 0.999)),
       );
-      setActive(idx);
-      setDim(0.25 + p * 0.55);
+      if (idx !== activeRef.current) {
+        activeRef.current = idx;
+        wordEls.forEach((wordEl, wordIndex) => {
+          const isActive = wordIndex === idx;
+          wordEl.toggleAttribute("data-active", isActive);
+          wordEl.setAttribute("aria-hidden", isActive ? "false" : "true");
+        });
+        dotEls.forEach((dotEl, dotIndex) => {
+          dotEl.toggleAttribute("data-active", dotIndex === idx);
+        });
+      }
       raf = requestAnimationFrame(frame);
     };
+
+    wordEls[0]?.setAttribute("data-active", "");
+    dotEls[0]?.setAttribute("data-active", "");
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, [words.length]);
 
-  // Track is ~80vh per word so each word gets a comfortable scroll slice.
-  const trackHeight = `${Math.max(2, words.length) * 80}vh`;
-
   return (
     <section
       ref={trackRef}
+      data-scrub-track
       className={css({ position: "relative" })}
-      style={{ height: trackHeight }}
+      style={{ height: "320vh" }}
     >
       <div
         className={css({
@@ -87,8 +98,8 @@ export default function HomeScrubWordsBlock({
             backgroundColor: "#000",
             zIndex: 1,
             transition: "opacity 0.1s linear",
+            opacity: "calc(0.25 + var(--p, 0) * 0.55)",
           })}
-          style={{ opacity: dim }}
         />
         <div
           className={css({
@@ -96,7 +107,7 @@ export default function HomeScrubWordsBlock({
             zIndex: 3,
             width: "100%",
             textAlign: "center",
-            paddingInline: { base: "sm", md: "md", lg: "lg" },
+            paddingInline: "pageGutter",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -126,7 +137,9 @@ export default function HomeScrubWordsBlock({
             {words.map((word, i) => (
               <div
                 key={word}
-                aria-hidden={i !== active}
+                data-scrub-word
+                data-active={i === 0 ? "" : undefined}
+                aria-hidden={i !== 0}
                 className={css({
                   position: "absolute",
                   inset: 0,
@@ -138,14 +151,15 @@ export default function HomeScrubWordsBlock({
                   fontWeight: 700,
                   letterSpacing: "-0.05em",
                   lineHeight: 1,
+                  opacity: 0,
+                  transform: "translateY(40px) scale(0.96)",
                   transition:
                     "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  "&[data-active]": {
+                    opacity: 1,
+                    transform: "none",
+                  },
                 })}
-                style={{
-                  opacity: i === active ? 1 : 0,
-                  transform:
-                    i === active ? "none" : "translateY(40px) scale(0.96)",
-                }}
               >
                 {word}
               </div>
@@ -162,17 +176,17 @@ export default function HomeScrubWordsBlock({
             {words.map((word, i) => (
               <span
                 key={word}
+                data-scrub-dot
+                data-active={i === 0 ? "" : undefined}
                 aria-hidden
                 className={css({
                   width: "12",
                   height: "1.5",
                   borderRadius: "pill",
+                  backgroundColor: "rgba(255,255,255,0.28)",
                   transition: "background-color 0.4s",
+                  "&[data-active]": { backgroundColor: "#fff" },
                 })}
-                style={{
-                  backgroundColor:
-                    i === active ? "#fff" : "rgba(255,255,255,0.28)",
-                }}
               />
             ))}
           </div>

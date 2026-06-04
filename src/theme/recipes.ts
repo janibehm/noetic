@@ -13,7 +13,7 @@ export const recipes = {
     base: {
       width: "100%",
       marginInline: "auto",
-      paddingInline: { base: "sm", md: "md", lg: "lg" },
+      paddingInline: "pageGutter",
     },
     variants: {
       size: {
