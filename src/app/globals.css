@@ -186,7 +186,15 @@
 		backdrop-filter: var(--glass-blur);
 		box-shadow: inset 0 0 0 1px var(--glass-edge), var(--shadow-amb-s);
 	}
+	.btn-white { --bg: #fff; --fg: var(--ink); }
 	.btn-sm { height: 42px; padding-inline: 18px; font-size: 0.9rem; }
+	.btn-lg { height: 60px; padding-inline: 34px; font-size: 1.1rem; }
+	.reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+	.reveal.in { opacity: 1; transform: none; }
+	.reveal-d1 { transition-delay: .08s; }
+	.reveal-d2 { transition-delay: .16s; }
+	.reveal-d3 { transition-delay: .24s; }
+	.reveal-d4 { transition-delay: .32s; }
 	[data-nav] {
 		position: fixed;
 		inset: 14px 0 auto;
@@ -331,6 +339,10 @@
 	100% { transform: translate3d(-2%, 4%, 0) scale(1.08) rotate(-4deg); }
 }
 
+@keyframes productMarquee {
+	to { transform: translateX(-50%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after {
 		animation-duration: .001ms !important;
@@ -338,4 +350,5 @@
 		transition-duration: .001ms !important;
 		scroll-behavior: auto !important;
 	}
+	.reveal { opacity: 1; transform: none; }
 }

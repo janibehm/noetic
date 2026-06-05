@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { button, cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
+import { Reveal } from "../reveal";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
@@ -59,7 +60,7 @@ export default function ArticleCarouselBlock({
       <div
         className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]"
       >
-          <div
+          <Reveal
             className="mb-[clamp(30px,4vw,52px)] flex flex-wrap items-end justify-between gap-6"
           >
             <div>
@@ -91,18 +92,20 @@ export default function ArticleCarouselBlock({
                 </CarouselButton>
               </div>
             )}
-          </div>
+          </Reveal>
           <ul
             ref={trackRef}
             className="no-scrollbar flex cursor-grab snap-x snap-mandatory list-none gap-[clamp(16px,2vw,26px)] overflow-x-auto p-0 py-2 m-0"
           >
-            {visible.map((article) => {
+            {visible.map((article, index) => {
               const cover = article.coverImage
                 ? sanityImageProps(article.coverImage, 800)
                 : null;
               return (
-                <li
+                <Reveal
+                  as="li"
                   key={article._id}
+                  delay={(index % 4) as 0 | 1 | 2 | 3}
                   className="w-[clamp(280px,32vw,380px)] flex-none snap-start [container-type:inline-size]"
                 >
                   <a
@@ -149,7 +152,7 @@ export default function ArticleCarouselBlock({
                       {article.title}
                     </h3>
                   </a>
-                </li>
+                </Reveal>
               );
             })}
           </ul>

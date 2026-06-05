@@ -17,6 +17,20 @@ import {
   bentoShowcaseBlock,
   howItWorksBlock,
 } from "./blocks/home";
+import {
+  productHeroBlock,
+  productLogoMarqueeBlock,
+  productCardGridBlock,
+  productStickyStackBlock,
+  productTrustGridBlock,
+  productDemoFormBlock,
+} from "./blocks/products";
+import {
+  pricingHeroBlock,
+  pricingTiersBlock,
+  pricingComparisonBlock,
+  pricingFaqBlock,
+} from "./blocks/pricing";
 import { page } from "./page";
 import { homePage } from "./documents/home-page";
 import { article } from "./documents/article";
@@ -49,6 +63,18 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   scrubWordsBlock,
   bentoShowcaseBlock,
   howItWorksBlock,
+  // Products-page blocks
+  productHeroBlock,
+  productLogoMarqueeBlock,
+  productCardGridBlock,
+  productStickyStackBlock,
+  productTrustGridBlock,
+  productDemoFormBlock,
+  // Pricing-page blocks
+  pricingHeroBlock,
+  pricingTiersBlock,
+  pricingComparisonBlock,
+  pricingFaqBlock,
   // Documents
   homePage,
   page,

@@ -107,6 +107,53 @@ export const blocksProjection = groq`
           ${articleCardProjection}
         }
       )
+    },
+
+    _type == "productHeroBlock" => {
+      eyebrow, heading, headingLevel, lead, primaryCta, secondaryCta, promptText,
+      dashboardItems[]{ _key, label, color },
+      thumbnails[]{ _key, featured, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productLogoMarqueeBlock" => { heading, highlightedText, logos },
+
+    _type == "productCardGridBlock" => {
+      heading, headingLevel, lead,
+      items[]{ _key, title, body, href, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productStickyStackBlock" => {
+      heading, headingLevel, lead,
+      steps[]{ _key, title, body, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productTrustGridBlock" => {
+      heading, headingLevel, lead,
+      items[]{ _key, icon, title, body }
+    },
+
+    _type == "productDemoFormBlock" => {
+      heading, body, bullets, submitLabel, successTitle, successBody
+    },
+
+    _type == "pricingHeroBlock" => {
+      eyebrow, heading, headingLevel, lead, monthlyLabel, annualLabel, saveBadge
+    },
+
+    _type == "pricingTiersBlock" => {
+      creditsNote,
+      plans[]{ _key, name, description, monthlyPrice, annualPrice, monthlyBillNote, annualBillNote, cta, ctaVariant, featured, badge, features[]{ _key, highlight, text, muted } },
+      enterprise{ heading, body, cta }
+    },
+
+    _type == "pricingComparisonBlock" => {
+      heading, headingLevel, featuredPlanIndex, plans,
+      groups[]{ _key, name, rows[]{ _key, feature, values } }
+    },
+
+    _type == "pricingFaqBlock" => {
+      heading, headingLevel,
+      items[]{ _key, question, answer }
     }
   }
 `;
@@ -144,6 +191,10 @@ export const pageBySlugQuery = groq`
     seoDescription,
     ${blocksProjection}
   }
+`;
+
+export const pageSlugsQuery = groq`
+  *[_type == "page" && defined(slug.current)].slug.current
 `;
 
 /* -------------------------------------------------------------------------- */

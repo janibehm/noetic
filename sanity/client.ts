@@ -20,9 +20,8 @@ function getClient(): SanityClient {
     projectId,
     dataset,
     apiVersion,
-    // CDN serves cached data (great in prod, ~minute lag after writes).
-    // Disable in dev so editor changes appear on the next request.
-    useCdn: process.env.NODE_ENV === "production",
+    // Static builds need fresh page slugs immediately after seed/deploy writes.
+    useCdn: false,
     perspective: "published",
     stega: { studioUrl: "/studio" },
   });
