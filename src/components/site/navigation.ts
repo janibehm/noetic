@@ -13,7 +13,7 @@ export const navItems: NavItem[] = [
   { href: "/products", label: "Products" },
   { href: "/solutions", label: "Solutions" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/articles", label: "Lab", activePrefix: "/articles" },
+  { href: "/lab", label: "Lab", activePrefix: "/lab" },
   { href: "/resources", label: "Resources" },
   { href: "/company", label: "Company" },
   { href: "/contact", label: "Contact" },
@@ -32,7 +32,7 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Explore",
     items: [
-      { href: "/articles", label: "Lab" },
+      { href: "/lab", label: "Lab" },
       { href: "/resources", label: "Resources" },
       { href: "/", label: "Home" },
     ],

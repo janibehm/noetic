@@ -26,6 +26,27 @@ import {
   PricingComparisonBlock,
   PricingFaqBlock,
 } from "./pricing";
+import {
+  SolutionHeroBlock,
+  SolutionAccordionBlock,
+  SolutionFeatureSectionsBlock,
+} from "./solutions";
+import {
+  LabHeroBlock,
+  LabArticleGridBlock,
+  LabSpotlightBlock,
+} from "./lab";
+import {
+  ResourcesFeaturedBlock,
+  ResourcesLibraryBlock,
+  ResourcesApiBlock,
+} from "./resources";
+import {
+  CompanyHeroBlock,
+  CompanyTeamBlock,
+  CompanyPartnersBlock,
+  CompanyJobsBlock,
+} from "./company";
 
 import type { Block } from "./types";
 
@@ -67,6 +88,23 @@ const REGISTRY: Record<string, ComponentType<any>> = {
   pricingTiersBlock: PricingTiersBlock,
   pricingComparisonBlock: PricingComparisonBlock,
   pricingFaqBlock: PricingFaqBlock,
+  // Solutions
+  solutionHeroBlock: SolutionHeroBlock,
+  solutionAccordionBlock: SolutionAccordionBlock,
+  solutionFeatureSectionsBlock: SolutionFeatureSectionsBlock,
+  // Lab
+  labHeroBlock: LabHeroBlock,
+  labArticleGridBlock: LabArticleGridBlock,
+  labSpotlightBlock: LabSpotlightBlock,
+  // Resources
+  resourcesFeaturedBlock: ResourcesFeaturedBlock,
+  resourcesLibraryBlock: ResourcesLibraryBlock,
+  resourcesApiBlock: ResourcesApiBlock,
+  // Company
+  companyHeroBlock: CompanyHeroBlock,
+  companyTeamBlock: CompanyTeamBlock,
+  companyPartnersBlock: CompanyPartnersBlock,
+  companyJobsBlock: CompanyJobsBlock,
 };
 
 /** Top-level dispatcher. Iterates `blocks[]` and renders each entry

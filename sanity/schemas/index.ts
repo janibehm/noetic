@@ -31,6 +31,27 @@ import {
   pricingComparisonBlock,
   pricingFaqBlock,
 } from "./blocks/pricing";
+import {
+  solutionHeroBlock,
+  solutionAccordionBlock,
+  solutionFeatureSectionsBlock,
+} from "./blocks/solutions";
+import {
+  labHeroBlock,
+  labArticleGridBlock,
+  labSpotlightBlock,
+} from "./blocks/lab";
+import {
+  resourcesFeaturedBlock,
+  resourcesLibraryBlock,
+  resourcesApiBlock,
+} from "./blocks/resources";
+import {
+  companyHeroBlock,
+  companyTeamBlock,
+  companyPartnersBlock,
+  companyJobsBlock,
+} from "./blocks/company";
 import { page } from "./page";
 import { homePage } from "./documents/home-page";
 import { article } from "./documents/article";
@@ -75,6 +96,23 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   pricingTiersBlock,
   pricingComparisonBlock,
   pricingFaqBlock,
+  // Solutions-page blocks
+  solutionHeroBlock,
+  solutionAccordionBlock,
+  solutionFeatureSectionsBlock,
+  // Lab-page blocks
+  labHeroBlock,
+  labArticleGridBlock,
+  labSpotlightBlock,
+  // Resources-page blocks
+  resourcesFeaturedBlock,
+  resourcesLibraryBlock,
+  resourcesApiBlock,
+  // Company-page blocks
+  companyHeroBlock,
+  companyTeamBlock,
+  companyPartnersBlock,
+  companyJobsBlock,
   // Documents
   homePage,
   page,

@@ -44,7 +44,13 @@ export const ctaBannerBlock = defineType({
       name: "primaryCta",
       type: "object",
       title: "Primary CTA",
-      validation: (r) => r.required(),
+      validation: (r) =>
+        r.custom((value, context) => {
+          const parent = context.parent as { emailCapture?: { enabled?: boolean } } | undefined;
+          if (parent?.emailCapture?.enabled) return true;
+          if (value && typeof value === "object" && "label" in value && "href" in value) return true;
+          return "Primary CTA is required unless email capture is enabled.";
+        }),
       fields: [
         defineField({
           name: "label",
@@ -125,6 +131,19 @@ export const ctaBannerBlock = defineType({
           },
           initialValue: "default",
         }),
+      ],
+    }),
+    defineField({
+      name: "emailCapture",
+      type: "object",
+      title: "Email capture",
+      description: "Optional newsletter form. Currently used by the Resources page CTA.",
+      fields: [
+        defineField({ name: "enabled", type: "boolean", title: "Enable email form", initialValue: false }),
+        defineField({ name: "placeholder", type: "string", title: "Email placeholder", initialValue: "you@studio.com" }),
+        defineField({ name: "buttonLabel", type: "string", title: "Button label", initialValue: "Subscribe" }),
+        defineField({ name: "successTitle", type: "string", title: "Success title", initialValue: "You're in." }),
+        defineField({ name: "successBody", type: "string", title: "Success body", initialValue: "Watch your inbox." }),
       ],
     }),
   ],

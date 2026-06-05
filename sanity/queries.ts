@@ -83,7 +83,7 @@ export const blocksProjection = groq`
 
     _type == "ctaBannerBlock" => {
       eyebrow, heading, headingLevel, body, bullets, alignment, tone,
-      primaryCta, secondaryCta,
+      primaryCta, secondaryCta, emailCapture,
       background{
         auroraTone,
         image{..., "alt": coalesce(alt, asset->altText)}
@@ -112,7 +112,8 @@ export const blocksProjection = groq`
     _type == "logoMarqueeBlock" => { heading, highlightedText, logos },
 
     _type == "demoFormBlock" => {
-      heading, body, bullets, submitLabel, successTitle, successBody
+      heading, body, bullets, submitLabel, successTitle, successBody,
+      showCompanyField, selectLabel, selectOptions, messagePlaceholder
     },
 
     _type == "productHeroBlock" => {
@@ -160,6 +161,69 @@ export const blocksProjection = groq`
     _type == "pricingFaqBlock" => {
       heading, headingLevel,
       items[]{ _key, question, answer }
+    },
+
+    _type == "solutionHeroBlock" => {
+      eyebrow, heading, headingLevel, lead, cardHeading, cardBody, cta
+    },
+
+    _type == "solutionAccordionBlock" => {
+      heading, headingLevel,
+      items[]{ _key, title, body, imageUrl, auroraTone }
+    },
+
+    _type == "solutionFeatureSectionsBlock" => {
+      sections[]{ _key, eyebrow, heading, body, bullets, flip, imageUrl, auroraTone }
+    },
+
+    _type == "labHeroBlock" => {
+      eyebrow, heading, headingLevel, lead,
+      stats[]{ _key, value, label }
+    },
+
+    _type == "labArticleGridBlock" => {
+      heading, headingLevel, countLabel, layout,
+      items[]{ _key, title, tag, category, meta, href, imageUrl, auroraTone }
+    },
+
+    _type == "labSpotlightBlock" => {
+      eyebrow, heading, headingLevel, body, cta
+    },
+
+    _type == "resourcesFeaturedBlock" => {
+      badge, heading, headingLevel, lead, href, imageUrl, auroraTone,
+      author{ name, meta, avatarUrl }
+    },
+
+    _type == "resourcesLibraryBlock" => {
+      heading, headingLevel,
+      items[]{ _key, title, category, href, imageUrl, auroraTone }
+    },
+
+    _type == "resourcesApiBlock" => {
+      heading, headingLevel, lead,
+      codeSamples[]{ _key, label, language, code },
+      endpointGroup{ heading, baseUrl, rows[]{ _key, method, endpoint, description } },
+      cards[]{ _key, title, href, items }
+    },
+
+    _type == "companyHeroBlock" => {
+      eyebrow, heading, highlight, headingLevel, lead,
+      stats[]{ _key, value, label }
+    },
+
+    _type == "companyTeamBlock" => {
+      heading, headingLevel,
+      members[]{ _key, name, role, imageUrl }
+    },
+
+    _type == "companyPartnersBlock" => {
+      heading, headingLevel, logos
+    },
+
+    _type == "companyJobsBlock" => {
+      heading, headingLevel,
+      jobs[]{ _key, title, team, location, href }
     }
   }
 `;

@@ -61,6 +61,23 @@ export const page = defineType({
         { type: "pricingTiersBlock" },
         { type: "pricingComparisonBlock" },
         { type: "pricingFaqBlock" },
+        // Solutions-page blocks
+        { type: "solutionHeroBlock" },
+        { type: "solutionAccordionBlock" },
+        { type: "solutionFeatureSectionsBlock" },
+        // Lab-page blocks
+        { type: "labHeroBlock" },
+        { type: "labArticleGridBlock" },
+        { type: "labSpotlightBlock" },
+        // Resources-page blocks
+        { type: "resourcesFeaturedBlock" },
+        { type: "resourcesLibraryBlock" },
+        { type: "resourcesApiBlock" },
+        // Company-page blocks
+        { type: "companyHeroBlock" },
+        { type: "companyTeamBlock" },
+        { type: "companyPartnersBlock" },
+        { type: "companyJobsBlock" },
       ],
       options: { insertMenu: { views: [{ name: "list" }] } },
     }),

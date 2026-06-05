@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { button, cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
@@ -9,13 +12,20 @@ export type CtaBannerBlockProps = {
   headingLevel?: HeadingLevel;
   body?: string;
   bullets?: string[];
-  primaryCta: { label: string; href: string };
+  primaryCta?: { label: string; href: string };
   secondaryCta?: CtaLink;
   alignment?: "center" | "start";
   tone?: Tone;
   background?: {
     auroraTone?: AuroraTone;
     image?: SanityImageRef;
+  };
+  emailCapture?: {
+    enabled?: boolean;
+    placeholder?: string;
+    buttonLabel?: string;
+    successTitle?: string;
+    successBody?: string;
   };
 };
 
@@ -40,7 +50,9 @@ export default function CtaBannerBlock({
   alignment = "center",
   tone = "inverse",
   background,
+  emailCapture,
 }: CtaBannerBlockProps) {
+  const [sent, setSent] = useState(false);
   const bg = background?.image ? sanityImageProps(background.image, 2000) : null;
   const isInverse = tone === "inverse";
   const isCenter = alignment === "center";
@@ -106,16 +118,20 @@ export default function CtaBannerBlock({
             <div
               className="mt-4 flex flex-wrap gap-4"
             >
-              <a
-                href={primaryCta.href}
-                className={button({
-                  variant: isInverse ? "onCinematic" : "inverse",
-                  size: "lg",
-                  shape: "pill",
-                })}
-              >
-                {primaryCta.label}
-              </a>
+              {emailCapture?.enabled ? (
+                <EmailCaptureForm emailCapture={emailCapture} isInverse={isInverse} sent={sent} onSent={() => setSent(true)} />
+              ) : primaryCta?.label && primaryCta.href ? (
+                <a
+                  href={primaryCta.href}
+                  className={button({
+                    variant: isInverse ? "onCinematic" : "inverse",
+                    size: "lg",
+                    shape: "pill",
+                  })}
+                >
+                  {primaryCta.label}
+                </a>
+              ) : null}
               {secondaryCta?.label && secondaryCta.href ? (
                 <a
                   href={secondaryCta.href}
@@ -138,5 +154,46 @@ export default function CtaBannerBlock({
         </div>
       </div>
     </section>
+  );
+}
+
+function EmailCaptureForm({
+  emailCapture,
+  isInverse,
+  sent,
+  onSent,
+}: {
+  emailCapture: NonNullable<CtaBannerBlockProps["emailCapture"]>;
+  isInverse: boolean;
+  sent: boolean;
+  onSent: () => void;
+}) {
+  if (sent) {
+    return (
+      <div className={cn("mt-1 text-center", isInverse ? "text-white" : "text-[var(--ink)]")}>
+        <strong>{emailCapture.successTitle || "You're in."}</strong>
+        {emailCapture.successBody ? <span className="ml-1">{emailCapture.successBody}</span> : null}
+      </div>
+    );
+  }
+
+  return (
+    <form
+      className="mx-auto flex w-full max-w-[440px] gap-2.5 max-[520px]:flex-col"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSent();
+      }}
+    >
+      <input
+        type="email"
+        required
+        placeholder={emailCapture.placeholder || "you@studio.com"}
+        className="h-[54px] flex-1 rounded-full border-0 bg-white/90 px-5 text-base text-[var(--ink)] outline-none focus:outline focus:outline-2 focus:outline-white max-[520px]:text-center"
+      />
+      <button type="submit" className={button({ variant: "onCinematic", size: "lg", shape: "pill" })}>
+        {emailCapture.buttonLabel || "Subscribe"}
+      </button>
+    </form>
   );
 }

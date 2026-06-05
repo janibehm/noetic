@@ -9,6 +9,10 @@ export type DemoFormBlockProps = {
   body?: string;
   bullets?: string[];
   submitLabel?: string;
+  showCompanyField?: boolean;
+  selectLabel?: string;
+  selectOptions?: string[];
+  messagePlaceholder?: string;
   successTitle?: string;
   successBody?: string;
 };
@@ -18,10 +22,19 @@ export default function DemoFormBlock({
   body,
   bullets = [],
   submitLabel = "Request demo",
+  showCompanyField = true,
+  selectLabel = "Team size",
+  selectOptions = ["1-10", "11-50", "51-200", "200+"],
+  messagePlaceholder = "What would you like to generate?",
   successTitle = "Thanks - we'll be in touch within one business day.",
   successBody = "A product specialist will reach out to schedule your walkthrough.",
 }: DemoFormBlockProps) {
   const [sent, setSent] = useState(false);
+  const bulletItems = bullets ?? [];
+  const optionItems = selectOptions?.length ? selectOptions : ["1-10", "11-50", "51-200", "200+"];
+  const fieldSelectLabel = selectLabel || "Team size";
+  const fieldMessagePlaceholder = messagePlaceholder || "What would you like to generate?";
+  const shouldShowCompanyField = showCompanyField ?? true;
 
   return (
     <section className="relative py-[clamp(72px,11vw,160px)]">
@@ -33,9 +46,9 @@ export default function DemoFormBlock({
               <div className="relative z-[3]">
                 <h2 className="mb-4 text-[clamp(1.8rem,3vw,2.8rem)] font-bold leading-[0.98] tracking-[-0.03em] text-white">{heading}</h2>
                 {body ? <p className="max-w-[34ch] text-white/85">{body}</p> : null}
-                {bullets.length ? (
+                {bulletItems.length ? (
                   <ul className="mt-7 flex list-none flex-col gap-3 p-0">
-                    {bullets.map((bullet) => (
+                    {bulletItems.map((bullet) => (
                       <li key={bullet} className="flex items-center gap-2.5 text-white/90">
                         <span className="h-[7px] w-[7px] rounded-full bg-[var(--aurora-line)]" />
                         {bullet}
@@ -64,18 +77,15 @@ export default function DemoFormBlock({
                     <Field placeholder="Last name" required />
                   </div>
                   <Field type="email" placeholder="Work email" required />
-                  <Field placeholder="Company" required />
+                  {shouldShowCompanyField ? <Field placeholder="Company" required /> : null}
                   <label className="relative mb-[30px] block">
                     <select required defaultValue="" className="w-full border-0 border-b border-[var(--line)] bg-transparent px-0.5 py-3 text-[1.06rem] text-[var(--ink)] outline-none transition-colors focus:border-[var(--ink)]">
-                      <option value="" disabled>Team size</option>
-                      <option>1-10</option>
-                      <option>11-50</option>
-                      <option>51-200</option>
-                      <option>200+</option>
+                      <option value="" disabled>{fieldSelectLabel}</option>
+                      {optionItems.map((option) => <option key={option}>{option}</option>)}
                     </select>
                   </label>
                   <label className="mb-[30px] block">
-                    <textarea placeholder="What would you like to generate?" className="min-h-24 w-full resize-none border-0 border-b border-[var(--line)] bg-transparent px-0.5 py-3 text-[1.06rem] text-[var(--ink)] outline-none transition-colors placeholder:text-[var(--gray-soft)] focus:border-[var(--ink)]" />
+                    <textarea placeholder={fieldMessagePlaceholder} className="min-h-24 w-full resize-none border-0 border-b border-[var(--line)] bg-transparent px-0.5 py-3 text-[1.06rem] text-[var(--ink)] outline-none transition-colors placeholder:text-[var(--gray-soft)] focus:border-[var(--ink)]" />
                   </label>
                   <button type="submit" className={button({ variant: "inverse", size: "lg", shape: "pill" }) + " w-full"}>
                     {submitLabel}
