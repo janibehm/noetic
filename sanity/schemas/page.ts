@@ -49,6 +49,13 @@ export const page = defineType({
         { type: "scrubWordsBlock" },
         { type: "bentoShowcaseBlock" },
         { type: "howItWorksBlock" },
+        // Product-page blocks
+        { type: "productHeroBlock" },
+        { type: "productLogoMarqueeBlock" },
+        { type: "productCardGridBlock" },
+        { type: "productStickyStackBlock" },
+        { type: "productTrustGridBlock" },
+        { type: "productDemoFormBlock" },
       ],
       options: { insertMenu: { views: [{ name: "list" }] } },
     }),

@@ -107,6 +107,33 @@ export const blocksProjection = groq`
           ${articleCardProjection}
         }
       )
+    },
+
+    _type == "productHeroBlock" => {
+      eyebrow, heading, headingLevel, lead, primaryCta, secondaryCta, promptText,
+      dashboardItems[]{ _key, label, color },
+      thumbnails[]{ _key, featured, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productLogoMarqueeBlock" => { heading, highlightedText, logos },
+
+    _type == "productCardGridBlock" => {
+      heading, headingLevel, lead,
+      items[]{ _key, title, body, href, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productStickyStackBlock" => {
+      heading, headingLevel, lead,
+      steps[]{ _key, title, body, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+    },
+
+    _type == "productTrustGridBlock" => {
+      heading, headingLevel, lead,
+      items[]{ _key, icon, title, body }
+    },
+
+    _type == "productDemoFormBlock" => {
+      heading, body, bullets, submitLabel, successTitle, successBody
     }
   }
 `;
@@ -144,6 +171,10 @@ export const pageBySlugQuery = groq`
     seoDescription,
     ${blocksProjection}
   }
+`;
+
+export const pageSlugsQuery = groq`
+  *[_type == "page" && defined(slug.current)].slug.current
 `;
 
 /* -------------------------------------------------------------------------- */

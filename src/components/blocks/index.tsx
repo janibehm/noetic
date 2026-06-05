@@ -14,6 +14,13 @@ import HomeScrubWordsBlock from "./home/scrub-words";
 import HomeBentoShowcaseBlock from "./home/bento-showcase";
 import HomeHowItWorksBlock from "./home/how-it-works";
 
+import ProductHeroBlock from "./products/product-hero";
+import ProductLogoMarqueeBlock from "./products/logo-marquee";
+import ProductCardGridBlock from "./products/product-card-grid";
+import ProductStickyStackBlock from "./products/sticky-stack";
+import ProductTrustGridBlock from "./products/trust-grid";
+import ProductDemoFormBlock from "./products/demo-form";
+
 import type { Block } from "./types";
 
 /**
@@ -40,6 +47,13 @@ const REGISTRY: Record<string, ComponentType<any>> = {
   scrubWordsBlock: HomeScrubWordsBlock,
   bentoShowcaseBlock: HomeBentoShowcaseBlock,
   howItWorksBlock: HomeHowItWorksBlock,
+  // Products
+  productHeroBlock: ProductHeroBlock,
+  productLogoMarqueeBlock: ProductLogoMarqueeBlock,
+  productCardGridBlock: ProductCardGridBlock,
+  productStickyStackBlock: ProductStickyStackBlock,
+  productTrustGridBlock: ProductTrustGridBlock,
+  productDemoFormBlock: ProductDemoFormBlock,
 };
 
 /** Top-level dispatcher. Iterates `blocks[]` and renders each entry
