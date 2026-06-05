@@ -37,6 +37,8 @@ export default function HomeBentoShowcaseBlock({
   items = [],
 }: HomeBentoShowcaseBlockProps) {
   const headingTag = getHeadingLevel(headingLevel, "h2");
+  // The mosaic layout (big flagship + 2-wide tiles at indices 3 and 6)
+  // is sized for exactly 7 tiles, matching the reference bento.
   const latestByCategory = Array.from(
     items
       .reduce((articles, item) => {
@@ -45,7 +47,7 @@ export default function HomeBentoShowcaseBlock({
         return articles;
       }, new Map<string, BentoArticle>())
       .values(),
-  );
+  ).slice(0, 7);
 
   return (
     <section
@@ -131,31 +133,31 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
         aria-hidden
         className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_30%,rgba(0,0,0,0.55))] transition-opacity duration-500 group-hover:opacity-30"
       />
-      <BentoBody item={item} />
+      <BentoBody item={item} showTag={index === 0} />
     </li>
   );
 }
 
-function BentoBody({ item }: { item: BentoArticle }) {
+function BentoBody({ item, showTag }: { item: BentoArticle; showTag: boolean }) {
   const inner = (
     <>
-      {item.category?.title ? (
+      {showTag && item.category?.title ? (
         <span
-          className="mb-auto inline-flex h-[1.875rem] items-center gap-[7px] self-start rounded-full bg-white/20 px-[0.8125rem] text-[clamp(0.66rem,2.8cqw,0.78rem)] font-medium text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] backdrop-blur-[14px]"
+          className="mb-auto inline-flex h-[1.875rem] items-center gap-[7px] self-start rounded-full bg-white/[0.22] px-[0.8125rem] text-[0.78rem] font-medium text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] backdrop-blur-[14px]"
         >
           {item.category.title}
         </span>
       ) : null}
       <h3
         data-bento-copy
-        className="text-[clamp(0.95rem,5.7cqw,1.3rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-white transition-opacity duration-[400ms] [text-shadow:0_2px_20px_rgba(0,0,0,0.3)]"
+        className="text-[1.3rem] font-semibold leading-[1.5] tracking-[-0.02em] text-white transition-opacity duration-[400ms] [text-shadow:0_2px_20px_rgba(0,0,0,0.3)]"
       >
         {item.title}
       </h3>
       {item.excerpt ? (
         <p
           data-bento-copy
-          className="mt-[6px] max-w-[30ch] text-[clamp(0.74rem,4cqw,0.92rem)] leading-[1.35] text-white/85 transition-opacity duration-[400ms]"
+          className="mt-[6px] max-w-[30ch] text-[0.92rem] leading-[1.5] text-white/85 transition-opacity duration-[400ms]"
         >
           {item.excerpt}
         </p>
