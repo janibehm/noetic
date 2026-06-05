@@ -134,6 +134,26 @@ export const blocksProjection = groq`
 
     _type == "productDemoFormBlock" => {
       heading, body, bullets, submitLabel, successTitle, successBody
+    },
+
+    _type == "pricingHeroBlock" => {
+      eyebrow, heading, headingLevel, lead, monthlyLabel, annualLabel, saveBadge
+    },
+
+    _type == "pricingTiersBlock" => {
+      creditsNote,
+      plans[]{ _key, name, description, monthlyPrice, annualPrice, monthlyBillNote, annualBillNote, cta, ctaVariant, featured, badge, features[]{ _key, highlight, text, muted } },
+      enterprise{ heading, body, cta }
+    },
+
+    _type == "pricingComparisonBlock" => {
+      heading, headingLevel, featuredPlanIndex, plans,
+      groups[]{ _key, name, rows[]{ _key, feature, values } }
+    },
+
+    _type == "pricingFaqBlock" => {
+      heading, headingLevel,
+      items[]{ _key, question, answer }
     }
   }
 `;

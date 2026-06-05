@@ -20,6 +20,12 @@ import ProductCardGridBlock from "./products/product-card-grid";
 import ProductStickyStackBlock from "./products/sticky-stack";
 import ProductTrustGridBlock from "./products/trust-grid";
 import ProductDemoFormBlock from "./products/demo-form";
+import {
+  PricingHeroBlock,
+  PricingTiersBlock,
+  PricingComparisonBlock,
+  PricingFaqBlock,
+} from "./pricing";
 
 import type { Block } from "./types";
 
@@ -54,6 +60,11 @@ const REGISTRY: Record<string, ComponentType<any>> = {
   productStickyStackBlock: ProductStickyStackBlock,
   productTrustGridBlock: ProductTrustGridBlock,
   productDemoFormBlock: ProductDemoFormBlock,
+  // Pricing
+  pricingHeroBlock: PricingHeroBlock,
+  pricingTiersBlock: PricingTiersBlock,
+  pricingComparisonBlock: PricingComparisonBlock,
+  pricingFaqBlock: PricingFaqBlock,
 };
 
 /** Top-level dispatcher. Iterates `blocks[]` and renders each entry

@@ -186,6 +186,7 @@
 		backdrop-filter: var(--glass-blur);
 		box-shadow: inset 0 0 0 1px var(--glass-edge), var(--shadow-amb-s);
 	}
+	.btn-white { --bg: #fff; --fg: var(--ink); }
 	.btn-sm { height: 42px; padding-inline: 18px; font-size: 0.9rem; }
 	.btn-lg { height: 60px; padding-inline: 34px; font-size: 1.1rem; }
 	.reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }

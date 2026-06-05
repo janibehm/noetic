@@ -56,6 +56,11 @@ export const page = defineType({
         { type: "productStickyStackBlock" },
         { type: "productTrustGridBlock" },
         { type: "productDemoFormBlock" },
+        // Pricing-page blocks
+        { type: "pricingHeroBlock" },
+        { type: "pricingTiersBlock" },
+        { type: "pricingComparisonBlock" },
+        { type: "pricingFaqBlock" },
       ],
       options: { insertMenu: { views: [{ name: "list" }] } },
     }),

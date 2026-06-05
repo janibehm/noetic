@@ -25,6 +25,12 @@ import {
   productTrustGridBlock,
   productDemoFormBlock,
 } from "./blocks/products";
+import {
+  pricingHeroBlock,
+  pricingTiersBlock,
+  pricingComparisonBlock,
+  pricingFaqBlock,
+} from "./blocks/pricing";
 import { page } from "./page";
 import { homePage } from "./documents/home-page";
 import { article } from "./documents/article";
@@ -64,6 +70,11 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   productStickyStackBlock,
   productTrustGridBlock,
   productDemoFormBlock,
+  // Pricing-page blocks
+  pricingHeroBlock,
+  pricingTiersBlock,
+  pricingComparisonBlock,
+  pricingFaqBlock,
   // Documents
   homePage,
   page,
