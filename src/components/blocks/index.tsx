@@ -47,6 +47,7 @@ import {
   CompanyPartnersBlock,
   CompanyJobsBlock,
 } from "./company";
+import { ContactBlock } from "./contact";
 
 import type { Block } from "./types";
 
@@ -105,6 +106,8 @@ const REGISTRY: Record<string, ComponentType<any>> = {
   companyTeamBlock: CompanyTeamBlock,
   companyPartnersBlock: CompanyPartnersBlock,
   companyJobsBlock: CompanyJobsBlock,
+  // Contact
+  contactBlock: ContactBlock,
 };
 
 /** Top-level dispatcher. Iterates `blocks[]` and renders each entry

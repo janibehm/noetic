@@ -1,0 +1,1 @@
+export { contactBlock } from "./contact";

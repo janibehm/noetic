@@ -224,6 +224,13 @@ export const blocksProjection = groq`
     _type == "companyJobsBlock" => {
       heading, headingLevel,
       jobs[]{ _key, title, team, location, href }
+    },
+
+    _type == "contactBlock" => {
+      eyebrow, heading, headingLevel, lead,
+      channels[]{ _key, label, email },
+      submitLabel, selectLabel, selectOptions, messagePlaceholder,
+      successBadge, successTitle, successBody
     }
   }
 `;

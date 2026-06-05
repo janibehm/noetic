@@ -52,6 +52,7 @@ import {
   companyPartnersBlock,
   companyJobsBlock,
 } from "./blocks/company";
+import { contactBlock } from "./blocks/contact";
 import { page } from "./page";
 import { homePage } from "./documents/home-page";
 import { article } from "./documents/article";
@@ -113,6 +114,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   companyTeamBlock,
   companyPartnersBlock,
   companyJobsBlock,
+  // Contact-page block
+  contactBlock,
   // Documents
   homePage,
   page,

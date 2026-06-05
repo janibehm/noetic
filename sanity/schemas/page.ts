@@ -78,6 +78,8 @@ export const page = defineType({
         { type: "companyTeamBlock" },
         { type: "companyPartnersBlock" },
         { type: "companyJobsBlock" },
+        // Contact-page block
+        { type: "contactBlock" },
       ],
       options: { insertMenu: { views: [{ name: "list" }] } },
     }),
