@@ -99,7 +99,6 @@ export function StickyStackSync({ steps }: { steps: StackStep[] }) {
           <Reveal key={`${step._key}-media`} delay={(index % 4) as 0 | 1 | 2 | 3}>
             <StackMedia
               step={step}
-              active={index === activeIndex}
               refCallback={(node) => {
                 mediaRefs.current[index] = node;
               }}
@@ -113,11 +112,9 @@ export function StickyStackSync({ steps }: { steps: StackStep[] }) {
 
 function StackMedia({
   step,
-  active,
   refCallback,
 }: {
   step: StackStep;
-  active: boolean;
   refCallback: (node: HTMLDivElement | null) => void;
 }) {
   const image = step.image ? sanityImageProps(step.image, 1200) : null;
@@ -125,11 +122,7 @@ function StackMedia({
     <div
       ref={refCallback}
       data-pic
-      data-active={active ? "true" : undefined}
-      className={cn(
-        "relative aspect-[4/3.1] overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)] transition-[opacity,transform] duration-700 ease-[var(--ease-spring)]",
-        active ? "opacity-100 lg:scale-[1.015]" : "opacity-70 lg:scale-[0.985] max-lg:opacity-100 max-lg:scale-100",
-      )}
+      className="relative aspect-[4/3.1] overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]"
     >
       {image ? (
         // eslint-disable-next-line @next/next/no-img-element
