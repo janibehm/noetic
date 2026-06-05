@@ -109,6 +109,12 @@ export const blocksProjection = groq`
       )
     },
 
+    _type == "logoMarqueeBlock" => { heading, highlightedText, logos },
+
+    _type == "demoFormBlock" => {
+      heading, body, bullets, submitLabel, successTitle, successBody
+    },
+
     _type == "productHeroBlock" => {
       eyebrow, heading, headingLevel, lead, primaryCta, secondaryCta, promptText,
       dashboardItems[]{ _key, label, color },

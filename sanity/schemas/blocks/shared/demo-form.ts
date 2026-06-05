@@ -1,10 +1,10 @@
 import { defineField, defineType } from "sanity";
-import { blockNameField } from "../shared/_block-name";
+import { blockNameField } from "./_block-name";
 
-export const productDemoFormBlock = defineType({
-  name: "productDemoFormBlock",
+export const demoFormBlock = defineType({
+  name: "demoFormBlock",
   type: "object",
-  title: "Products · Demo form",
+  title: "Demo form",
   fields: [
     blockNameField,
     defineField({ name: "heading", type: "string", title: "Heading", validation: (r) => r.required() }),
@@ -14,5 +14,8 @@ export const productDemoFormBlock = defineType({
     defineField({ name: "successTitle", type: "string", title: "Success title" }),
     defineField({ name: "successBody", type: "text", title: "Success body", rows: 2 }),
   ],
-  preview: { select: { blockName: "blockName", title: "heading" }, prepare: ({ blockName, title }) => ({ title: blockName || title || "Demo form", subtitle: "Products block" }) },
+  preview: {
+    select: { blockName: "blockName", title: "heading" },
+    prepare: ({ blockName, title }) => ({ title: blockName || title || "Demo form", subtitle: "Shared block" }),
+  },
 });

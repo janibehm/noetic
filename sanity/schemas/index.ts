@@ -10,20 +10,20 @@ import {
   articleCarouselBlock,
   ctaBannerBlock,
   pullQuoteBlock,
+  logoMarqueeBlock,
+  demoFormBlock,
+  howItWorksBlock,
 } from "./blocks/shared";
 import {
   heroPromptBlock,
   scrubWordsBlock,
   bentoShowcaseBlock,
-  howItWorksBlock,
 } from "./blocks/home";
 import {
   productHeroBlock,
-  productLogoMarqueeBlock,
   productCardGridBlock,
   productStickyStackBlock,
   productTrustGridBlock,
-  productDemoFormBlock,
 } from "./blocks/products";
 import {
   pricingHeroBlock,
@@ -58,18 +58,18 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   articleCarouselBlock,
   ctaBannerBlock,
   pullQuoteBlock,
+  logoMarqueeBlock,
+  demoFormBlock,
+  howItWorksBlock,
   // Home-page blocks
   heroPromptBlock,
   scrubWordsBlock,
   bentoShowcaseBlock,
-  howItWorksBlock,
   // Products-page blocks
   productHeroBlock,
-  productLogoMarqueeBlock,
   productCardGridBlock,
   productStickyStackBlock,
   productTrustGridBlock,
-  productDemoFormBlock,
   // Pricing-page blocks
   pricingHeroBlock,
   pricingTiersBlock,

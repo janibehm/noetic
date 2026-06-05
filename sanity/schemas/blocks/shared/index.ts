@@ -6,3 +6,6 @@ export { mediaBlock } from "./media";
 export { articleCarouselBlock } from "./article-carousel";
 export { ctaBannerBlock } from "./cta-banner";
 export { pullQuoteBlock } from "./pull-quote";
+export { logoMarqueeBlock } from "./logo-marquee";
+export { demoFormBlock } from "./demo-form";
+export { howItWorksBlock } from "./how-it-works";

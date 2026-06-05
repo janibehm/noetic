@@ -47,7 +47,7 @@ const doc = {
     },
     {
       _key: "logos",
-      _type: "productLogoMarqueeBlock",
+      _type: "logoMarqueeBlock",
       blockName: "logo-marquee",
       heading: "Trusted to generate production imagery by teams at",
       highlightedText: "production imagery",
@@ -102,7 +102,7 @@ const doc = {
     },
     {
       _key: "demo",
-      _type: "productDemoFormBlock",
+      _type: "demoFormBlock",
       blockName: "demo-form",
       heading: "See noetic on your assets.",
       body: "Book a 30-minute walkthrough. We'll generate a live set of visuals from your real brand brief.",

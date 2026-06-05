@@ -44,18 +44,18 @@ export const page = defineType({
         { type: "articleCarouselBlock" },
         { type: "ctaBannerBlock" },
         { type: "pullQuoteBlock" },
+        { type: "logoMarqueeBlock" },
+        { type: "demoFormBlock" },
+        { type: "howItWorksBlock" },
         // Home-page blocks (use sparingly outside the home page)
         { type: "heroPromptBlock" },
         { type: "scrubWordsBlock" },
         { type: "bentoShowcaseBlock" },
-        { type: "howItWorksBlock" },
         // Product-page blocks
         { type: "productHeroBlock" },
-        { type: "productLogoMarqueeBlock" },
         { type: "productCardGridBlock" },
         { type: "productStickyStackBlock" },
         { type: "productTrustGridBlock" },
-        { type: "productDemoFormBlock" },
         // Pricing-page blocks
         { type: "pricingHeroBlock" },
         { type: "pricingTiersBlock" },

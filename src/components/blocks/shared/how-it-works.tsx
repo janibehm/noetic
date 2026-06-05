@@ -8,7 +8,7 @@ export type HowItWorksStep = {
   icon?: string;
 };
 
-export type HomeHowItWorksBlockProps = {
+export type HowItWorksBlockProps = {
   eyebrow?: string;
   heading: string;
   headingLevel?: HeadingLevel;
@@ -16,15 +16,15 @@ export type HomeHowItWorksBlockProps = {
 };
 
 /**
- * "Idea to export in three moves" — numbered step row with a
- * hairline connector running behind the circular step markers.
+ * Numbered step row with a hairline connector running behind
+ * the circular step markers.
  */
-export default function HomeHowItWorksBlock({
+export default function HowItWorksBlock({
   eyebrow,
   heading,
   headingLevel,
   steps = [],
-}: HomeHowItWorksBlockProps) {
+}: HowItWorksBlockProps) {
   const headingTag = getHeadingLevel(headingLevel, "h2");
   return (
     <section className="relative w-full py-[clamp(48px,7vw,96px)]">
@@ -43,9 +43,9 @@ export default function HomeHowItWorksBlock({
             heading,
           )}
           <ol
-            className="relative grid w-full list-none gap-12 p-0 m-0 before:hidden before:absolute before:left-[16%] before:right-[16%] before:top-[42px] before:z-0 before:h-px before:bg-[var(--line)] md:grid-cols-3 md:gap-0 md:before:block"
+            className="relative m-0 grid w-full list-none gap-12 p-0 before:hidden before:absolute before:left-[16%] before:right-[16%] before:top-[42px] before:z-0 before:h-px before:bg-[var(--line)] md:grid-cols-3 md:gap-0 md:before:block"
           >
-            {steps.map((step, i) => (
+            {steps.map((step, index) => (
               <li
                 key={step._key}
                 className="relative z-[1] flex flex-col items-center text-center md:px-[clamp(12px,2vw,30px)]"
@@ -59,7 +59,7 @@ export default function HomeHowItWorksBlock({
                 <span
                   className="mb-4 text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.14em] text-[var(--gray-soft)]"
                 >
-                  Step {String(i + 1).padStart(2, "0")}
+                  Step {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3
                   className="mb-2.5 text-xl font-semibold leading-[1.2] tracking-[-0.02em]"
@@ -80,10 +80,6 @@ export default function HomeHowItWorksBlock({
   );
 }
 
-/**
- * Tiny stroked icons used as default step markers. Kept inline so
- * the block renders without any client dependency.
- */
 function StepIcon({ name }: { name?: string }) {
   switch (name) {
     case "grid":

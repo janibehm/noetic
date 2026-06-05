@@ -4,7 +4,7 @@ import { useState } from "react";
 import { button, cinematicStage } from "@/lib/styles";
 import { Reveal } from "../reveal";
 
-export type ProductDemoFormBlockProps = {
+export type DemoFormBlockProps = {
   heading?: string;
   body?: string;
   bullets?: string[];
@@ -13,14 +13,14 @@ export type ProductDemoFormBlockProps = {
   successBody?: string;
 };
 
-export default function ProductDemoFormBlock({
+export default function DemoFormBlock({
   heading = "See noetic on your assets.",
   body,
   bullets = [],
   submitLabel = "Request demo",
   successTitle = "Thanks - we'll be in touch within one business day.",
   successBody = "A product specialist will reach out to schedule your walkthrough.",
-}: ProductDemoFormBlockProps) {
+}: DemoFormBlockProps) {
   const [sent, setSent] = useState(false);
 
   return (

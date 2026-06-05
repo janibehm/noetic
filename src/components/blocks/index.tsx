@@ -8,18 +8,18 @@ import MediaBlock from "./shared/media";
 import ArticleCarouselBlock from "./shared/article-carousel";
 import CtaBannerBlock from "./shared/cta-banner";
 import PullQuoteBlock from "./shared/pull-quote";
+import LogoMarqueeBlock from "./shared/logo-marquee";
+import DemoFormBlock from "./shared/demo-form";
+import HowItWorksBlock from "./shared/how-it-works";
 
 import HomeHeroPromptBlock from "./home/hero-prompt";
 import HomeScrubWordsBlock from "./home/scrub-words";
 import HomeBentoShowcaseBlock from "./home/bento-showcase";
-import HomeHowItWorksBlock from "./home/how-it-works";
 
 import ProductHeroBlock from "./products/product-hero";
-import ProductLogoMarqueeBlock from "./products/logo-marquee";
 import ProductCardGridBlock from "./products/product-card-grid";
 import ProductStickyStackBlock from "./products/sticky-stack";
 import ProductTrustGridBlock from "./products/trust-grid";
-import ProductDemoFormBlock from "./products/demo-form";
 import {
   PricingHeroBlock,
   PricingTiersBlock,
@@ -48,18 +48,20 @@ const REGISTRY: Record<string, ComponentType<any>> = {
   articleCarouselBlock: ArticleCarouselBlock,
   ctaBannerBlock: CtaBannerBlock,
   pullQuoteBlock: PullQuoteBlock,
+  logoMarqueeBlock: LogoMarqueeBlock,
+  demoFormBlock: DemoFormBlock,
+  howItWorksBlock: HowItWorksBlock,
   // Home
   heroPromptBlock: HomeHeroPromptBlock,
   scrubWordsBlock: HomeScrubWordsBlock,
   bentoShowcaseBlock: HomeBentoShowcaseBlock,
-  howItWorksBlock: HomeHowItWorksBlock,
   // Products
   productHeroBlock: ProductHeroBlock,
-  productLogoMarqueeBlock: ProductLogoMarqueeBlock,
+  productLogoMarqueeBlock: LogoMarqueeBlock,
   productCardGridBlock: ProductCardGridBlock,
   productStickyStackBlock: ProductStickyStackBlock,
   productTrustGridBlock: ProductTrustGridBlock,
-  productDemoFormBlock: ProductDemoFormBlock,
+  productDemoFormBlock: DemoFormBlock,
   // Pricing
   pricingHeroBlock: PricingHeroBlock,
   pricingTiersBlock: PricingTiersBlock,
