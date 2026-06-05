@@ -58,7 +58,7 @@ export default function HomeBentoShowcaseBlock({
           className="mb-[clamp(36px,5vw,64px)] max-w-[60ch]"
         >
           {eyebrow ? (
-            <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
+            <span className="text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em] text-[var(--gray)]">
               {eyebrow}
             </span>
           ) : null}

@@ -1,6 +1,6 @@
-import { button, cinematicStage, cn, pageContainer, pageSection } from "@/lib/styles";
+import { button, cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
-import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef, Tone } from "../types";
 
 export type CtaBannerBlockProps = {
@@ -43,12 +43,13 @@ export default function CtaBannerBlock({
 }: CtaBannerBlockProps) {
   const bg = background?.image ? sanityImageProps(background.image, 2000) : null;
   const isInverse = tone === "inverse";
+  const isCenter = alignment === "center";
   const auroraTone = AURORA_TONE[background?.auroraTone ?? "default"];
   const headingTag = getHeadingLevel(headingLevel, "h2");
 
   return (
-    <section className={pageSection({ space: "lg" })}>
-      <div className={pageContainer({ size: "lg" })}>
+    <section className="relative w-full py-[clamp(72px,11vw,160px)]">
+      <div className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]">
         <div
           className={
             isInverse
@@ -66,25 +67,29 @@ export default function CtaBannerBlock({
           ) : null}
           <div
             className={cn(
-              "relative z-[2] flex max-w-[78ch] flex-col gap-6 px-6 py-[clamp(6rem,5.36rem+3.21vw,7.8rem)] md:px-12 lg:px-[clamp(4rem,3.55rem+2.23vw,5.25rem)]",
-              alignment === "center" ? "mx-auto items-center text-center" : "items-start text-start",
+              "relative z-[2] flex flex-col gap-6 px-[var(--pad)] py-[clamp(50px,9vw,120px)]",
+              isCenter ? "mx-auto items-center text-center" : "items-start text-start",
             )}
           >
             {eyebrow ? (
               <span
-                className={cn("text-xs font-semibold uppercase leading-normal tracking-[0.06em]", isInverse ? "text-white/80" : "text-[var(--gray)]")}
+                className={cn("text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em]", isInverse ? "text-white/80" : "text-[var(--gray)]")}
               >
                 {eyebrow}
               </span>
             ) : null}
             {renderHeading(
               headingTag,
-              cn(headingLevelStyles[headingTag], isInverse ? "text-white" : "text-[var(--ink)]"),
+              cn(
+                "max-w-[16ch] text-[clamp(2.2rem,5.4vw,4.6rem)] font-bold leading-none tracking-[-0.04em] text-balance",
+                isCenter && "mx-auto",
+                isInverse ? "text-white" : "text-[var(--ink)]",
+              ),
               heading,
             )}
             {body ? (
               <p
-                className={cn("max-w-[65ch] text-[clamp(1.2rem,1.05rem+0.72vw,1.6rem)] leading-[1.65] text-pretty", isInverse ? "text-white/80" : "text-[var(--gray)]")}
+                className={cn("max-w-[40ch] text-[clamp(1.1rem,1.5vw,1.45rem)] leading-[1.45] text-pretty", isCenter && "mx-auto", isInverse ? "text-white/85" : "text-[var(--gray)]")}
               >
                 {body}
               </p>

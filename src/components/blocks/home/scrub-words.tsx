@@ -89,7 +89,7 @@ export default function HomeScrubWordsBlock({
         >
           {label ? (
             <div
-              className="mb-8 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-white/80"
+              className="mb-8 text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em] text-white/80"
             >
               {label}
             </div>

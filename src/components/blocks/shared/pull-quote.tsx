@@ -1,4 +1,4 @@
-import { pageContainer, pageSection, cn } from "@/lib/styles";
+import { cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import type { SanityImageRef } from "../types";
 
@@ -26,20 +26,20 @@ export default function PullQuoteBlock({
   const avatar = author?.avatar ? sanityImageProps(author.avatar, 128) : null;
   const isCenter = alignment === "center";
   return (
-    <section className={pageSection({ space: "xl" })}>
-      <div className={pageContainer({ size: "md" })}>
+    <section className="relative py-[clamp(72px,11vw,160px)]">
+      <div className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]">
         <figure
           className={cn("m-0", isCenter ? "text-center" : "text-start")}
         >
           <span
             aria-hidden
-            className="mb-4 block font-serif text-[clamp(3.58rem,2.13rem+9.71vw,8.66rem)] leading-none text-[var(--line)]"
+            className="block h-[0.4em] font-serif text-[clamp(4rem,9vw,8rem)] leading-[0] text-[var(--line)]"
           >
             &ldquo;
           </span>
           <blockquote
             className={cn(
-              "m-0 max-w-[78ch] font-serif text-[clamp(2.99rem,1.94rem+6.55vw,6.5rem)] font-medium italic leading-[1.15] tracking-[-0.02em] text-[var(--ink)] text-balance",
+              "m-0 max-w-[18ch] font-serif text-[clamp(1.9rem,4.6vw,4rem)] font-medium italic leading-[1.08] tracking-[-0.02em] text-[var(--ink)]",
               isCenter && "mx-auto",
             )}
           >
@@ -47,7 +47,10 @@ export default function PullQuoteBlock({
           </blockquote>
           {author ? (
             <figcaption
-              className="mt-[clamp(3rem,2.73rem+1.34vw,3.75rem)] inline-flex items-center gap-4 text-start"
+              className={cn(
+                "mt-12 flex items-center gap-[14px]",
+                isCenter ? "justify-center" : "justify-start",
+              )}
             >
               {avatar ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
@@ -57,7 +60,7 @@ export default function PullQuoteBlock({
                   className="h-12 w-12 rounded-full object-cover"
                 />
               ) : null}
-              <span>
+              <span className="text-start">
                 <span
                   className="block font-semibold text-[var(--ink)]"
                 >
@@ -65,7 +68,7 @@ export default function PullQuoteBlock({
                 </span>
                 {author.role ? (
                   <span
-                    className="block text-sm leading-normal text-[var(--gray)]"
+                    className="block text-[0.9rem] leading-normal text-[var(--gray)]"
                   >
                     {author.role}
                   </span>

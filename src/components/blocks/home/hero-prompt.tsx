@@ -63,7 +63,7 @@ export default function HomeHeroPromptBlock({
             ) : null}
             {renderHeading(
               headingTag,
-              cn(headingLevelStyles[headingTag], "max-w-[20ch] font-sans text-white text-balance [text-shadow:0_2px_40px_rgba(0,0,0,0.25)]"),
+              cn(headingLevelStyles[headingTag], "max-w-[16ch] font-sans text-white text-balance [text-shadow:0_2px_40px_rgba(0,0,0,0.25)]"),
               heading,
             )}
             {lead ? (
@@ -133,7 +133,7 @@ function PromptBar({ idea, cta }: { idea: string; cta?: CtaLink }) {
 function ScrollCue() {
   return (
     <div
-      className="absolute bottom-8 left-1/2 z-[3] flex -translate-x-1/2 flex-col items-center gap-2 text-[0.69rem] font-semibold uppercase tracking-[0.18em] text-white/70"
+      className="absolute bottom-8 left-1/2 z-[3] flex -translate-x-1/2 flex-col items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/70"
     >
       <span>Scroll</span>
       <span

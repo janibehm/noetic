@@ -1,4 +1,4 @@
-import { cn, pageContainer, pageSection } from "@/lib/styles";
+import { cn, pageContainer } from "@/lib/styles";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 
 export type HowItWorksStep = {
@@ -27,12 +27,12 @@ export default function HomeHowItWorksBlock({
 }: HomeHowItWorksBlockProps) {
   const headingTag = getHeadingLevel(headingLevel, "h2");
   return (
-    <section className={pageSection({ space: "md" })}>
+    <section className="relative w-full py-[clamp(48px,7vw,96px)]">
       <div className={pageContainer({ size: "xl" })}>
         <div className="text-center">
           {eyebrow ? (
             <span
-              className="mb-[14px] block text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]"
+              className="mb-[14px] block text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em] text-[var(--gray)]"
             >
               {eyebrow}
             </span>
@@ -57,7 +57,7 @@ export default function HomeHowItWorksBlock({
                   <StepIcon name={step.icon} />
                 </span>
                 <span
-                  className="mb-4 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray-soft)]"
+                  className="mb-4 text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.14em] text-[var(--gray-soft)]"
                 >
                   Step {String(i + 1).padStart(2, "0")}
                 </span>

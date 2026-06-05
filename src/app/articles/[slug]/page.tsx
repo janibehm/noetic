@@ -91,7 +91,7 @@ export default async function ArticlePage({
         <div className={pageContainer({ size: "md" })}>
           <div className={stackY({ gap: "md", align: "start" })}>
             <span
-              className="flex gap-2 text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]"
+              className="flex gap-2 text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em] text-[var(--gray)]"
             >
               {article.category?.title ? <>{article.category.title}</> : null}
               {published ? (

@@ -64,7 +64,7 @@ export default function ArticleCarouselBlock({
           >
             <div>
               {eyebrow ? (
-                <span className="text-xs font-semibold uppercase leading-normal tracking-[0.06em] text-[var(--gray)]">
+                <span className="text-[0.72rem] font-semibold uppercase leading-normal tracking-[0.18em] text-[var(--gray)]">
                   {eyebrow}
                 </span>
               ) : null}
