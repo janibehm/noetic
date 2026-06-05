@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SiteChrome } from "@/components/site-chrome";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <SiteChrome>{children}</SiteChrome>
+      </body>
     </html>
   );
 }
