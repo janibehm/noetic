@@ -60,10 +60,10 @@ const doc = {
       heading: "Four products. One pipeline.",
       headingLevel: "h2",
       items: [
-        { _key: "generation", title: "AI Image Generation", body: "Create visuals from text prompts across photoreal and stylized model families, up to 4K.", auroraTone: "default" },
-        { _key: "editing", title: "AI Editing Studio", body: "Remove objects, replace backgrounds and inpaint regions with prompt-level control.", auroraTone: "cool" },
-        { _key: "brand", title: "Brand Asset Generator", body: "Produce ad creatives, banners and social visuals locked to your brand kit.", auroraTone: "warm" },
-        { _key: "workflows", title: "Visual Workflow Automation", body: "Generate hundreds of assets automatically from a spreadsheet, feed or API call.", auroraTone: "cool" },
+        { _key: "generation", title: "AI Image Generation", body: "Create visuals from text prompts across photoreal and stylized model families, up to 4K.", href: "/articles/ai-image-generation", auroraTone: "default" },
+        { _key: "editing", title: "AI Editing Studio", body: "Remove objects, replace backgrounds and inpaint regions with prompt-level control.", href: "/articles/ai-editing-studio", auroraTone: "cool" },
+        { _key: "brand", title: "Brand Asset Generator", body: "Produce ad creatives, banners and social visuals locked to your brand kit.", href: "/articles/brand-asset-generator", auroraTone: "warm" },
+        { _key: "workflows", title: "Visual Workflow Automation", body: "Generate hundreds of assets automatically from a spreadsheet, feed or API call.", href: "/articles/visual-workflow-automation", auroraTone: "cool" },
       ],
     },
     {
