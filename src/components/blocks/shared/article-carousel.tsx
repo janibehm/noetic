@@ -96,7 +96,7 @@ export default function ArticleCarouselBlock({
           </Reveal>
           <ul
             ref={trackRef}
-            className="no-scrollbar flex cursor-grab snap-x snap-mandatory list-none gap-[clamp(16px,2vw,26px)] overflow-x-auto p-0 py-2 m-0"
+            className="no-scrollbar flex cursor-grab snap-x snap-mandatory list-none gap-[clamp(16px,2vw,26px)] overflow-x-auto overflow-y-hidden p-0 py-3 m-0"
           >
             {visible.map((article, index) => {
               const cover = article.coverImage
