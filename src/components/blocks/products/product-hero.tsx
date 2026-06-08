@@ -1,5 +1,5 @@
 import { button, cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { MediaAsset } from "../shared/media-asset";
 import { Reveal } from "../reveal";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef } from "../types";
@@ -13,6 +13,7 @@ type DashboardItem = {
 type DashboardThumb = {
   _key: string;
   image?: SanityImageRef;
+  video?: string;
   auroraTone?: AuroraTone;
   featured?: boolean;
 };
@@ -169,12 +170,11 @@ function DashboardMockup({
 }
 
 function DashboardThumb({ thumb }: { thumb: DashboardThumb }) {
-  const image = thumb.image ? sanityImageProps(thumb.image, 700) : null;
+  const hasMedia = Boolean(thumb.video || thumb.image);
   return (
     <div className={cn("relative overflow-hidden rounded-[14px] shadow-[inset_0_0_0_1px_rgba(255,255,255,.4)]", thumb.featured && "col-span-2 row-span-2")}>
-      {image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+      {hasMedia ? (
+        <MediaAsset image={thumb.image} videoUrl={thumb.video} width={700} className="absolute inset-0 h-full w-full object-cover" />
       ) : (
         <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[thumb.auroraTone ?? "default"] }), "absolute inset-0 blur-[22px] saturate-150")} />
       )}

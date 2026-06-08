@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/index.html. Safe to re-run — uses createOrReplace.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +12,25 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
+
+// Cover media per article (shown in the bento grid + article carousels).
+// Keyed by article _id; image doubles as the poster when a video is set.
+const covers = {
+  "article-ai-image-generation": { image: "SQUARE_abstract1.jpg", video: "SQUARE_ABSTRACT1.mp4", alt: "Generated abstract imagery" },
+  "article-image-editing": { image: "SQUARE_abstract3.jpg", alt: "Abstract editing canvas" },
+  "article-background-removal": { image: "VERTICAL_tiger.jpg", alt: "Tiger isolated from its background" },
+  "article-product-photography": { image: "SQUARE_blueberries.jpg", video: "SQUARE_PRODUCT.mp4", alt: "Studio product shot" },
+  "article-upscaling": { image: "SQUARE_mountain_landscape.jpg", alt: "Highly detailed mountain landscape" },
+  "article-character-design": { image: "robot.jpg", alt: "Robot character render" },
+  "article-marketing-visuals": { image: "SQUARE_city_view.jpg", alt: "City marketing visual" },
+  "article-diffusion-edge-perception": { image: "SQUARE_abstract2.jpg", video: "SQUARE_ABSTRACT (2).mp4", alt: "Diffusion abstract" },
+  "article-prompt-geometry-latent-navigation": { image: "SQUARE_abstract5.jpg", alt: "Latent space abstract" },
+  "article-holding-style-constant": { image: "SQUARE_abstract6.jpg", alt: "Consistent style abstract" },
+  "article-twelve-reference-frames": { image: "SQUARE_aquarium.png", alt: "Aquarium reference scene" },
+  "article-generation-feels-real": { image: "snowy_landscape.jpg", video: "SQUARE_LION.mp4", alt: "Photoreal generation" },
+};
 
 const bentoCategories = [
   { _id: "articleCategory-flagship", title: "Flagship", slug: "flagship" },
@@ -146,6 +166,10 @@ const doc = {
       ],
       primaryCta: { label: "Generate", href: "/contact" },
       showScrollCue: true,
+      background: {
+        video: assets.file("HORIZONTAL_HERO_blue_ribbon_abstract_bg_1920_1080_30fps.mp4"),
+        poster: assets.image("SQUARE_abstract4.jpg", "Cinematic abstract backdrop"),
+      },
     },
     {
       _key: "scrubWords",
@@ -243,6 +267,7 @@ for (const category of bentoCategories) {
 }
 
 for (const article of bentoArticles) {
+  const cover = covers[article._id];
   await client.createOrReplace({
     _id: article._id,
     _type: "article",
@@ -253,6 +278,8 @@ for (const article of bentoArticles) {
     author: { name: "Noetic Editorial" },
     publishedAt: article.publishedAt,
     readingTimeMinutes: 3,
+    coverImage: cover && assets.image(cover.image, cover.alt),
+    coverVideo: cover?.video && assets.file(cover.video),
   });
 }
 

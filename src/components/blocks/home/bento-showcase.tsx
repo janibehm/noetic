@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { MediaAsset } from "../shared/media-asset";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { SanityImageRef } from "../types";
 
@@ -12,6 +12,7 @@ export type BentoArticle = {
   publishedAt?: string;
   category?: { title?: string; slug?: string };
   coverImage?: SanityImageRef | null;
+  coverVideo?: string | null;
 };
 
 export type HomeBentoShowcaseBlockProps = {
@@ -92,7 +93,7 @@ export default function HomeBentoShowcaseBlock({
 
 function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
   const span = getBentoSpan(index);
-  const cover = item.coverImage ? sanityImageProps(item.coverImage, 1200) : null;
+  const hasMedia = Boolean(item.coverVideo || item.coverImage);
   const auroraTone = FALLBACK_AURORA_TONES[index % FALLBACK_AURORA_TONES.length];
   const spanClass = cn(
     span.columns >= 2 && "sm:col-span-2 md:col-span-2",
@@ -106,15 +107,13 @@ function BentoCard({ item, index }: { item: BentoArticle; index: number }) {
         spanClass,
       )}
     >
-      {cover ? (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={cover.src}
-            alt={cover.alt}
-            className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.06]"
-          />
-        </>
+      {hasMedia ? (
+        <MediaAsset
+          image={item.coverImage}
+          videoUrl={item.coverVideo}
+          width={1200}
+          className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-[800ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.06]"
+        />
       ) : (
         // Aurora cards: extra blur + saturation so blobs read as soft
         // backdrops at small sizes (matches `.bento .b-media .aurora`).

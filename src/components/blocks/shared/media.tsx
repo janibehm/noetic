@@ -1,5 +1,5 @@
 import { pageContainer, pageSection } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
 import type { SanityImageRef } from "../types";
 
 export type MediaBlockProps = {

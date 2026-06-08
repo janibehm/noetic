@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/solutions.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +12,8 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
 
 const doc = {
   _id: "page-solutions",
@@ -56,10 +59,10 @@ const doc = {
       heading: "Pick a team. Watch it adapt.",
       headingLevel: "h2",
       items: [
-        { _key: "marketing", title: "Marketing Teams", body: "Generate on-brand campaign visuals for every channel, ratio and locale in minutes.", auroraTone: "warm" },
-        { _key: "ecommerce", title: "E-commerce", body: "Create product imagery and lifestyle shots without a photo studio or shipping samples.", imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&q=70" },
-        { _key: "games", title: "Game Development", body: "Explore concept art, environments and character design at the speed of ideation.", auroraTone: "cool" },
-        { _key: "agencies", title: "Creative Agencies", body: "Move from rapid ideation to client-ready concepts in a single working session.", imageUrl: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=70" },
+        { _key: "marketing", title: "Marketing Teams", body: "Generate on-brand campaign visuals for every channel, ratio and locale in minutes.", auroraTone: "warm", imageUrl: assets.url("SQUARE_city_view.jpg") },
+        { _key: "ecommerce", title: "E-commerce", body: "Create product imagery and lifestyle shots without a photo studio or shipping samples.", imageUrl: assets.url("SQUARE_blueberries.jpg") },
+        { _key: "games", title: "Game Development", body: "Explore concept art, environments and character design at the speed of ideation.", auroraTone: "cool", imageUrl: assets.url("robot.jpg") },
+        { _key: "agencies", title: "Creative Agencies", body: "Move from rapid ideation to client-ready concepts in a single working session.", imageUrl: assets.url("SQUARE_abstract1.jpg") },
       ],
     },
     {
@@ -85,6 +88,7 @@ const doc = {
           body: "Spin up a full set of on-brand assets the moment a brief lands.",
           bullets: ["Ad creatives", "Social campaigns", "Landing page visuals"],
           auroraTone: "default",
+          imageUrl: assets.url("SQUARE_street_view.jpg"),
         },
         {
           _key: "ecommerce",
@@ -93,7 +97,7 @@ const doc = {
           body: "Photoreal product and lifestyle imagery from a single reference shot.",
           bullets: ["Product photos", "Background replacement", "Marketplace assets"],
           flip: true,
-          imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&q=70",
+          imageUrl: assets.url("SQUARE_aquarium.png"),
         },
         {
           _key: "games",
@@ -102,6 +106,7 @@ const doc = {
           body: "Concept entire worlds and casts before the first asset is modeled.",
           bullets: ["Character concepts", "Environment concepts", "Moodboards"],
           auroraTone: "cool",
+          imageUrl: assets.url("VERTICAL_tiger.jpg"),
         },
         {
           _key: "agencies",
@@ -110,7 +115,7 @@ const doc = {
           body: "Turn a kickoff into client-ready concepts the same day.",
           bullets: ["Creative exploration", "Pitch decks", "Storyboards"],
           flip: true,
-          imageUrl: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=900&q=70",
+          imageUrl: assets.url("SQUARE_abstract2.jpg"),
         },
       ],
     },

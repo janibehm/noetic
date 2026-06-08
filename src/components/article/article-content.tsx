@@ -1,5 +1,7 @@
 import { pageContainer, pageSection, stackY } from "@/lib/styles";
-import { ProseRenderer, sanityImageProps } from "@/components/prose-renderer";
+import { ProseRenderer } from "@/components/prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
+import { MediaAsset } from "@/components/blocks/shared/media-asset";
 import type { Article } from "@/lib/articles";
 
 /**
@@ -9,9 +11,7 @@ import type { Article } from "@/lib/articles";
  * does no I/O of its own.
  */
 export function ArticleContent({ article }: { article: Article }) {
-  const cover = article.coverImage
-    ? sanityImageProps(article.coverImage, 2000)
-    : null;
+  const hasCover = Boolean(article.coverVideo || article.coverImage);
   const avatar = article.author?.avatar
     ? sanityImageProps(article.author.avatar, 128)
     : null;
@@ -74,13 +74,13 @@ export function ArticleContent({ article }: { article: Article }) {
         </div>
       </section>
 
-      {cover ? (
+      {hasCover ? (
         <section className={pageSection({ space: "md" })}>
           <div className={pageContainer({ size: "lg" })}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={cover.src}
-              alt={cover.alt}
+            <MediaAsset
+              image={article.coverImage}
+              videoUrl={article.coverVideo}
+              width={2000}
               className="block h-auto w-full rounded-xl"
             />
           </div>

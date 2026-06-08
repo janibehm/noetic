@@ -4,6 +4,7 @@
 // Safe to re-run — uses createOrReplace.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -12,6 +13,17 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
+
+// Cover media per article. `article-ai-image-generation` is also seeded by
+// scripts/seed-home.mjs — keep its cover identical there to avoid drift.
+const covers = {
+  "article-ai-image-generation": { image: "SQUARE_abstract1.jpg", video: "SQUARE_ABSTRACT1.mp4", alt: "Generated abstract imagery" },
+  "article-ai-editing-studio": { image: "SQUARE_street_view.jpg", alt: "Street scene being edited" },
+  "article-brand-asset-generator": { image: "SQUARE_blueberries.jpg", alt: "On-brand product visual" },
+  "article-visual-workflow-automation": { image: "SQUARE_CITY_BUS.jpg", alt: "Batch-generated city visual" },
+};
 
 // Build a Portable Text block array from a compact description.
 // Each entry is either a string (normal paragraph) or { style, text }.
@@ -112,6 +124,7 @@ const articles = [
 ];
 
 for (const article of articles) {
+  const cover = covers[article._id];
   const res = await client.createOrReplace({
     _id: article._id,
     _type: "article",
@@ -124,6 +137,8 @@ for (const article of articles) {
     publishedAt: "2026-06-05T12:00:00.000Z",
     readingTimeMinutes: 3,
     body: article.body,
+    coverImage: cover && assets.image(cover.image, cover.alt),
+    coverVideo: cover?.video && assets.file(cover.video),
   });
   console.log(`Seeded article: ${res._id} (/articles/${article.slug})`);
 }

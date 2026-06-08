@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { button, cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef, Tone } from "../types";
 

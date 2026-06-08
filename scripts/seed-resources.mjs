@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/resources.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -12,7 +13,7 @@ const client = createClient({
   useCdn: false,
 });
 
-const photo = (id) => `https://images.unsplash.com/photo-${id}?w=600&q=70`;
+const assets = await createAssetResolver(client);
 
 const doc = {
   _id: "page-resources",
@@ -31,6 +32,7 @@ const doc = {
       lead: "A field manual for getting consistent, on-brand results - structure, references, seeds and the parameters that actually matter.",
       href: "/articles/complete-guide-to-production-grade-prompting",
       auroraTone: "cool",
+      imageUrl: assets.url("SQUARE_abstract4.jpg"),
       author: {
         name: "Iris Tanaka",
         meta: "Lead Applied Researcher · 12 min read",
@@ -45,12 +47,12 @@ const doc = {
       headingLevel: "h2",
       items: [
         { _key: "prompt-anatomy", category: "Prompt Guides", title: "Anatomy of a reliable prompt", href: "/articles/anatomy-of-a-reliable-prompt", auroraTone: "default" },
-        { _key: "batch-pipeline", category: "Tutorials", title: "Your first batch pipeline", href: "/articles/your-first-batch-pipeline", imageUrl: photo("1635776062127-d379bfcba9f8") },
+        { _key: "batch-pipeline", category: "Tutorials", title: "Your first batch pipeline", href: "/articles/your-first-batch-pipeline", imageUrl: assets.url("SQUARE_abstract6.jpg") },
         { _key: "composition-rules", category: "AI Art", title: "Composition rules the model loves", href: "/articles/composition-rules-the-model-loves", auroraTone: "warm" },
         { _key: "ad-variants", category: "Marketing", title: "50 ad variants from one brief", href: "/articles/50-ad-variants-from-one-brief", auroraTone: "cool" },
-        { _key: "product-shots", category: "E-commerce", title: "Studio product shots, no studio", href: "/articles/studio-product-shots-no-studio", imageUrl: photo("1523275335684-37898b6baf30") },
+        { _key: "product-shots", category: "E-commerce", title: "Studio product shots, no studio", href: "/articles/studio-product-shots-no-studio", imageUrl: assets.url("SQUARE_blueberries.jpg") },
         { _key: "vantage-case", category: "Case Studies", title: "How Vantage cut creative time 70%", href: "/articles/how-vantage-cut-creative-time-70", auroraTone: "default" },
-        { _key: "reproducible-seeds", category: "Research", title: "Why seeds make results reproducible", href: "/articles/why-seeds-make-results-reproducible", imageUrl: photo("1620712943543-bcc4688e7485") },
+        { _key: "reproducible-seeds", category: "Research", title: "Why seeds make results reproducible", href: "/articles/why-seeds-make-results-reproducible", imageUrl: assets.url("SQUARE_aquarium.png") },
         { _key: "image-3", category: "Product Updates", title: "Introducing noetic-image-3", href: "/articles/introducing-noetic-image-3", auroraTone: "cool" },
         { _key: "outpainting-wide", category: "Tutorials", title: "Outpainting for wide formats", href: "/articles/outpainting-for-wide-formats", auroraTone: "warm" },
       ],

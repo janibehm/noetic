@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/lab.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -12,7 +13,7 @@ const client = createClient({
   useCdn: false,
 });
 
-const photo = (id) => `https://images.unsplash.com/photo-${id}?w=600&q=70`;
+const assets = await createAssetResolver(client);
 
 const doc = {
   _id: "page-lab",
@@ -58,7 +59,7 @@ const doc = {
           title: "What makes a generation feel real",
           tag: "Method",
           href: "/articles/what-makes-a-generation-feel-real",
-          imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&q=70",
+          imageUrl: assets.url("SQUARE_abstract3.jpg"),
         },
         {
           _key: "style-series",
@@ -79,10 +80,10 @@ const doc = {
       layout: "masonry",
       items: [
         { _key: "cascaded-diffusion", title: "Cascaded diffusion at 4K without the artifacts", tag: "Diffusion models", href: "/articles/cascaded-diffusion-at-4k", auroraTone: "cool" },
-        { _key: "prompt-grammar", title: "The grammar of a great prompt", tag: "Prompt engineering", href: "/articles/the-grammar-of-a-great-prompt", imageUrl: photo("1635776062127-d379bfcba9f8") },
+        { _key: "prompt-grammar", title: "The grammar of a great prompt", tag: "Prompt engineering", href: "/articles/the-grammar-of-a-great-prompt", imageUrl: assets.url("SQUARE_abstract5.jpg") },
         { _key: "reference-locking", title: "Reference-locking across a 60-frame sequence", tag: "Style consistency", href: "/articles/reference-locking-across-a-sequence", auroraTone: "warm" },
         { _key: "personalizing-model", title: "Personalizing a model on twelve images", tag: "Fine-tuning", href: "/articles/personalizing-a-model-on-twelve-images", auroraTone: "default" },
-        { _key: "faster-samplers", title: "Faster samplers, sharper edges", tag: "Diffusion models", href: "/articles/faster-samplers-sharper-edges", imageUrl: photo("1620712943543-bcc4688e7485") },
+        { _key: "faster-samplers", title: "Faster samplers, sharper edges", tag: "Diffusion models", href: "/articles/faster-samplers-sharper-edges", imageUrl: assets.url("snowy_landscape.jpg") },
         { _key: "sparse-prompts", title: "Auto-expanding sparse prompts", tag: "Prompt engineering", href: "/articles/auto-expanding-sparse-prompts", auroraTone: "cool" },
       ],
     },
@@ -96,10 +97,10 @@ const doc = {
       layout: "masonry",
       items: [
         { _key: "tokens", title: "Tokens that prompt themselves", tag: "Design systems", href: "/articles/tokens-that-prompt-themselves", auroraTone: "default" },
-        { _key: "spreadsheet-assets", title: "From spreadsheet to 10,000 assets", tag: "Asset pipelines", href: "/articles/from-spreadsheet-to-10000-assets", imageUrl: photo("1547891654-e66ed7ebb968") },
+        { _key: "spreadsheet-assets", title: "From spreadsheet to 10,000 assets", tag: "Asset pipelines", href: "/articles/from-spreadsheet-to-10000-assets", imageUrl: assets.url("SQUARE_CITY_BUS.jpg") },
         { _key: "human-loop", title: "Where humans stay in the loop", tag: "AI-assisted production", href: "/articles/where-humans-stay-in-the-loop", auroraTone: "warm" },
         { _key: "shared-canvases", title: "Shared canvases across a studio", tag: "Collaboration", href: "/articles/shared-canvases-across-a-studio", auroraTone: "cool" },
-        { _key: "approval-flows", title: "Approval flows people actually use", tag: "Governance", href: "/articles/approval-flows-people-actually-use", imageUrl: photo("1600880292203-757bb62b4baf") },
+        { _key: "approval-flows", title: "Approval flows people actually use", tag: "Governance", href: "/articles/approval-flows-people-actually-use", imageUrl: assets.url("SQUARE_street_view.jpg") },
         { _key: "generation-cache", title: "Caching generations for reuse", tag: "Asset pipelines", href: "/articles/caching-generations-for-reuse", auroraTone: "default" },
       ],
     },
@@ -122,10 +123,10 @@ const doc = {
       countLabel: "recent",
       layout: "masonry",
       items: [
-        { _key: "color-memory", title: "Color memory in generative models", tag: "Perception", href: "/articles/color-memory-in-generative-models", imageUrl: photo("1635776063043-ab23b4c226f6") },
+        { _key: "color-memory", title: "Color memory in generative models", tag: "Perception", href: "/articles/color-memory-in-generative-models", imageUrl: assets.url("VERTICAL_flowers_image_3.jpg") },
         { _key: "outpainting", title: "Outpainting beyond the frame", tag: "Method", href: "/articles/outpainting-beyond-the-frame", auroraTone: "warm" },
         { _key: "taste", title: "Measuring 'taste' quantitatively", tag: "Research", href: "/articles/measuring-taste-quantitatively", auroraTone: "cool" },
-        { _key: "relighting", title: "Depth-aware relighting", tag: "Control", href: "/articles/depth-aware-relighting", imageUrl: photo("1604871000636-074fa5117945") },
+        { _key: "relighting", title: "Depth-aware relighting", tag: "Control", href: "/articles/depth-aware-relighting", imageUrl: assets.url("SQUARE_mountain_landscape.jpg") },
         { _key: "determinism", title: "Seeds, determinism and reproducibility", tag: "Method", href: "/articles/seeds-determinism-and-reproducibility", auroraTone: "default" },
         { _key: "canvas-versioning", title: "Versioning a creative canvas", tag: "Systems", href: "/articles/versioning-a-creative-canvas", auroraTone: "cool" },
       ],

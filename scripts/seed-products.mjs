@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/products.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +12,8 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
 
 const doc = {
   _id: "page-products",
@@ -38,11 +41,11 @@ const doc = {
         { _key: "library", label: "Library", color: "#c6ff7a" },
       ],
       thumbnails: [
-        { _key: "t1", featured: true, auroraTone: "warm" },
-        { _key: "t2", auroraTone: "warm" },
-        { _key: "t3", auroraTone: "default" },
-        { _key: "t4", auroraTone: "cool" },
-        { _key: "t5", auroraTone: "cool" },
+        { _key: "t1", featured: true, auroraTone: "warm", video: assets.file("SQUARE_ABSTRACT_SPHERE.mp4"), image: assets.image("SQUARE_abstract4.jpg", "Abstract sphere") },
+        { _key: "t2", auroraTone: "warm", image: assets.image("SQUARE_abstract2.jpg", "Abstract render") },
+        { _key: "t3", auroraTone: "default", image: assets.image("SQUARE_abstract3.jpg", "Abstract render") },
+        { _key: "t4", auroraTone: "cool", image: assets.image("SQUARE_aquarium.png", "Aquarium scene") },
+        { _key: "t5", auroraTone: "cool", image: assets.image("SQUARE_city_view.jpg", "City view") },
       ],
     },
     {
@@ -60,10 +63,10 @@ const doc = {
       heading: "Four products. One pipeline.",
       headingLevel: "h2",
       items: [
-        { _key: "generation", title: "AI Image Generation", body: "Create visuals from text prompts across photoreal and stylized model families, up to 4K.", href: "/articles/ai-image-generation", auroraTone: "default" },
-        { _key: "editing", title: "AI Editing Studio", body: "Remove objects, replace backgrounds and inpaint regions with prompt-level control.", href: "/articles/ai-editing-studio", auroraTone: "cool" },
-        { _key: "brand", title: "Brand Asset Generator", body: "Produce ad creatives, banners and social visuals locked to your brand kit.", href: "/articles/brand-asset-generator", auroraTone: "warm" },
-        { _key: "workflows", title: "Visual Workflow Automation", body: "Generate hundreds of assets automatically from a spreadsheet, feed or API call.", href: "/articles/visual-workflow-automation", auroraTone: "cool" },
+        { _key: "generation", title: "AI Image Generation", body: "Create visuals from text prompts across photoreal and stylized model families, up to 4K.", href: "/articles/ai-image-generation", auroraTone: "default", image: assets.image("SQUARE_abstract5.jpg", "AI-generated abstract") },
+        { _key: "editing", title: "AI Editing Studio", body: "Remove objects, replace backgrounds and inpaint regions with prompt-level control.", href: "/articles/ai-editing-studio", auroraTone: "cool", image: assets.image("SQUARE_street_view.jpg", "Street scene edit") },
+        { _key: "brand", title: "Brand Asset Generator", body: "Produce ad creatives, banners and social visuals locked to your brand kit.", href: "/articles/brand-asset-generator", auroraTone: "warm", image: assets.image("SQUARE_blueberries.jpg", "On-brand product visual") },
+        { _key: "workflows", title: "Visual Workflow Automation", body: "Generate hundreds of assets automatically from a spreadsheet, feed or API call.", href: "/articles/visual-workflow-automation", auroraTone: "cool", image: assets.image("SQUARE_CITY_BUS.jpg", "Batch-generated visual") },
       ],
     },
     {
@@ -73,10 +76,10 @@ const doc = {
       heading: "Built for the way teams actually ship.",
       headingLevel: "h2",
       steps: [
-        { _key: "brand", title: "Brand consistency", body: "Lock palettes, typography and references so every generation stays unmistakably on-brand.", auroraTone: "default" },
-        { _key: "team", title: "Team collaboration", body: "Shared canvases, comments and version history keep designers, marketers and PMs in one space.", auroraTone: "cool" },
-        { _key: "governance", title: "Asset governance", body: "Roles, approvals and audit trails give legal and brand teams full control before anything ships.", auroraTone: "cool" },
-        { _key: "pipelines", title: "Fast generation pipelines", body: "Batch thousands of assets through reproducible pipelines with sub-second queue times.", auroraTone: "warm" },
+        { _key: "brand", title: "Brand consistency", body: "Lock palettes, typography and references so every generation stays unmistakably on-brand.", auroraTone: "default", image: assets.image("SQUARE_abstract6.jpg", "Brand palette abstract") },
+        { _key: "team", title: "Team collaboration", body: "Shared canvases, comments and version history keep designers, marketers and PMs in one space.", auroraTone: "cool", image: assets.image("SQUARE_desert_landscape.jpg", "Expansive desert landscape") },
+        { _key: "governance", title: "Asset governance", body: "Roles, approvals and audit trails give legal and brand teams full control before anything ships.", auroraTone: "cool", image: assets.image("SQUARE_mountain_landscape.jpg", "Mountain landscape") },
+        { _key: "pipelines", title: "Fast generation pipelines", body: "Batch thousands of assets through reproducible pipelines with sub-second queue times.", auroraTone: "warm", image: assets.image("pexels-wolfgang-weiser-467045605-31140640.jpg", "Generated scene") },
       ],
     },
     {

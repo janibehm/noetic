@@ -14,6 +14,7 @@ export const articleCardProjection = groq`
   readingTimeMinutes,
   "category": category->{title, "slug": slug.current},
   coverImage{..., "alt": coalesce(alt, asset->altText)},
+  "coverVideo": coverVideo.asset->url,
   author{name, role, avatar{..., "alt": coalesce(alt, asset->altText)}}
 `;
 
@@ -119,7 +120,7 @@ export const blocksProjection = groq`
     _type == "productHeroBlock" => {
       eyebrow, heading, headingLevel, lead, primaryCta, secondaryCta, promptText,
       dashboardItems[]{ _key, label, color },
-      thumbnails[]{ _key, featured, auroraTone, image{..., "alt": coalesce(alt, asset->altText)} }
+      thumbnails[]{ _key, featured, auroraTone, image{..., "alt": coalesce(alt, asset->altText)}, "video": video.asset->url }
     },
 
     _type == "productLogoMarqueeBlock" => { heading, highlightedText, logos },
@@ -290,6 +291,7 @@ export const articleBySlugQuery = groq`
     seoDescription,
     "category": category->{title, "slug": slug.current},
     coverImage{..., "alt": coalesce(alt, asset->altText)},
+    "coverVideo": coverVideo.asset->url,
     author{ name, role, avatar{..., "alt": coalesce(alt, asset->altText)} },
     body
   }

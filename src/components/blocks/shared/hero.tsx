@@ -1,5 +1,5 @@
 import { button, cn, pageContainer, pageSection, stackY } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef, Tone } from "../types";
 

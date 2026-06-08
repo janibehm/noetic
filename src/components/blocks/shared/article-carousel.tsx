@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { button, cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { MediaAsset } from "./media-asset";
 import { Reveal } from "../reveal";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
@@ -18,6 +18,7 @@ export type ArticleCard = {
   readingTimeMinutes?: number;
   category?: { title?: string; slug?: string };
   coverImage?: SanityImageRef | null;
+  coverVideo?: string | null;
 };
 
 export type ArticleCarouselBlockProps = {
@@ -99,9 +100,7 @@ export default function ArticleCarouselBlock({
             className="no-scrollbar flex cursor-grab snap-x snap-mandatory list-none gap-[clamp(16px,2vw,26px)] overflow-x-auto overflow-y-hidden p-0 py-3 m-0"
           >
             {visible.map((article, index) => {
-              const cover = article.coverImage
-                ? sanityImageProps(article.coverImage, 800)
-                : null;
+              const hasCover = Boolean(article.coverVideo || article.coverImage);
               return (
                 <Reveal
                   as="li"
@@ -113,11 +112,11 @@ export default function ArticleCarouselBlock({
                     href={`/articles/${article.slug}`}
                     className="group block text-[var(--ink)] no-underline"
                   >
-                    {cover ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={cover.src}
-                        alt={cover.alt}
+                    {hasCover ? (
+                      <MediaAsset
+                        image={article.coverImage}
+                        videoUrl={article.coverVideo}
+                        width={800}
                         className="mb-4 block aspect-[4/3] w-full rounded-[2rem] object-cover shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
                       />
                     ) : (

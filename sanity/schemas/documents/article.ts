@@ -52,6 +52,15 @@ export const article = defineType({
       ],
     }),
     defineField({
+      name: "coverVideo",
+      type: "file",
+      title: "Cover video",
+      description:
+        "Optional. When set, plays muted/looping in place of the cover image (which becomes its poster frame) in carousels and the bento grid.",
+      group: "content",
+      options: { accept: "video/*" },
+    }),
+    defineField({
       name: "body",
       type: "portableText",
       title: "Body",

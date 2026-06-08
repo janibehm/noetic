@@ -74,15 +74,3 @@ export function ProseRenderer({
     </div>
   );
 }
-
-/**
- * Inline helper for image URL building used by non-prose blocks.
- */
-export function sanityImageProps(value: unknown, width = 1600) {
-  if (!value) return null;
-  const src = urlFor(value as never)
-    .width(width)
-    .url();
-  const alt = (value as { alt?: string }).alt ?? "";
-  return { src, alt };
-}

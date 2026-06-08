@@ -49,6 +49,7 @@ export const productHeroBlock = defineType({
             defineField({ name: "featured", type: "boolean", initialValue: false }),
             defineField({ name: "auroraTone", type: "string", options: { list: auroraToneList }, initialValue: "default" }),
             defineField({ name: "image", type: "image", options: { hotspot: true }, fields: [defineField({ name: "alt", type: "string", title: "Alt text" })] }),
+            defineField({ name: "video", type: "file", title: "Video", description: "Optional. Plays muted/looping; the image becomes its poster.", options: { accept: "video/*" } }),
           ],
           preview: { select: { title: "auroraTone", media: "image" } },
         },

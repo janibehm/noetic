@@ -1,4 +1,5 @@
 import { button, cinematicStage, cn, pageContainer } from "@/lib/styles";
+import { MediaAsset } from "../shared/media-asset";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
@@ -38,14 +39,29 @@ export default function HomeHeroPromptBlock({
   promptIdeas,
   primaryCta,
   showScrollCue = true,
+  background,
 }: HomeHeroPromptBlockProps) {
   const firstIdea = promptIdeas?.[0];
   const headingTag = getHeadingLevel(headingLevel, "h1");
+  const hasBackground = Boolean(background?.video || background?.poster);
   return (
     <section
       className={cinematicStage({})}
       style={{ minHeight: "100svh" }}
     >
+      {hasBackground ? (
+        // Inline z-index defeats `.cinematic-stage > * { z-index: 2 }` so the
+        // footage sits behind the headline/prompt bar but over the aurora.
+        <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+          <MediaAsset
+            image={background?.poster}
+            videoUrl={background?.video}
+            width={1920}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/35" />
+        </div>
+      ) : null}
       <div
         className="flex min-h-[100svh] items-center justify-center px-0 py-[clamp(4rem,3.55rem+2.23vw,5.25rem)]"
       >

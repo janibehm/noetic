@@ -1,5 +1,5 @@
 import { cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
 import { CardLink } from "../shared/card-link";
 import { Reveal } from "../reveal";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";

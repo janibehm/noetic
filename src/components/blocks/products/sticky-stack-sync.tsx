@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "../../prose-renderer";
+import { sanityImageProps } from "@/lib/sanity-image";
 import { Reveal } from "../reveal";
 import type { StackStep } from "./sticky-stack";
 

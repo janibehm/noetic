@@ -17,6 +17,7 @@ export type Article = {
   seoDescription?: string;
   category?: { title?: string; slug?: string };
   coverImage?: ({ alt?: string } & Record<string, unknown>) | null;
+  coverVideo?: string | null;
   author?: {
     name: string;
     role?: string;
