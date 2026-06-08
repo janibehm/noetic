@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { cinematicStage, cn } from "@/lib/styles";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
+import { CardLink } from "../shared/card-link";
 import { Reveal } from "../reveal";
 import type { AuroraTone } from "../types";
 
@@ -75,7 +76,7 @@ function FilterButton({ label, active, onClick }: { label: string; active: boole
 
 function ResourceCard({ item }: { item: ResourceItem }) {
   return (
-    <a href={item.href || "#"} className="group block text-[var(--ink)] no-underline">
+    <CardLink href={item.href || "#"} className="group block text-[var(--ink)] no-underline">
       <div className="photo relative mb-3.5 aspect-[16/11] overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]">
         {item.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -86,6 +87,6 @@ function ResourceCard({ item }: { item: ResourceItem }) {
       </div>
       {item.category ? <div className="mb-[9px] flex items-center gap-2.5 text-sm leading-normal text-[var(--gray)]">{item.category}</div> : null}
       {item.title ? <h3 className="text-[1.12rem] font-[550] leading-[1.3] tracking-[-0.02em] text-[var(--ink)]">{item.title}</h3> : null}
-    </a>
+    </CardLink>
   );
 }

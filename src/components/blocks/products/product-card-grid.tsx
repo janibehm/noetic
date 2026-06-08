@@ -1,5 +1,6 @@
 import { cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
+import { CardLink } from "../shared/card-link";
 import { Reveal } from "../reveal";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, SanityImageRef } from "../types";
@@ -74,5 +75,5 @@ function ProductCardItem({ item }: { item: ProductCard }) {
   );
 
   const className = "block overflow-hidden rounded-[var(--r-lg)] p-[clamp(26px,3vw,40px)] shadow-[inset_0_0_0_1px_var(--line)] transition-[transform,box-shadow] duration-500 ease-[var(--ease-spring)] hover:-translate-y-[5px] hover:shadow-[inset_0_0_0_1px_var(--line),var(--shadow-amb)]";
-  return item.href ? <a href={item.href} className={className}>{content}</a> : <article className={className}>{content}</article>;
+  return item.href ? <CardLink href={item.href} className={className}>{content}</CardLink> : <article className={className}>{content}</article>;
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
@@ -168,8 +169,8 @@ function BentoBody({ item, showTag }: { item: BentoArticle; showTag: boolean }) 
   const bodyStyles = "absolute inset-0 z-[4] flex flex-col justify-end p-6 text-white no-underline";
 
   return (
-    <a href={`/articles/${item.slug}`} className={bodyStyles}>
+    <Link href={`/articles/${item.slug}`} className={bodyStyles}>
       {inner}
-    </a>
+    </Link>
   );
 }

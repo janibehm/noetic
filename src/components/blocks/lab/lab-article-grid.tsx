@@ -1,5 +1,6 @@
 import { cinematicStage, cn } from "@/lib/styles";
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
+import { CardLink } from "../shared/card-link";
 import { Reveal } from "../reveal";
 import type { AuroraTone } from "../types";
 
@@ -85,7 +86,7 @@ function MasonryGrid({ items }: { items: LabArticleCard[] }) {
 function LabCard({ card, featured = false, compact = false }: { card: LabArticleCard; featured?: boolean; compact?: boolean }) {
   const href = card.href || "#";
   return (
-    <a href={href} className="group relative inline-block w-full cursor-pointer text-[var(--ink)] no-underline">
+    <CardLink href={href} className="group relative inline-block w-full cursor-pointer text-[var(--ink)] no-underline">
       <div className={cn("photo relative mb-3 overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]", featured ? "min-h-80 flex-1 max-md:aspect-video max-md:min-h-0" : compact ? "flex-1 max-md:aspect-video" : "aspect-[4/3]")}> 
         {card.tag ? (
           <span className="absolute left-3 top-3 z-[4] inline-flex h-7 items-center rounded-full bg-white/25 px-3 text-[0.72rem] font-semibold leading-none tracking-[0.04em] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.4)] backdrop-blur-[14px]">
@@ -107,6 +108,6 @@ function LabCard({ card, featured = false, compact = false }: { card: LabArticle
         </div>
       ) : null}
       {card.title ? <h3 className={cn("font-medium leading-[1.3] tracking-[-0.02em] text-[var(--ink)] transition-transform duration-400 ease-[var(--ease-spring)] group-hover:-translate-y-1", featured ? "text-2xl" : "text-[1.04rem]")}>{card.title}</h3> : null}
-    </a>
+    </CardLink>
   );
 }

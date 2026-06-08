@@ -1,5 +1,6 @@
 import { cinematicStage, cn } from "@/lib/styles";
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
+import { CardLink } from "../shared/card-link";
 import { Reveal } from "../reveal";
 import type { AuroraTone } from "../types";
 
@@ -44,9 +45,9 @@ export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, l
           <Reveal delay={1}>
             {badge ? <span className="inline-block rounded-full bg-[var(--ink)] px-[11px] py-1 text-[var(--t-micro)] font-semibold leading-normal tracking-[0.04em] text-white">{badge}</span> : null}
             {heading ? (
-              <a href={href} className="block text-[var(--ink)] no-underline">
+              <CardLink href={href} className="block text-[var(--ink)] no-underline">
                 {renderHeading(headingTag, "my-4 text-[clamp(2rem,4vw,3.4rem)] font-bold leading-[1.04] tracking-[-0.04em] text-[var(--ink)] text-balance", heading)}
-              </a>
+              </CardLink>
             ) : null}
             {lead ? <p className="max-w-[42ch] text-[clamp(1.1rem,1.5vw,1.45rem)] leading-[1.45] text-[var(--gray)] text-pretty">{lead}</p> : null}
             {author ? (

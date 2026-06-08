@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { button, cinematicStage, cn } from "@/lib/styles";
 import { sanityImageProps } from "../../prose-renderer";
 import { Reveal } from "../reveal";
@@ -108,7 +109,7 @@ export default function ArticleCarouselBlock({
                   delay={(index % 4) as 0 | 1 | 2 | 3}
                   className="w-[clamp(280px,32vw,380px)] flex-none snap-start [container-type:inline-size]"
                 >
-                  <a
+                  <Link
                     href={`/articles/${article.slug}`}
                     className="group block text-[var(--ink)] no-underline"
                   >
@@ -151,7 +152,7 @@ export default function ArticleCarouselBlock({
                     >
                       {article.title}
                     </h3>
-                  </a>
+                  </Link>
                 </Reveal>
               );
             })}
