@@ -16,7 +16,6 @@ export const navItems: NavItem[] = [
   { href: "/lab", label: "Lab", activePrefix: "/lab" },
   { href: "/resources", label: "Resources" },
   { href: "/company", label: "Company" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export const footerColumns: FooterColumn[] = [

@@ -53,7 +53,7 @@ export function SiteNav() {
           ))}
         </nav>
         <Link href="/contact" className="btn btn-sm nav-cta">
-          Start creating
+          Contact
           <ArrowIcon />
         </Link>
         <button
@@ -79,7 +79,7 @@ export function SiteNav() {
           </Link>
         ))}
         <Link href="/contact" className="sheet-cta">
-          Start creating
+          Contact
           <ArrowIcon />
         </Link>
       </div>
