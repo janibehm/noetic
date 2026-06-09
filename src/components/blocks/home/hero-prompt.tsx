@@ -1,5 +1,6 @@
 import { button, cinematicStage, cn, pageContainer } from "@/lib/styles";
 import { MediaAsset } from "../shared/media-asset";
+import { PromptTypewriter } from "./prompt-typewriter";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
@@ -10,7 +11,6 @@ export type HomeHeroPromptBlockProps = {
   lead?: string;
   promptIdeas?: string[];
   primaryCta?: CtaLink;
-  showScrollCue?: boolean;
   background?: {
     video?: string;
     poster?: SanityImageRef;
@@ -38,7 +38,6 @@ export default function HomeHeroPromptBlock({
   lead,
   promptIdeas,
   primaryCta,
-  showScrollCue = true,
   background,
 }: HomeHeroPromptBlockProps) {
   const firstIdea = promptIdeas?.[0];
@@ -91,7 +90,7 @@ export default function HomeHeroPromptBlock({
             ) : null}
             {firstIdea ? (
               <PromptBar
-                idea={firstIdea}
+                ideas={promptIdeas ?? []}
                 cta={primaryCta}
               />
             ) : primaryCta?.label && primaryCta.href ? (
@@ -105,27 +104,21 @@ export default function HomeHeroPromptBlock({
           </div>
         </div>
       </div>
-      {showScrollCue ? <ScrollCue /> : null}
     </section>
   );
 }
 
-function PromptBar({ idea, cta }: { idea: string; cta?: CtaLink }) {
+function PromptBar({ ideas, cta }: { ideas: string[]; cta?: CtaLink }) {
   return (
     <div
       role="search"
       className="mt-[2.75rem] flex w-full max-w-[45rem] items-center gap-[0.875rem] rounded-full border border-white/85 bg-white/60 py-3 pe-3 ps-[1.375rem] text-start shadow-[var(--shadow-amb)] backdrop-blur-[36px] backdrop-saturate-[180%]"
     >
       <SunIcon />
-      <span
+      <PromptTypewriter
+        ideas={ideas}
         className="min-h-6 flex-1 text-[1.08rem] leading-[1.4] text-[var(--ink)]/85"
-      >
-        {idea}
-        <span
-          aria-hidden
-          className="ms-px inline-block h-[1.1em] w-0.5 bg-[var(--a2)] align-[-2px]"
-        />
-      </span>
+      />
       <button
         type="button"
         aria-label="Attach"
@@ -142,20 +135,6 @@ function PromptBar({ idea, cta }: { idea: string; cta?: CtaLink }) {
           <ArrowIcon />
         </a>
       ) : null}
-    </div>
-  );
-}
-
-function ScrollCue() {
-  return (
-    <div
-      className="absolute bottom-8 left-1/2 z-[3] flex -translate-x-1/2 flex-col items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/70"
-    >
-      <span>Scroll</span>
-      <span
-        aria-hidden
-        className="h-[2.375rem] w-px bg-linear-to-b from-white/70 to-transparent"
-      />
     </div>
   );
 }
