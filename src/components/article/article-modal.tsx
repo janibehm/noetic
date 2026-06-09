@@ -59,7 +59,7 @@ export function ArticleModal({ children }: { children: React.ReactNode }) {
           type="button"
           onClick={onClose}
           aria-label="Close article"
-          className="sticky right-4 top-4 z-[1] ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--canvas,#fff)]/80 text-[var(--ink)] shadow-[var(--shadow-amb)] ring-1 ring-[var(--line)] backdrop-blur transition-colors hover:bg-[var(--void-soft,rgba(0,0,0,0.06))]"
+          className="sticky top-6 z-[1] ml-auto mr-6 mt-6 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--canvas,#fff)]/80 text-[var(--ink)] shadow-[var(--shadow-amb)] ring-1 ring-[var(--line)] backdrop-blur transition-colors hover:bg-[var(--void-soft,rgba(0,0,0,0.06))]"
         >
           <svg
             width="18"
