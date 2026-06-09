@@ -46,20 +46,20 @@ export function ArticleModal({ children }: { children: React.ReactNode }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[100] flex justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex justify-center overflow-y-auto overscroll-contain bg-black/60 backdrop-blur-sm animate-[modalBackdropIn_0.2s_ease-out]"
       onClick={onClose}
     >
       <div
         ref={dialogRef}
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className="relative my-[clamp(1rem,5vh,4rem)] h-fit w-full max-w-[min(72rem,calc(100vw-2rem))] rounded-[1.75rem] bg-[var(--canvas,#fff)] shadow-[0_40px_120px_rgba(0,0,0,0.45)] outline-none"
+        className="relative my-[clamp(1rem,5vh,4rem)] h-fit w-full max-w-[min(72rem,calc(100vw-2rem))] rounded-[1.75rem] bg-[var(--canvas,#fff)] shadow-[0_40px_120px_rgba(0,0,0,0.45)] outline-none animate-[modalPanelIn_0.32s_cubic-bezier(0.22,1,0.36,1)]"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close article"
-          className="sticky right-4 top-4 z-[1] ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--void-soft,rgba(0,0,0,0.06))] text-[var(--ink)] transition-colors hover:bg-[var(--gray)]/20"
+          className="sticky right-4 top-4 z-[1] ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--canvas,#fff)]/80 text-[var(--ink)] shadow-[var(--shadow-amb)] ring-1 ring-[var(--line)] backdrop-blur transition-colors hover:bg-[var(--void-soft,rgba(0,0,0,0.06))]"
         >
           <svg
             width="18"

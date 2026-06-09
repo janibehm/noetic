@@ -353,6 +353,16 @@
 	50% { opacity: 0; }
 }
 
+@keyframes modalBackdropIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes modalPanelIn {
+	from { opacity: 0; transform: translateY(14px) scale(0.985); }
+	to { opacity: 1; transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after {
 		animation-duration: .001ms !important;
