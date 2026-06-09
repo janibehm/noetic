@@ -168,7 +168,7 @@ const doc = {
       showScrollCue: true,
       background: {
         video: assets.file("HORIZONTAL_HERO_blue_ribbon_abstract_bg_1920_1080_30fps.mp4"),
-        poster: assets.image("SQUARE_abstract4.jpg", "Cinematic abstract backdrop"),
+        poster: assets.image("SQUARE_abstract2.jpg", "Cinematic abstract backdrop"),
       },
     },
     {
