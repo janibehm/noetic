@@ -85,6 +85,10 @@ function MasonryGrid({ items }: { items: LabArticleCard[] }) {
 
 function LabCard({ card, featured = false, compact = false }: { card: LabArticleCard; featured?: boolean; compact?: boolean }) {
   const href = card.href || "#";
+  // `featured`/`compact` cards belong to the first "featured"-layout grid,
+  // which sits above the fold — eager-load them (lead card high priority)
+  // and lazy-load everything in the masonry grids below.
+  const aboveFold = featured || compact;
   return (
     <CardLink href={href} className="group relative inline-block w-full cursor-pointer text-[var(--ink)] no-underline">
       <div className={cn("photo relative mb-3 overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]", featured ? "min-h-80 flex-1 max-md:aspect-video max-md:min-h-0" : compact ? "flex-1 max-md:aspect-video" : "aspect-[4/3]")}> 
@@ -95,7 +99,7 @@ function LabCard({ card, featured = false, compact = false }: { card: LabArticle
         ) : null}
         {card.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={card.imageUrl} alt="" className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.06]" />
+          <img src={card.imageUrl} alt="" loading={aboveFold ? "eager" : "lazy"} fetchPriority={featured ? "high" : "auto"} decoding="async" className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.06]" />
         ) : (
           <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[card.auroraTone ?? "default"] }), "absolute inset-0 transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.06]")} />
         )}

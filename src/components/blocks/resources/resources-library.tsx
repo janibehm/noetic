@@ -80,7 +80,7 @@ function ResourceCard({ item }: { item: ResourceItem }) {
       <div className="photo relative mb-3.5 aspect-[16/11] overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]">
         {item.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.imageUrl} alt="" className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.05]" />
+          <img src={item.imageUrl} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.05]" />
         ) : (
           <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[item.auroraTone ?? "default"] }), "absolute inset-0 transition-transform duration-700 ease-[var(--ease-spring)] group-hover:scale-[1.05]")} />
         )}

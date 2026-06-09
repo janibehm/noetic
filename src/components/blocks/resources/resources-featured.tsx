@@ -51,7 +51,7 @@ export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, l
               </video>
             ) : imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={imageUrl} alt="" className="h-full w-full object-cover" />
+              <img src={imageUrl} alt="" loading="eager" fetchPriority="high" decoding="async" className="h-full w-full object-cover" />
             ) : (
               <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[auroraTone] }), "absolute inset-0")} />
             )}
