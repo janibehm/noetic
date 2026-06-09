@@ -1,4 +1,5 @@
 import { button, cinematicStage, cn } from "@/lib/styles";
+import { MediaAsset } from "../shared/media-asset";
 import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
 import { Reveal } from "../reveal";
 import type { CtaLink } from "../types";
@@ -11,9 +12,11 @@ export type SolutionHeroBlockProps = {
   cardHeading?: string;
   cardBody?: string;
   cta?: CtaLink;
+  /** Resolved video asset URL (projected via `backgroundVideo.asset->url`). */
+  backgroundVideo?: string | null;
 };
 
-export default function SolutionHeroBlock({ eyebrow, heading, headingLevel, lead, cardHeading, cardBody, cta }: SolutionHeroBlockProps) {
+export default function SolutionHeroBlock({ eyebrow, heading, headingLevel, lead, cardHeading, cardBody, cta, backgroundVideo }: SolutionHeroBlockProps) {
   const headingTag = getHeadingLevel(headingLevel, "h1");
 
   return (
@@ -35,6 +38,9 @@ export default function SolutionHeroBlock({ eyebrow, heading, headingLevel, lead
         ) : null}
         <Reveal delay={1} className="relative mt-[clamp(40px,5vw,64px)] aspect-[16/8] overflow-hidden rounded-[var(--r-xl)] shadow-[var(--shadow-float)] max-md:aspect-[4/3]">
           <div aria-hidden className={cn(cinematicStage({ tone: "spectral" }), "absolute inset-0")} />
+          {backgroundVideo ? (
+            <MediaAsset videoUrl={backgroundVideo} className="absolute inset-0 z-[1] h-full w-full object-cover" />
+          ) : null}
           <div className="glass-strong absolute bottom-[clamp(18px,3vw,40px)] left-[clamp(18px,3vw,40px)] z-[5] w-[min(420px,78%)] rounded-[var(--r-lg)] p-[30px]">
             {cardHeading ? <h2 className="mb-3 text-[clamp(1.4rem,2.4vw,2rem)] font-bold leading-[1.05] tracking-[-0.03em] text-[var(--ink)]">{cardHeading}</h2> : null}
             {cardBody ? <p className="mb-[22px] text-[0.98rem] text-[var(--ink-2)]">{cardBody}</p> : null}

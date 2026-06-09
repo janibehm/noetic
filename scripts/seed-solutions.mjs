@@ -33,6 +33,7 @@ const doc = {
       cardHeading: "From brief to campaign in an afternoon.",
       cardBody: "Tell us the outcome. noetic handles the variations, formats and exports.",
       cta: { label: "Talk to us", href: "/contact" },
+      backgroundVideo: assets.file("HORIZONTAL_ABSTRACT.mp4"),
     },
     {
       _key: "logos",
@@ -132,6 +133,7 @@ const doc = {
       messagePlaceholder: "What are you trying to create?",
       successTitle: "Thanks - we'll be in touch shortly.",
       successBody: "A specialist will tailor a walkthrough to your team.",
+      backgroundVideo: assets.file("HORIZONTAL_ABSTRACT (2).mp4"),
     },
   ],
 };

@@ -113,6 +113,7 @@ const doc = {
       submitLabel: "Request demo",
       successTitle: "Thanks - we'll be in touch within one business day.",
       successBody: "A product specialist will reach out to schedule your walkthrough.",
+      backgroundVideo: assets.file("HORIZONTAL_ROBOTS.mp4"),
     },
   ],
 };

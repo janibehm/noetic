@@ -16,6 +16,13 @@ export const solutionHeroBlock = defineType({
     defineField({ name: "cardHeading", type: "string", title: "Card heading" }),
     defineField({ name: "cardBody", type: "text", title: "Card body", rows: 2 }),
     defineField({ name: "cta", type: "object", title: "CTA", fields: [defineField({ name: "label", type: "string" }), defineField({ name: "href", type: "string" })] }),
+    defineField({
+      name: "backgroundVideo",
+      type: "file",
+      title: "Background video",
+      description: "Optional. Plays muted/looping inside the showcase card, over the aurora.",
+      options: { accept: "video/*" },
+    }),
   ],
   preview: {
     select: { blockName: "blockName", title: "heading" },

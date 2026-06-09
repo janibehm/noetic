@@ -4,6 +4,7 @@
 import "dotenv/config";
 import { createClient } from "@sanity/client";
 import { createAssetResolver } from "./lib/assets.mjs";
+import { articleCovers } from "./lib/article-covers.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -14,6 +15,13 @@ const client = createClient({
 });
 
 const assets = await createAssetResolver(client);
+
+// Card image for an article-linked card — kept identical to the article's own
+// cover (scripts/lib/article-covers.mjs) so the preview matches the hero.
+const coverUrl = (slug) => {
+  const cover = articleCovers[slug];
+  return cover && assets.url(cover.image);
+};
 
 const doc = {
   _id: "page-lab",
@@ -52,6 +60,7 @@ const doc = {
           category: "Diffusion",
           meta: "Mar 2026",
           href: "/articles/latent-navigation",
+          imageUrl: coverUrl("latent-navigation"),
           auroraTone: "cool",
         },
         {
@@ -66,6 +75,7 @@ const doc = {
           title: "Holding aesthetics constant across a series",
           tag: "Style",
           href: "/articles/holding-aesthetics-constant-across-a-series",
+          imageUrl: coverUrl("holding-aesthetics-constant-across-a-series"),
           auroraTone: "warm",
         },
       ],
@@ -79,12 +89,12 @@ const doc = {
       countLabel: "04 topics",
       layout: "masonry",
       items: [
-        { _key: "cascaded-diffusion", title: "Cascaded diffusion at 4K without the artifacts", tag: "Diffusion models", href: "/articles/cascaded-diffusion-at-4k", auroraTone: "cool" },
+        { _key: "cascaded-diffusion", title: "Cascaded diffusion at 4K without the artifacts", tag: "Diffusion models", href: "/articles/cascaded-diffusion-at-4k", imageUrl: coverUrl("cascaded-diffusion-at-4k"), auroraTone: "cool" },
         { _key: "prompt-grammar", title: "The grammar of a great prompt", tag: "Prompt engineering", href: "/articles/the-grammar-of-a-great-prompt", imageUrl: assets.url("SQUARE_abstract5.jpg") },
-        { _key: "reference-locking", title: "Reference-locking across a 60-frame sequence", tag: "Style consistency", href: "/articles/reference-locking-across-a-sequence", auroraTone: "warm" },
-        { _key: "personalizing-model", title: "Personalizing a model on twelve images", tag: "Fine-tuning", href: "/articles/personalizing-a-model-on-twelve-images", auroraTone: "default" },
+        { _key: "reference-locking", title: "Reference-locking across a 60-frame sequence", tag: "Style consistency", href: "/articles/reference-locking-across-a-sequence", imageUrl: coverUrl("reference-locking-across-a-sequence"), auroraTone: "warm" },
+        { _key: "personalizing-model", title: "Personalizing a model on twelve images", tag: "Fine-tuning", href: "/articles/personalizing-a-model-on-twelve-images", imageUrl: coverUrl("personalizing-a-model-on-twelve-images"), auroraTone: "default" },
         { _key: "faster-samplers", title: "Faster samplers, sharper edges", tag: "Diffusion models", href: "/articles/faster-samplers-sharper-edges", imageUrl: assets.url("snowy_landscape.jpg") },
-        { _key: "sparse-prompts", title: "Auto-expanding sparse prompts", tag: "Prompt engineering", href: "/articles/auto-expanding-sparse-prompts", auroraTone: "cool" },
+        { _key: "sparse-prompts", title: "Auto-expanding sparse prompts", tag: "Prompt engineering", href: "/articles/auto-expanding-sparse-prompts", imageUrl: coverUrl("auto-expanding-sparse-prompts"), auroraTone: "cool" },
       ],
     },
     {
@@ -96,12 +106,12 @@ const doc = {
       countLabel: "05 topics",
       layout: "masonry",
       items: [
-        { _key: "tokens", title: "Tokens that prompt themselves", tag: "Design systems", href: "/articles/tokens-that-prompt-themselves", auroraTone: "default" },
+        { _key: "tokens", title: "Tokens that prompt themselves", tag: "Design systems", href: "/articles/tokens-that-prompt-themselves", imageUrl: coverUrl("tokens-that-prompt-themselves"), auroraTone: "default" },
         { _key: "spreadsheet-assets", title: "From spreadsheet to 10,000 assets", tag: "Asset pipelines", href: "/articles/from-spreadsheet-to-10000-assets", imageUrl: assets.url("SQUARE_CITY_BUS.jpg") },
-        { _key: "human-loop", title: "Where humans stay in the loop", tag: "AI-assisted production", href: "/articles/where-humans-stay-in-the-loop", auroraTone: "warm" },
-        { _key: "shared-canvases", title: "Shared canvases across a studio", tag: "Collaboration", href: "/articles/shared-canvases-across-a-studio", auroraTone: "cool" },
+        { _key: "human-loop", title: "Where humans stay in the loop", tag: "AI-assisted production", href: "/articles/where-humans-stay-in-the-loop", imageUrl: coverUrl("where-humans-stay-in-the-loop"), auroraTone: "warm" },
+        { _key: "shared-canvases", title: "Shared canvases across a studio", tag: "Collaboration", href: "/articles/shared-canvases-across-a-studio", imageUrl: coverUrl("shared-canvases-across-a-studio"), auroraTone: "cool" },
         { _key: "approval-flows", title: "Approval flows people actually use", tag: "Governance", href: "/articles/approval-flows-people-actually-use", imageUrl: assets.url("SQUARE_street_view.jpg") },
-        { _key: "generation-cache", title: "Caching generations for reuse", tag: "Asset pipelines", href: "/articles/caching-generations-for-reuse", auroraTone: "default" },
+        { _key: "generation-cache", title: "Caching generations for reuse", tag: "Asset pipelines", href: "/articles/caching-generations-for-reuse", imageUrl: coverUrl("caching-generations-for-reuse"), auroraTone: "default" },
       ],
     },
     {
@@ -113,6 +123,7 @@ const doc = {
       headingLevel: "h2",
       body: "See how the latest models power generation, editing and automation at scale.",
       cta: { label: "Explore the platform", href: "/products" },
+      backgroundVideo: assets.file("HORIZONTAL_abstract_background_wide-hd_1920_1080_25fps.mp4"),
     },
     {
       _key: "latest",
@@ -124,11 +135,11 @@ const doc = {
       layout: "masonry",
       items: [
         { _key: "color-memory", title: "Color memory in generative models", tag: "Perception", href: "/articles/color-memory-in-generative-models", imageUrl: assets.url("VERTICAL_flowers_image_3.jpg") },
-        { _key: "outpainting", title: "Outpainting beyond the frame", tag: "Method", href: "/articles/outpainting-beyond-the-frame", auroraTone: "warm" },
-        { _key: "taste", title: "Measuring 'taste' quantitatively", tag: "Research", href: "/articles/measuring-taste-quantitatively", auroraTone: "cool" },
+        { _key: "outpainting", title: "Outpainting beyond the frame", tag: "Method", href: "/articles/outpainting-beyond-the-frame", imageUrl: coverUrl("outpainting-beyond-the-frame"), auroraTone: "warm" },
+        { _key: "taste", title: "Measuring 'taste' quantitatively", tag: "Research", href: "/articles/measuring-taste-quantitatively", imageUrl: coverUrl("measuring-taste-quantitatively"), auroraTone: "cool" },
         { _key: "relighting", title: "Depth-aware relighting", tag: "Control", href: "/articles/depth-aware-relighting", imageUrl: assets.url("SQUARE_mountain_landscape.jpg") },
-        { _key: "determinism", title: "Seeds, determinism and reproducibility", tag: "Method", href: "/articles/seeds-determinism-and-reproducibility", auroraTone: "default" },
-        { _key: "canvas-versioning", title: "Versioning a creative canvas", tag: "Systems", href: "/articles/versioning-a-creative-canvas", auroraTone: "cool" },
+        { _key: "determinism", title: "Seeds, determinism and reproducibility", tag: "Method", href: "/articles/seeds-determinism-and-reproducibility", imageUrl: coverUrl("seeds-determinism-and-reproducibility"), auroraTone: "default" },
+        { _key: "canvas-versioning", title: "Versioning a creative canvas", tag: "Systems", href: "/articles/versioning-a-creative-canvas", imageUrl: coverUrl("versioning-a-creative-canvas"), auroraTone: "cool" },
       ],
     },
   ],

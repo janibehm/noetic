@@ -252,7 +252,7 @@ const doc = {
       alignment: "center",
       tone: "inverse",
       primaryCta: { label: "Get started", href: "/contact" },
-      background: { auroraTone: "default" },
+      background: { auroraTone: "default", video: assets.file("11904052_1280_720_24fps.mp4") },
     },
   ],
 };

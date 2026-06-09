@@ -4,6 +4,7 @@
 import "dotenv/config";
 import { createClient } from "@sanity/client";
 import { createAssetResolver } from "./lib/assets.mjs";
+import { articleCovers } from "./lib/article-covers.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -14,6 +15,13 @@ const client = createClient({
 });
 
 const assets = await createAssetResolver(client);
+
+// Card image for an article-linked card — kept identical to the article's own
+// cover (scripts/lib/article-covers.mjs) so the preview matches the hero.
+const coverUrl = (slug) => {
+  const cover = articleCovers[slug];
+  return cover && assets.url(cover.image);
+};
 
 const doc = {
   _id: "page-resources",
@@ -46,15 +54,15 @@ const doc = {
       heading: "Learn the canvas.",
       headingLevel: "h2",
       items: [
-        { _key: "prompt-anatomy", category: "Prompt Guides", title: "Anatomy of a reliable prompt", href: "/articles/anatomy-of-a-reliable-prompt", auroraTone: "default" },
+        { _key: "prompt-anatomy", category: "Prompt Guides", title: "Anatomy of a reliable prompt", href: "/articles/anatomy-of-a-reliable-prompt", imageUrl: coverUrl("anatomy-of-a-reliable-prompt"), auroraTone: "default" },
         { _key: "batch-pipeline", category: "Tutorials", title: "Your first batch pipeline", href: "/articles/your-first-batch-pipeline", imageUrl: assets.url("SQUARE_abstract6.jpg") },
-        { _key: "composition-rules", category: "AI Art", title: "Composition rules the model loves", href: "/articles/composition-rules-the-model-loves", auroraTone: "warm" },
-        { _key: "ad-variants", category: "Marketing", title: "50 ad variants from one brief", href: "/articles/50-ad-variants-from-one-brief", auroraTone: "cool" },
+        { _key: "composition-rules", category: "AI Art", title: "Composition rules the model loves", href: "/articles/composition-rules-the-model-loves", imageUrl: coverUrl("composition-rules-the-model-loves"), auroraTone: "warm" },
+        { _key: "ad-variants", category: "Marketing", title: "50 ad variants from one brief", href: "/articles/50-ad-variants-from-one-brief", imageUrl: coverUrl("50-ad-variants-from-one-brief"), auroraTone: "cool" },
         { _key: "product-shots", category: "E-commerce", title: "Studio product shots, no studio", href: "/articles/studio-product-shots-no-studio", imageUrl: assets.url("SQUARE_blueberries.jpg") },
-        { _key: "vantage-case", category: "Case Studies", title: "How Vantage cut creative time 70%", href: "/articles/how-vantage-cut-creative-time-70", auroraTone: "default" },
+        { _key: "vantage-case", category: "Case Studies", title: "How Vantage cut creative time 70%", href: "/articles/how-vantage-cut-creative-time-70", imageUrl: coverUrl("how-vantage-cut-creative-time-70"), auroraTone: "default" },
         { _key: "reproducible-seeds", category: "Research", title: "Why seeds make results reproducible", href: "/articles/why-seeds-make-results-reproducible", imageUrl: assets.url("SQUARE_aquarium.png") },
-        { _key: "image-3", category: "Product Updates", title: "Introducing noetic-image-3", href: "/articles/introducing-noetic-image-3", auroraTone: "cool" },
-        { _key: "outpainting-wide", category: "Tutorials", title: "Outpainting for wide formats", href: "/articles/outpainting-for-wide-formats", auroraTone: "warm" },
+        { _key: "image-3", category: "Product Updates", title: "Introducing noetic-image-3", href: "/articles/introducing-noetic-image-3", imageUrl: coverUrl("introducing-noetic-image-3"), auroraTone: "cool" },
+        { _key: "outpainting-wide", category: "Tutorials", title: "Outpainting for wide formats", href: "/articles/outpainting-for-wide-formats", imageUrl: coverUrl("outpainting-for-wide-formats"), auroraTone: "warm" },
       ],
     },
     {
@@ -136,7 +144,7 @@ curl https://api.noetic.ai/v1/images/generations \
       body: "One concise email when something genuinely new lands. No noise.",
       alignment: "center",
       tone: "inverse",
-      background: { auroraTone: "default" },
+      background: { auroraTone: "default", video: assets.file("11904094_1280_720_25fps.mp4") },
       emailCapture: {
         enabled: true,
         placeholder: "you@studio.com",

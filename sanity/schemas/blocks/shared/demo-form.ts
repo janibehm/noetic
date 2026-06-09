@@ -17,6 +17,13 @@ export const demoFormBlock = defineType({
     defineField({ name: "messagePlaceholder", type: "string", title: "Message placeholder", initialValue: "What would you like to generate?" }),
     defineField({ name: "successTitle", type: "string", title: "Success title" }),
     defineField({ name: "successBody", type: "text", title: "Success body", rows: 2 }),
+    defineField({
+      name: "backgroundVideo",
+      type: "file",
+      title: "Background video",
+      description: "Optional. Plays muted/looping behind the heading panel.",
+      options: { accept: "video/*" },
+    }),
   ],
   preview: {
     select: { blockName: "blockName", title: "heading" },

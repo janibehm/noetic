@@ -7,6 +7,8 @@
 // Slugs here MUST match the hrefs set in seed-lab.mjs / seed-resources.mjs.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
+import { articleCovers } from "./lib/article-covers.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -15,6 +17,8 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
 
 let keySeq = 0;
 const k = (prefix) => `${prefix}-${(keySeq++).toString(36)}`;
@@ -426,6 +430,9 @@ for (const category of categories) {
 
 let published = Date.parse("2026-05-01T12:00:00.000Z");
 for (const article of articles) {
+  // Cover doubles as the card image on the Lab/Resources pages (see
+  // scripts/lib/article-covers.mjs), so the preview and the article hero match.
+  const cover = articleCovers[article.slug];
   const res = await client.createOrReplace({
     _id: `article-${article.slug}`,
     _type: "article",
@@ -438,10 +445,14 @@ for (const article of articles) {
     publishedAt: new Date(published).toISOString(),
     readingTimeMinutes: article.readingTimeMinutes ?? 4,
     body: body(article.content),
+    coverImage: cover && assets.image(cover.image, cover.alt),
   });
   console.log(`Seeded article: ${res._id} (/articles/${article.slug})`);
   // Stagger publish dates so listings order sensibly.
   published += 60 * 60 * 1000;
 }
 
+if (assets.missing.length) {
+  console.log(`\nMissing assets (run seed-media-assets.mjs first): ${assets.missing.join(", ")}`);
+}
 console.log(`\nDone: ${categories.length} categories, ${articles.length} articles.`);

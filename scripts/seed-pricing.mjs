@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/pricing.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +12,8 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
 
 const groups = [
   {
@@ -197,7 +200,7 @@ const doc = {
       alignment: "center",
       tone: "inverse",
       primaryCta: { label: "Get started", href: "/contact" },
-      background: { auroraTone: "default" },
+      background: { auroraTone: "default", video: assets.file("11904094_1280_720_25fps.mp4") },
     },
   ],
 };

@@ -13,7 +13,7 @@ import { headingLevelField } from "./_heading-level";
  *  - Primary CTA (required) + optional secondary CTA
  *  - Alignment (center | start)
  *  - Tone (inverse cinematic vs. surface card)
- *  - Optional background image + aurora gradient tone
+ *  - Optional background image or video + aurora gradient tone
  */
 export const ctaBannerBlock = defineType({
   name: "ctaBannerBlock",
@@ -116,6 +116,14 @@ export const ctaBannerBlock = defineType({
           fields: [
             defineField({ name: "alt", type: "string", title: "Alt text" }),
           ],
+        }),
+        defineField({
+          name: "video",
+          type: "file",
+          title: "Video",
+          description:
+            "Optional. When set, plays muted/looping behind the banner (the image becomes its poster frame).",
+          options: { accept: "video/*" },
         }),
         defineField({
           name: "auroraTone",

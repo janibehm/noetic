@@ -22,6 +22,13 @@ export const labSpotlightBlock = defineType({
         defineField({ name: "href", type: "string" }),
       ],
     }),
+    defineField({
+      name: "backgroundVideo",
+      type: "file",
+      title: "Background video",
+      description: "Optional. Plays muted/looping behind the spotlight, over the aurora wash.",
+      options: { accept: "video/*" },
+    }),
   ],
   preview: {
     select: { blockName: "blockName", title: "heading" },

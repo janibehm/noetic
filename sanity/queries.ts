@@ -87,7 +87,8 @@ export const blocksProjection = groq`
       primaryCta, secondaryCta, emailCapture,
       background{
         auroraTone,
-        image{..., "alt": coalesce(alt, asset->altText)}
+        image{..., "alt": coalesce(alt, asset->altText)},
+        "video": video.asset->url
       }
     },
 
@@ -114,7 +115,8 @@ export const blocksProjection = groq`
 
     _type == "demoFormBlock" => {
       heading, body, bullets, submitLabel, successTitle, successBody,
-      showCompanyField, selectLabel, selectOptions, messagePlaceholder
+      showCompanyField, selectLabel, selectOptions, messagePlaceholder,
+      "backgroundVideo": backgroundVideo.asset->url
     },
 
     _type == "productHeroBlock" => {
@@ -165,7 +167,8 @@ export const blocksProjection = groq`
     },
 
     _type == "solutionHeroBlock" => {
-      eyebrow, heading, headingLevel, lead, cardHeading, cardBody, cta
+      eyebrow, heading, headingLevel, lead, cardHeading, cardBody, cta,
+      "backgroundVideo": backgroundVideo.asset->url
     },
 
     _type == "solutionAccordionBlock" => {
@@ -188,7 +191,8 @@ export const blocksProjection = groq`
     },
 
     _type == "labSpotlightBlock" => {
-      eyebrow, heading, headingLevel, body, cta
+      eyebrow, heading, headingLevel, body, cta,
+      "backgroundVideo": backgroundVideo.asset->url
     },
 
     _type == "resourcesFeaturedBlock" => {

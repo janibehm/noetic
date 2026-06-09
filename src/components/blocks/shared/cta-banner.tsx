@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { button, cinematicStage, cn } from "@/lib/styles";
-import { sanityImageProps } from "@/lib/sanity-image";
+import { MediaAsset } from "./media-asset";
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
 import type { AuroraTone, CtaLink, SanityImageRef, Tone } from "../types";
 
@@ -19,6 +19,9 @@ export type CtaBannerBlockProps = {
   background?: {
     auroraTone?: AuroraTone;
     image?: SanityImageRef;
+    /** Resolved video asset URL (projected via `video.asset->url`). When set,
+     *  plays muted/looping behind the banner with `image` as its poster. */
+    video?: string | null;
   };
   emailCapture?: {
     enabled?: boolean;
@@ -53,7 +56,7 @@ export default function CtaBannerBlock({
   emailCapture,
 }: CtaBannerBlockProps) {
   const [sent, setSent] = useState(false);
-  const bg = background?.image ? sanityImageProps(background.image, 2000) : null;
+  const hasBackgroundMedia = Boolean(background?.video || background?.image);
   const isInverse = tone === "inverse";
   const isCenter = alignment === "center";
   const auroraTone = AURORA_TONE[background?.auroraTone ?? "default"];
@@ -69,11 +72,11 @@ export default function CtaBannerBlock({
               : "relative overflow-hidden rounded-[2.75rem] border border-[var(--line)] bg-white text-[var(--ink)]"
           }
         >
-          {bg ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={bg.src}
-              alt={bg.alt}
+          {hasBackgroundMedia ? (
+            <MediaAsset
+              image={background?.image}
+              videoUrl={background?.video}
+              width={2000}
               className="absolute inset-0 z-0 h-full w-full object-cover opacity-55"
             />
           ) : null}

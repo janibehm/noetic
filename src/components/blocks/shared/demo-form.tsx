@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { button, cinematicStage } from "@/lib/styles";
+import { MediaAsset } from "./media-asset";
 import { Reveal } from "../reveal";
 
 export type DemoFormBlockProps = {
@@ -15,6 +16,8 @@ export type DemoFormBlockProps = {
   messagePlaceholder?: string;
   successTitle?: string;
   successBody?: string;
+  /** Resolved video asset URL (projected via `backgroundVideo.asset->url`). */
+  backgroundVideo?: string | null;
 };
 
 export default function DemoFormBlock({
@@ -28,6 +31,7 @@ export default function DemoFormBlock({
   messagePlaceholder = "What would you like to generate?",
   successTitle = "Thanks - we'll be in touch within one business day.",
   successBody = "A product specialist will reach out to schedule your walkthrough.",
+  backgroundVideo,
 }: DemoFormBlockProps) {
   const [sent, setSent] = useState(false);
   const bulletItems = bullets ?? [];
@@ -43,6 +47,9 @@ export default function DemoFormBlock({
           <div className="grid lg:grid-cols-2">
             <div className="relative overflow-hidden p-[clamp(36px,5vw,72px)] text-white">
               <div aria-hidden className={cinematicStage({ tone: "spectral" }) + " absolute inset-0 z-0"} />
+              {backgroundVideo ? (
+                <MediaAsset videoUrl={backgroundVideo} className="absolute inset-0 z-[1] h-full w-full object-cover opacity-55" />
+              ) : null}
               <div className="relative z-[3]">
                 <h2 className="mb-4 text-[clamp(1.8rem,3vw,2.8rem)] font-bold leading-[0.98] tracking-[-0.03em] text-white">{heading}</h2>
                 {body ? <p className="max-w-[34ch] text-white/85">{body}</p> : null}

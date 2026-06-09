@@ -3,6 +3,7 @@
 // noetic_CLAUDE_DESIGN/company.html. Safe to re-run.
 import "dotenv/config";
 import { createClient } from "@sanity/client";
+import { createAssetResolver } from "./lib/assets.mjs";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +12,8 @@ const client = createClient({
   apiVersion: "2025-01-01",
   useCdn: false,
 });
+
+const assets = await createAssetResolver(client);
 
 const photo = (id) => `https://images.unsplash.com/photo-${id}?w=500&q=70`;
 
@@ -85,7 +88,7 @@ const doc = {
       primaryCta: { label: "Get in touch", href: "/contact" },
       alignment: "center",
       tone: "inverse",
-      background: { auroraTone: "default" },
+      background: { auroraTone: "default", video: assets.file("11904052_1280_720_24fps.mp4") },
     },
   ],
 };
