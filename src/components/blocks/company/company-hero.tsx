@@ -1,4 +1,5 @@
 import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
+import { CountUp } from "../shared/count-up";
 import { Reveal } from "../reveal";
 
 type CompanyStat = {
@@ -45,7 +46,7 @@ export default function CompanyHeroBlock({ eyebrow, heading, highlight, headingL
           <Reveal delay={2} className="mt-[clamp(50px,7vw,90px)] grid grid-cols-2 gap-x-6 gap-y-8 border-t border-[var(--line)] pt-10 min-[680px]:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat._key}>
-                {stat.value ? <span className="block text-[clamp(2.4rem,4vw,3.6rem)] font-bold leading-none tracking-[-0.04em] text-[var(--ink)]">{stat.value}</span> : null}
+                {stat.value ? <CountUp value={stat.value} className="block text-[clamp(2.4rem,4vw,3.6rem)] font-bold leading-none tracking-[-0.04em] text-[var(--ink)]" /> : null}
                 {stat.label ? <span className="mt-1.5 block text-sm leading-normal text-[var(--gray)]">{stat.label}</span> : null}
               </div>
             ))}
