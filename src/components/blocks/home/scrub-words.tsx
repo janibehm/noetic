@@ -9,6 +9,8 @@ export type ScrubWordItem = {
   word: string;
   /** Resolved video asset URL (projected via `video.asset->url`). */
   videoUrl?: string | null;
+  /** Resolved poster image URL, shown until the clip loads. */
+  posterUrl?: string | null;
 };
 
 export type HomeScrubWordsBlockProps = {
@@ -112,6 +114,7 @@ export default function HomeScrubWordsBlock({
               loop
               playsInline
               preload="metadata"
+              poster={entry.posterUrl ?? undefined}
               aria-hidden
               className="absolute inset-0 z-[1] h-full w-full object-cover opacity-0 transition-opacity duration-[800ms] ease-linear data-active:opacity-100"
             >

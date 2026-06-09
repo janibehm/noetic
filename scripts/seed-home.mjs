@@ -179,7 +179,7 @@ const doc = {
       blockName: "scrub-words",
       label: "One canvas. Every operation.",
       items: [
-        { _key: "generate", word: "Generate.", video: assets.file("HORIZONTAL_ABSTRACT (3).mp4") },
+        { _key: "generate", word: "Generate.", video: assets.file("HORIZONTAL_ABSTRACT (3).mp4"), poster: assets.image("SQUARE_abstract1.jpg") },
         { _key: "edit", word: "Edit.", video: assets.file("7180709-hd_1366_720_25fps.mp4") },
         { _key: "upscale", word: "Upscale.", video: assets.file("HORIZONTAL_abstract_background_wide-hd_1920_1080_25fps.mp4") },
         { _key: "expand", word: "Expand.", video: assets.file("HORIZONTAL_night_city_drone_shot_1280_720_24fps (1).mp4") },

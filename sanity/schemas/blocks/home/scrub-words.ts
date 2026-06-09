@@ -43,8 +43,16 @@ export const scrubWordsBlock = defineType({
               description: "Muted/looping clip shown while this word is active.",
               options: { accept: "video/*" },
             }),
+            defineField({
+              name: "poster",
+              type: "image",
+              title: "Poster image",
+              description:
+                "Shown until the clip loads. Most useful on the first word, whose video is visible on initial render.",
+              options: { hotspot: true },
+            }),
           ],
-          preview: { select: { title: "word", media: "video" } },
+          preview: { select: { title: "word", media: "poster" } },
         },
       ],
       validation: (r) => r.min(2).max(10),
