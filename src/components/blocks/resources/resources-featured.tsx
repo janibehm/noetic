@@ -43,8 +43,7 @@ export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, l
                 muted
                 loop
                 playsInline
-                preload="metadata"
-                poster={imageUrl}
+                preload="auto"
                 aria-hidden
               >
                 <source src={coverVideo} />

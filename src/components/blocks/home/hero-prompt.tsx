@@ -56,6 +56,8 @@ export default function HomeHeroPromptBlock({
             image={background?.poster}
             videoUrl={background?.video}
             width={1920}
+            showPoster={false}
+            preload="auto"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/35" />
