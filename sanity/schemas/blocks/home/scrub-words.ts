@@ -21,12 +21,32 @@ export const scrubWordsBlock = defineType({
       initialValue: "One canvas. Every operation.",
     }),
     defineField({
-      name: "words",
+      name: "items",
       type: "array",
       title: "Words",
       description:
-        "Sequence of words revealed as the user scrolls. 3–8 words works best.",
-      of: [{ type: "string" }],
+        "Sequence revealed as the user scrolls — each word with its own background video that crossfades in. 3–8 works best.",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "word",
+              type: "string",
+              title: "Word",
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "video",
+              type: "file",
+              title: "Background video",
+              description: "Muted/looping clip shown while this word is active.",
+              options: { accept: "video/*" },
+            }),
+          ],
+          preview: { select: { title: "word", media: "video" } },
+        },
+      ],
       validation: (r) => r.min(2).max(10),
     }),
     defineField({

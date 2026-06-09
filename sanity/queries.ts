@@ -56,7 +56,10 @@ export const blocksProjection = groq`
       }
     },
 
-    _type == "scrubWordsBlock" => { label, words, auroraTone },
+    _type == "scrubWordsBlock" => {
+      label, words, auroraTone,
+      items[]{ _key, word, "videoUrl": video.asset->url }
+    },
 
     _type == "bentoShowcaseBlock" => {
       eyebrow, heading, headingLevel, lead,
