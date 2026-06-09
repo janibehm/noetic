@@ -193,6 +193,7 @@ export const blocksProjection = groq`
 
     _type == "resourcesFeaturedBlock" => {
       badge, heading, headingLevel, lead, href, imageUrl, auroraTone,
+      "coverVideo": coverVideo.asset->url,
       author{ name, meta, avatarUrl }
     },
 

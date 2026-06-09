@@ -23,11 +23,12 @@ export type ResourcesFeaturedBlockProps = {
   lead?: string;
   href?: string;
   imageUrl?: string;
+  coverVideo?: string;
   auroraTone?: AuroraTone;
   author?: FeaturedAuthor;
 };
 
-export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, lead, href = "#", imageUrl, auroraTone = "cool", author }: ResourcesFeaturedBlockProps) {
+export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, lead, href = "#", imageUrl, coverVideo, auroraTone = "cool", author }: ResourcesFeaturedBlockProps) {
   const headingTag = getHeadingLevel(headingLevel, "h1");
 
   return (
@@ -35,7 +36,20 @@ export default function ResourcesFeaturedBlock({ badge, heading, headingLevel, l
       <div className="mx-auto w-full max-w-[var(--maxw)] px-[var(--pad)]">
         <div className="grid items-center gap-[clamp(28px,4vw,64px)] md:grid-cols-[1.2fr_1fr]">
           <Reveal className="photo relative aspect-[16/11] overflow-hidden rounded-[var(--r-lg)] bg-[var(--void-soft)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05),var(--shadow-amb)]">
-            {imageUrl ? (
+            {coverVideo ? (
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={imageUrl}
+                aria-hidden
+              >
+                <source src={coverVideo} />
+              </video>
+            ) : imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={imageUrl} alt="" className="h-full w-full object-cover" />
             ) : (

@@ -16,6 +16,14 @@ export const resourcesFeaturedBlock = defineType({
     defineField({ name: "href", type: "string", title: "Article URL" }),
     defineField({ name: "imageUrl", type: "url", title: "External image URL" }),
     defineField({
+      name: "coverVideo",
+      type: "file",
+      title: "Cover video",
+      description:
+        "Optional. When set, plays muted/looping in place of the image (which becomes its poster frame).",
+      options: { accept: "video/*" },
+    }),
+    defineField({
       name: "auroraTone",
       type: "string",
       title: "Aurora tone",
