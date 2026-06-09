@@ -113,7 +113,7 @@ function PromptBar({ ideas, cta }: { ideas: string[]; cta?: CtaLink }) {
   return (
     <div
       role="search"
-      className="mt-[2.75rem] flex w-full max-w-[45rem] items-center gap-[0.875rem] rounded-full border border-white/85 bg-white/60 py-3 pe-3 ps-[1.375rem] text-start shadow-[var(--shadow-amb)] backdrop-blur-[36px] backdrop-saturate-[180%]"
+      className="mt-[2.75rem] hidden w-full max-w-[45rem] items-center gap-[0.875rem] rounded-full border border-white/85 bg-white/60 py-3 pe-3 ps-[1.375rem] text-start shadow-[var(--shadow-amb)] backdrop-blur-[36px] backdrop-saturate-[180%] sm:flex"
     >
       <SunIcon />
       <PromptTypewriter
