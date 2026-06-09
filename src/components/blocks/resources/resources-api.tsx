@@ -81,7 +81,8 @@ export default function ResourcesApiBlock({ heading, headingLevel, lead, codeSam
               {endpointGroup.heading ? <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--ink)]">{endpointGroup.heading}</h3> : null}
               {endpointGroup.baseUrl ? <span className="font-mono text-[0.8rem] text-[var(--gray)]">{endpointGroup.baseUrl}</span> : null}
             </div>
-            <div className="overflow-hidden rounded-[var(--r-md)] bg-[var(--void)] shadow-[inset_0_0_0_1px_var(--line)]">
+            {/* Desktop: a three-column table. */}
+            <div className="hidden overflow-hidden rounded-[var(--r-md)] bg-[var(--void)] shadow-[inset_0_0_0_1px_var(--line)] md:block">
               <table className="w-full border-collapse">
                 <thead>
                   <tr>
@@ -101,6 +102,19 @@ export default function ResourcesApiBlock({ heading, headingLevel, lead, codeSam
                 </tbody>
               </table>
             </div>
+            {/* Mobile: each endpoint reflows into a stacked card so nothing
+                overflows or gets squeezed. */}
+            <ul className="flex list-none flex-col gap-3 p-0 md:hidden">
+              {endpointGroup.rows?.map((row) => (
+                <li key={row._key} className="rounded-[var(--r-md)] bg-[var(--void)] p-4 shadow-[inset_0_0_0_1px_var(--line)]">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <MethodBadge method={row.method} />
+                    {row.endpoint ? <code className="font-mono text-[0.9rem] break-all text-[var(--ink)]">{row.endpoint}</code> : null}
+                  </div>
+                  {row.description ? <p className="mt-2.5 text-[0.95rem] leading-[1.5] text-[var(--ink-2)]">{row.description}</p> : null}
+                </li>
+              ))}
+            </ul>
           </Reveal>
         ) : null}
         {cards.length ? (
