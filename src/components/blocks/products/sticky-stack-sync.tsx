@@ -90,11 +90,16 @@ export function StickyStackSync({ steps }: { steps: StackStep[] }) {
                   ) : null}
                 </div>
               </div>
+              {/* On mobile each step's media sits right under its own text; the
+                  separate sticky media column is hidden below lg. */}
+              <div className="mt-5 lg:hidden">
+                <StackMedia step={step} />
+              </div>
             </Reveal>
           );
         })}
       </div>
-      <div className="flex flex-col gap-[clamp(40px,9vh,110px)]">
+      <div className="hidden flex-col gap-[clamp(40px,9vh,110px)] lg:flex">
         {steps.map((step, index) => (
           <Reveal key={`${step._key}-media`} delay={(index % 4) as 0 | 1 | 2 | 3}>
             <StackMedia
@@ -115,7 +120,7 @@ function StackMedia({
   refCallback,
 }: {
   step: StackStep;
-  refCallback: (node: HTMLDivElement | null) => void;
+  refCallback?: (node: HTMLDivElement | null) => void;
 }) {
   const image = step.image ? sanityImageProps(step.image, 1200) : null;
   return (

@@ -57,11 +57,16 @@ export default function SolutionAccordionBlock({ heading, headingLevel, items = 
                       {item.body ? <p className={cn("mt-3 max-w-[44ch] text-[var(--gray)] transition-opacity duration-400", active ? "opacity-100" : "opacity-0 max-md:opacity-100")}>{item.body}</p> : null}
                     </div>
                   </div>
+                  {/* On mobile each use case shows its own image under its text;
+                      the shared crossfade panel is hidden below md. */}
+                  <div className="relative mt-4 aspect-[4/3.4] overflow-hidden rounded-[var(--r-lg)] shadow-[var(--shadow-amb)] md:hidden">
+                    <MediaInner item={item} />
+                  </div>
                 </button>
               );
             })}
           </div>
-          <div className="relative aspect-[4/3.4] overflow-hidden rounded-[var(--r-lg)] shadow-[var(--shadow-amb)]">
+          <div className="relative hidden aspect-[4/3.4] overflow-hidden rounded-[var(--r-lg)] shadow-[var(--shadow-amb)] md:block">
             {items.map((item, index) => <AccordionMedia key={`${item._key}-media`} item={item} active={index === activeIndex} />)}
           </div>
         </Reveal>
@@ -73,12 +78,16 @@ export default function SolutionAccordionBlock({ heading, headingLevel, items = 
 function AccordionMedia({ item, active }: { item: AccordionItem; active: boolean }) {
   return (
     <div className={cn("absolute inset-0 transition-opacity duration-[800ms] ease-[var(--ease-out)]", active ? "opacity-100" : "opacity-0")}>
-      {item.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={item.imageUrl} alt="" className="h-full w-full object-cover" />
-      ) : (
-        <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[item.auroraTone ?? "default"] }), "absolute inset-0")} />
-      )}
+      <MediaInner item={item} />
     </div>
+  );
+}
+
+function MediaInner({ item }: { item: AccordionItem }) {
+  return item.imageUrl ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={item.imageUrl} alt="" className="h-full w-full object-cover" />
+  ) : (
+    <div aria-hidden className={cn(cinematicStage({ tone: AURORA_TONE[item.auroraTone ?? "default"] }), "absolute inset-0")} />
   );
 }
