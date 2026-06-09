@@ -12,9 +12,6 @@ export type MediaAssetProps = {
   className?: string;
   /** Overrides the image's own alt text. */
   alt?: string;
-  /** When false, the video renders without a poster frame (video-only).
-   *  Defaults to true so card/cover surfaces keep their poster. */
-  showPoster?: boolean;
   /** Video preload hint. Defaults to "metadata"; pass "auto" for hero
    *  surfaces where the video should start as soon as possible. */
   preload?: "none" | "metadata" | "auto";
@@ -34,7 +31,6 @@ export function MediaAsset({
   width = 1200,
   className,
   alt,
-  showPoster = true,
   preload = "metadata",
 }: MediaAssetProps) {
   const img = image ? sanityImageProps(image, width) : null;
@@ -48,7 +44,7 @@ export function MediaAsset({
         loop
         playsInline
         preload={preload}
-        poster={showPoster ? img?.src : undefined}
+        poster={img?.src}
         aria-hidden
       >
         <source src={videoUrl} />
