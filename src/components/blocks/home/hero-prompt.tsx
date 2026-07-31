@@ -1,7 +1,7 @@
 import { button, cinematicStage, cn, pageContainer } from "@/lib/styles";
 import { MediaAsset } from "../shared/media-asset";
 import { PromptTypewriter } from "./prompt-typewriter";
-import { getHeadingLevel, headingLevelStyles, renderHeading, type HeadingLevel } from "../heading-level";
+import { getHeadingLevel, renderHeading, type HeadingLevel } from "../heading-level";
 import type { CtaLink, SanityImageRef } from "../types";
 
 export type HomeHeroPromptBlockProps = {
@@ -21,27 +21,55 @@ export type HomeHeroPromptBlockProps = {
  * Home hero — full-bleed cinematic stage with a glass prompt pill.
  *
  * Mirrors the proportions from `noetic_CLAUDE_DESIGN/index.html`:
- *  - mega display headline with line-height ~1 and a 16ch measure
- *    so the title wraps into 2–3 dense lines on every viewport
- *  - white-on-stage kicker + lead (not muted ink)
+ *  - mega display headline with line-height ~1
  *  - 720px glass prompt pill with sun icon, prompt text and
  *    attach + generate buttons inside
+ *
+ * `eyebrow` and `lead` stay on the props type so the Sanity block shape is
+ * unchanged, but neither renders — the hero is headline + prompt bar only.
  *
  * Server-rendered baseline: the typewriter animation cycling
  * `promptIdeas` is a client enhancement; the first idea is shown
  * statically so the bar reads naturally without JS.
  */
 export default function HomeHeroPromptBlock({
-  eyebrow,
   heading,
   headingLevel,
-  lead,
   promptIdeas,
   primaryCta,
   background,
 }: HomeHeroPromptBlockProps) {
   const firstIdea = promptIdeas?.[0];
   const headingTag = getHeadingLevel(headingLevel, "h1");
+  // Hero trial: the headline is sized so the hard break below is the only
+  // thing that ever splits it — `whitespace-nowrap` forbids reflow, so the
+  // size has to guarantee the longer line fits its container at any width.
+  //
+  // That line ("ready visuals in seconds.") measures 10.72em from Graphik
+  // Medium's advance widths at this tracking. The container is
+  // `min(72rem, 100vw)` minus 2×`--pad` (`clamp(20px, 5vw, 80px)`), so the
+  // binding cases are ~90vw of text in the fluid range → 90/10.72 ≈ 8.3vw,
+  // and a fixed 992px once both the container and padding cap out →
+  // 992/10.72 ≈ 92px. `min(8.1vw, 5.7rem)` sits just inside both.
+  //
+  // Deliberately not the shared h1 scale: this drops the `clamp()` floor so
+  // the headline keeps shrinking on narrow phones rather than wrapping.
+  const headingClass = "text-[min(8.1vw,5.7rem)] leading-[0.96] tracking-[-0.045em] font-medium whitespace-nowrap";
+  // Break after the hyphen so the headline always sets as exactly two
+  // lines — "Generate production-" / "ready visuals in seconds." — and
+  // keep "in" glued to "visuals" if the second line ever has to wrap on
+  // a narrow viewport.
+  const hyphen = heading.indexOf("-");
+  const headingContent =
+    hyphen === -1 ? (
+      heading
+    ) : (
+      <>
+        {heading.slice(0, hyphen + 1)}
+        <br />
+        {heading.slice(hyphen + 1).replace(/ in /g, " in ")}
+      </>
+    );
   const hasBackground = Boolean(background?.video || background?.poster);
   return (
     <section
@@ -70,25 +98,11 @@ export default function HomeHeroPromptBlock({
           style={{ width: "100%" }}
         >
           <div className="flex flex-col items-center text-center">
-            {eyebrow ? (
-              <span
-                className="mb-[1.375rem] text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/85"
-              >
-                {eyebrow}
-              </span>
-            ) : null}
             {renderHeading(
               headingTag,
-              cn(headingLevelStyles[headingTag], "max-w-[16ch] font-sans text-white text-balance [text-shadow:0_2px_40px_rgba(0,0,0,0.25)]"),
-              heading,
+              cn(headingClass, "font-sans text-white [text-shadow:0_2px_40px_rgba(0,0,0,0.25)]"),
+              headingContent,
             )}
-            {lead ? (
-              <p
-                className="mt-[1.375rem] max-w-[46ch] text-[clamp(1.1rem,1.5vw,1.45rem)] leading-[1.45] text-white/80 text-pretty"
-              >
-                {lead}
-              </p>
-            ) : null}
             {firstIdea ? (
               <PromptBar
                 ideas={promptIdeas ?? []}
@@ -123,7 +137,10 @@ function PromptBar({ ideas, cta }: { ideas: string[]; cta?: CtaLink }) {
       <button
         type="button"
         aria-label="Attach"
-        className="grid h-[2.625rem] w-[2.625rem] flex-none place-items-center rounded-full border border-[var(--line)] text-[var(--gray)] transition-colors duration-200 hover:bg-[var(--void-soft)] hover:text-[var(--ink)]"
+        // Filled by default — what used to be the hover state is now the
+        // resting one, so the button reads as a solid white circle against
+        // the glass. Hover keeps a step to stay a visible affordance.
+        className="grid h-[2.625rem] w-[2.625rem] flex-none place-items-center rounded-full border border-[var(--line)] bg-[var(--void-soft)] text-[var(--ink)] transition-colors duration-200 hover:bg-white"
       >
         <AttachIcon />
       </button>
