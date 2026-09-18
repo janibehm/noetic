@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cinematicStage } from "@/lib/styles";
 import type { AuroraTone } from "../types";
 
@@ -43,6 +43,38 @@ export default function HomeScrubWordsBlock({
     : words.map((word) => ({ word }));
   const trackRef = useRef<HTMLElement>(null);
   const activeRef = useRef(-1);
+  // How far into the sequence we've committed to downloading. -1 means
+  // nothing yet: these clips are tens of megabytes each, and eagerly
+  // sourcing all five would have them racing the hero for the connection
+  // before the first screen has even painted. An IntersectionObserver
+  // arms the block at 0 on approach, and the scrub loop walks it forward
+  // one clip ahead of the active word so the crossfade has something
+  // ready without pulling the whole sequence.
+  const [loadUpTo, setLoadUpTo] = useState(-1);
+
+  useEffect(() => {
+    if (!entries.length) return;
+    const el = trackRef.current;
+    if (!el) return;
+    // No observer — the posters stay, same as every other deferred
+    // motion surface.
+    if (typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (obs) => {
+        if (obs.some((entry) => entry.isIntersecting)) {
+          setLoadUpTo((prev) => (prev < 0 ? 0 : prev));
+          observer.disconnect();
+        }
+      },
+      // The track is 320vh tall and starts right at the fold, so it
+      // already touches a bottom-extended root at scroll 0. Shrinking the
+      // root to its top 45% instead means this fires when the section is
+      // genuinely coming up, not while the hero is still the whole screen.
+      { rootMargin: "0px 0px -55% 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [entries.length]);
 
   useEffect(() => {
     if (!entries.length) return;
@@ -74,6 +106,9 @@ export default function HomeScrubWordsBlock({
         dotEls.forEach((dotEl, dotIndex) => {
           dotEl.toggleAttribute("data-active", dotIndex === idx);
         });
+        // Runs at most once per word, not per frame, so pulling React
+        // back in here doesn't touch the animation path.
+        setLoadUpTo((prev) => (prev < 0 ? prev : Math.max(prev, idx + 1)));
         // Only the active clip plays — keeps a single decode in flight.
         videoEls.forEach((videoEl, videoIndex) => {
           const isActive = videoIndex === idx;
@@ -109,17 +144,16 @@ export default function HomeScrubWordsBlock({
               key={entry._key ?? entry.word}
               data-scrub-video
               data-active={i === 0 ? "" : undefined}
+              src={i <= loadUpTo ? entry.videoUrl : undefined}
               autoPlay={i === 0}
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={i <= loadUpTo ? "auto" : "none"}
               poster={entry.posterUrl ?? undefined}
               aria-hidden
               className="absolute inset-0 z-[1] h-full w-full object-cover opacity-0 transition-opacity duration-[800ms] ease-linear data-active:opacity-100"
-            >
-              <source src={entry.videoUrl} />
-            </video>
+            />
           ) : null,
         )}
         <div

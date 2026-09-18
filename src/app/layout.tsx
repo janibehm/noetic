@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono, Newsreader } from "next/font/google";
 import localFont from "next/font/local";
 import { SiteChrome } from "@/components/site/site-chrome";
+import { ResourceHints } from "@/components/site/resource-hints";
 import "./globals.css";
 
 // Self-hosted via next/font — the bundler strips remote @import url()
@@ -68,6 +69,7 @@ export default function RootLayout({
       className={`${graphik.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
     >
       <body>
+        <ResourceHints />
         <SiteChrome>{children}</SiteChrome>
         {modal}
       </body>
